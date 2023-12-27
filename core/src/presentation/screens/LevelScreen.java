@@ -10,6 +10,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
+import application.entities.Character;
+import application.entities.Knight;
+
 public class LevelScreen implements Screen {
     private Game game;
     private SpriteBatch batch;
@@ -17,9 +20,15 @@ public class LevelScreen implements Screen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private float stateTime;
-    public LevelScreen(Game game){
+    private Character mainCharacter;
+    public LevelScreen(Game game, Character mainCharacter){
         this.game = game;
+        this.mainCharacter = mainCharacter;
     }
+
+    /**
+     * Initialize the variables necessary to execute the application
+     */
     @Override
     public void show() {
         stateTime = 0;
@@ -28,6 +37,7 @@ public class LevelScreen implements Screen {
         map = new TmxMapLoader().load(("mappe/Livello1/Level1.tmx"));
         renderer = new OrthogonalTiledMapRenderer(map);
         camera = new OrthographicCamera();
+        mainCharacter.doStopAndIdle();
     }
 
     @Override
@@ -42,6 +52,11 @@ public class LevelScreen implements Screen {
         camera.update();
         renderer.setView(camera);
         renderer.render();
+
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        batch.draw(mainCharacter.getCurrentAnimation().getKeyFrame(stateTime, true), mainCharacter.getX(), mainCharacter.getY());
+        batch.end();
     }
 
     @Override
