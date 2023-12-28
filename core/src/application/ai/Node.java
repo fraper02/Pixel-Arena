@@ -1,9 +1,9 @@
 package application.ai;
 
 public class Node {
-    public int x;
-    public int y;
-    public int index;
+    private int x;
+    private int y;
+    private int index;
 
     /**
      * Initialize a node at the given coordinates
