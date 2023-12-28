@@ -10,6 +10,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import application.entities.Character;
 import application.entities.Knight;
 
@@ -21,9 +24,11 @@ public class LevelScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private float stateTime;
     private Character mainCharacter;
-    public LevelScreen(Game game, Character mainCharacter){
+    private List<Character> enemies;
+    public LevelScreen(Game game, Character mainCharacter, List<Character> enemies){
         this.game = game;
         this.mainCharacter = mainCharacter;
+        this.enemies = enemies;
     }
 
     /**
@@ -38,6 +43,9 @@ public class LevelScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map);
         camera = new OrthographicCamera();
         mainCharacter.doStopAndIdle();
+        for (Character v : enemies){
+            v.doStopAndIdle();
+        }
     }
 
     @Override
@@ -56,6 +64,9 @@ public class LevelScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(mainCharacter.getCurrentAnimation().getKeyFrame(stateTime, true), mainCharacter.getX(), mainCharacter.getY());
+        for (Character v : enemies) {
+            batch.draw(v.getCurrentAnimation().getKeyFrame(stateTime, true), v.getX(), v.getY());
+        }
         batch.end();
     }
 

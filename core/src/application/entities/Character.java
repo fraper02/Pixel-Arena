@@ -21,7 +21,7 @@ public abstract class Character {
     private float previousY;
     private float x;
     private float y;
-    private enum Directions{
+    protected enum Directions{
         SOUTH ,
         WEST,
         NORTH,
