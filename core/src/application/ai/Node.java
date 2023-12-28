@@ -4,6 +4,12 @@ public class Node {
     public int x;
     public int y;
     public int index;
+
+    /**
+     * Initialize a node at the given coordinates
+     * @param x coordinate on the x axis
+     * @param y coordinate on the y axis
+     */
     public Node(int x,int y){
         this.x = x;
         this.y = y;
@@ -20,13 +26,6 @@ public class Node {
     public int getIndex(){
         return index;
     }
-    public void setX(int x) {
-        this.x = x;
-    }
-    public void setY(int y) {
-        this.y = y;
-    }
-
     /**
      * Control if two nodes can be connected given a radius of maxDistance
      * @param node it is the explicit node to compare with the implicit node
