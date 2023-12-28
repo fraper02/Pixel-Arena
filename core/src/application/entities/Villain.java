@@ -75,4 +75,19 @@ public class Villain extends Character{
         this.attackBoxUp = new Rectangle(this.getX() +10,this.getY() + 34,45,27);
         this.attackBoxRight = new Rectangle(this.getX() + 35, this.getY() + 6,27,45);
     }
+
+    private void checkDirection(Character character){
+        if(this.getX() < character.getX() && Math.abs(this.getX() - character.getX()) > Math.abs(this.getY() - character.getY())){
+            this.setDirection(Directions.EAST);
+        }
+        if (this.getX() > character.getX() && Math.abs(this.getX() - character.getX()) > Math.abs(this.getY() - character.getY())) {
+            this.setDirection(Directions.WEST);
+        }
+        if (this.getY() < character.getY() && Math.abs(this.getX() - character.getX()) < Math.abs(this.getY() - character.getY())) {
+            this.setDirection(Directions.NORTH);
+        }
+        if (this.getY() > character.getY() && Math.abs(this.getX() - character.getX()) < Math.abs(this.getY() - character.getY())){
+            this.setDirection(Directions.SOUTH);
+        }
+    }
 }
