@@ -330,6 +330,16 @@ public abstract class Character {
         }
     }
 
+    /**
+     * Check if there was a collision between two characters and resolve it
+     * @param v the character we want to check if there was a collision with
+     */
+    public void collisionCheck(Character v) {
+        if(this.getMovementBox().overlaps(v.getMovementBox())){
+            this.setPosition(previousX, previousY);
+            v.setPosition(v.previousX, v.previousY);
+        }
+    }
     public Animation<TextureRegion> getCurrentAnimation() {
         return currentAnimation;
     }
