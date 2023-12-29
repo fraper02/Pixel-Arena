@@ -6,15 +6,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import application.entities.Character;
 import application.entities.Knight;
+import application.gamelogic.InputManager;
 
 public class LevelScreen implements Screen {
     private Game game;
@@ -24,6 +27,8 @@ public class LevelScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private float stateTime;
     private Character mainCharacter;
+    private TextureRegion currentFrame;
+    InputManager inputManager;
     private List<Character> enemies;
     public LevelScreen(Game game, Character mainCharacter, List<Character> enemies){
         this.game = game;
@@ -37,12 +42,13 @@ public class LevelScreen implements Screen {
     @Override
     public void show() {
         stateTime = 0;
-
         batch = new SpriteBatch();
         map = new TmxMapLoader().load(("mappe/Livello1/Level1.tmx"));
         renderer = new OrthogonalTiledMapRenderer(map);
         camera = new OrthographicCamera();
         mainCharacter.doStopAndIdle();
+        inputManager = new InputManager(mainCharacter,characters);
+        Gdx.input.setInputProcessor(inputManager);
         for (Character v : enemies){
             v.doStopAndIdle();
         }
@@ -61,9 +67,12 @@ public class LevelScreen implements Screen {
         renderer.setView(camera);
         renderer.render();
 
+        currentFrame = inputManager.nextFrame(stateTime);
+
+
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(mainCharacter.getCurrentAnimation().getKeyFrame(stateTime, true), mainCharacter.getX(), mainCharacter.getY());
+        batch.draw(currentFrame,mainCharacter.getX(),mainCharacter.getY());
         for (Character v : enemies) {
             batch.draw(v.getCurrentAnimation().getKeyFrame(stateTime, true), v.getX(), v.getY());
         }

@@ -21,7 +21,7 @@ public abstract class Character {
     private float previousY;
     private float x;
     private float y;
-    protected enum Directions{
+    public enum Directions{
         SOUTH ,
         WEST,
         NORTH,
@@ -100,16 +100,13 @@ public abstract class Character {
         return standardSpeed;
     }
 
-    public void setStandardSpeed(float standardSpeed) {
-        this.standardSpeed = standardSpeed;
+    public void setSpeed(float standardSpeed) {
+        this.standardSpeed = standardSpeed ;
+        this.runningSpeed = standardSpeed * 1.5f;
     }
 
     public float getRunningSpeed() {
         return runningSpeed;
-    }
-
-    public void setRunningSpeed(float runningSpeed) {
-        this.runningSpeed = runningSpeed;
     }
 
     public boolean isAttacking() {
@@ -214,7 +211,6 @@ public abstract class Character {
         this.attackBoxLeft.setPosition(x + 2, y +6);
         this.attackBoxUp.setPosition(x + 10, y + 34);
         this.attackBoxRight.setPosition(x + 35, y + 6);
-        this.doStopAndIdle();
     }
 
     /**
@@ -285,35 +281,51 @@ public abstract class Character {
         switch(this.direction){
             case SOUTH:{
                 this.currentAnimation = walkDown;
+                this.setPreviousPosition(this.getX(), this.getY());
+                this.setPosition(this.getX(), this.getY() - this.getStandardSpeed());
             }break;
             case WEST:{
                 this.currentAnimation = walkLeft;
+                this.setPreviousPosition(this.getX(), this.getY());
+                this.setPosition(this.getX() - this.getStandardSpeed(), this.getY());
             }break;
             case NORTH:{
                 this.currentAnimation = walkUp;
+                this.setPreviousPosition(this.getX(), this.getY());
+                this.setPosition(this.getX(), this.getY() + this.getStandardSpeed());
             }break;
             case EAST:{
                 this.currentAnimation = walkRight;
+                this.setPreviousPosition(this.getX(), this.getY());
+                this.setPosition(this.getX() + this.getRunningSpeed(), this.getY());
             }break;
         }
     }
 
     /**
-     * Set the current animation to running in the direction which the character is facing
+     * Set the current animation to running in the direction which the character is facing and updates the character positions
      */
     public void doRun(){
         switch(this.direction){
             case SOUTH:{
                 this.currentAnimation = runDown;
+                this.setPreviousPosition(this.getX(), this.getY());
+                this.setPosition(this.getX(), this.getY()  - this.getRunningSpeed());
             }break;
             case WEST:{
                 this.currentAnimation = runLeft;
+                this.setPreviousPosition(this.getX(), this.getY());
+                this.setPosition(this.getX() - this.getRunningSpeed(), this.getY());
             }break;
             case NORTH:{
                 this.currentAnimation = runUp;
+                this.setPreviousPosition(this.getX(), this.getY());
+                this.setPosition(this.getX(), this.getY() + this.getRunningSpeed());
             }break;
             case EAST:{
                 this.currentAnimation = runRight;
+                this.setPreviousPosition(this.getX(), this.getY());
+                this.setPosition(this.getX() + this.getRunningSpeed(), this.getY());
             }break;
         }
     }
