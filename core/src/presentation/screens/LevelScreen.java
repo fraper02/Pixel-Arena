@@ -6,12 +6,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
+import java.util.ArrayList;
+
 import application.entities.Character;
 import application.entities.Knight;
+import application.gamelogic.InputManager;
 
 public class LevelScreen implements Screen {
     private Game game;
@@ -21,9 +25,16 @@ public class LevelScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private float stateTime;
     private Character mainCharacter;
-    public LevelScreen(Game game, Character mainCharacter){
+
+    private ArrayList<Character> characters;
+
+    private TextureRegion currentFrame;
+
+    InputManager inputManager;
+    public LevelScreen(Game game, Character mainCharacter, ArrayList<Character> characters){
         this.game = game;
         this.mainCharacter = mainCharacter;
+        this.characters = characters;
     }
 
     /**
@@ -38,6 +49,8 @@ public class LevelScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map);
         camera = new OrthographicCamera();
         mainCharacter.doStopAndIdle();
+        inputManager = new InputManager(mainCharacter,characters);
+        Gdx.input.setInputProcessor(inputManager);
     }
 
     @Override
@@ -53,9 +66,12 @@ public class LevelScreen implements Screen {
         renderer.setView(camera);
         renderer.render();
 
+        currentFrame = inputManager.nextFrame(stateTime);
+
+
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(mainCharacter.getCurrentAnimation().getKeyFrame(stateTime, true), mainCharacter.getX(), mainCharacter.getY());
+        batch.draw(currentFrame,mainCharacter.getX(),mainCharacter.getY());
         batch.end();
     }
 
