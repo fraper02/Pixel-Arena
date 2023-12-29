@@ -6,16 +6,16 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Knight extends Character{
+public class Villain extends Character{
     /**
-     * Initialize a knight with its value of maxHealthPoints, attackPower, standardSpeed
+     * Initialize an enemy with its value of maxHealthPoints, attackPower, standardSpeed
      * and the textures for the character's animations
      * @param x indicates position on the x axis
      * @param y indicates position on the y axis
      */
-    public Knight(float x, float y) {
+    public Villain(float x, float y) {
         super(500, 10, 0.6f, x, y);
-        Texture spriteSheets = new Texture(Gdx.files.internal("textures/Raver_P0.png"));
+        Texture spriteSheets = new Texture(Gdx.files.internal("textures/Warrior_PN.png"));
         TextureRegion[][] frames = TextureRegion.split(spriteSheets,64,64);
         TextureRegion[] textureIdleDown = new TextureRegion[8];
         TextureRegion[] textureIdleRight = new TextureRegion[8];
@@ -74,5 +74,20 @@ public class Knight extends Character{
         this.attackBoxLeft = new Rectangle(this.getX() + 2, this.getY() +6, 27,45);
         this.attackBoxUp = new Rectangle(this.getX() +10,this.getY() + 34,45,27);
         this.attackBoxRight = new Rectangle(this.getX() + 35, this.getY() + 6,27,45);
+    }
+
+    private void checkDirection(Character character){
+        if(this.getX() < character.getX() && Math.abs(this.getX() - character.getX()) > Math.abs(this.getY() - character.getY())){
+            this.setDirection(Directions.EAST);
+        }
+        if (this.getX() > character.getX() && Math.abs(this.getX() - character.getX()) > Math.abs(this.getY() - character.getY())) {
+            this.setDirection(Directions.WEST);
+        }
+        if (this.getY() < character.getY() && Math.abs(this.getX() - character.getX()) < Math.abs(this.getY() - character.getY())) {
+            this.setDirection(Directions.NORTH);
+        }
+        if (this.getY() > character.getY() && Math.abs(this.getX() - character.getX()) < Math.abs(this.getY() - character.getY())){
+            this.setDirection(Directions.SOUTH);
+        }
     }
 }
