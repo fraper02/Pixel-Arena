@@ -47,7 +47,7 @@ public class LevelScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map);
         camera = new OrthographicCamera();
         mainCharacter.doStopAndIdle();
-        inputManager = new InputManager(mainCharacter,characters);
+        inputManager = new InputManager(mainCharacter,enemies);
         Gdx.input.setInputProcessor(inputManager);
         for (Character v : enemies){
             v.doStopAndIdle();

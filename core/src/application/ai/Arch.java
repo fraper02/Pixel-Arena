@@ -18,7 +18,7 @@ public class Arch implements Connection<Node> {
     public Arch(Node fromTile,Node toTile){
         this.fromTile = fromTile;
         this.toTile = toTile;
-        cost = Vector2.dst(fromTile.x,fromTile.y,toTile.x,toTile.y);
+        cost = Vector2.dst(fromTile.getX(),fromTile.getY(),toTile.getX(),toTile.getY());
     }
 
     /**
