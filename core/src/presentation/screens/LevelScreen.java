@@ -208,6 +208,9 @@ public class LevelScreen implements Screen {
         camera.viewportWidth = width;
     }
 
+    /**
+     * Method that updates the status of the game calling different check methods
+     */
     public void update(){
         for(Node node : graph.getTiles()){
             if(Vector2.dst(mainCharacter.getX() + 32,mainCharacter.getY() + 24,mainCharacter.getNearNode().getX() * 16 + 8,mainCharacter.getNearNode().getY() * 16 + 8) >
@@ -229,6 +232,8 @@ public class LevelScreen implements Screen {
                 ((Villain) v).setPath(path);
         }
 
+        this.mapCollision();
+        this.charactersCollision();
     }
 
 
@@ -250,14 +255,6 @@ public class LevelScreen implements Screen {
     @Override
     public void dispose() {
 
-    }
-
-    /**
-     * Method that updates the status of the game calling different check methods
-     */
-    private void update(){
-        this.mapCollision();
-        this.charactersCollision();
     }
 
     /**
