@@ -10,7 +10,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapGroupLayer;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -56,6 +58,9 @@ public class LevelScreen implements Screen {
     ShapeRenderer shapeRenderer;
 
     TilesGraph graph;
+    MapLayers normalLayer;
+    TiledMapTileLayer leavesLayer;
+    TiledMapTileLayer bridgeLayer;
 
     public LevelScreen(Game game, Character mainCharacter, List<Character> enemies){
         this.game = game;
@@ -79,6 +84,10 @@ public class LevelScreen implements Screen {
                 collisionObjects.add(rect);
             }
         }
+        MapGroupLayer groupLayer = (MapGroupLayer) map.getLayers().get("NormalLayer");
+        normalLayer = groupLayer.getLayers();
+        leavesLayer = (TiledMapTileLayer) map.getLayers().get("tree&leavesWalkable");
+        bridgeLayer = (TiledMapTileLayer) map.getLayers().get("Ponte");
 
         renderer = new OrthogonalTiledMapRenderer(map);
         camera = new OrthographicCamera();
@@ -156,8 +165,11 @@ public class LevelScreen implements Screen {
         camera.zoom = 0.8f;
         camera.update();
         renderer.setView(camera);
-        renderer.render();
-
+        renderer.getBatch().begin();
+        for(MapLayer layer : normalLayer){
+            renderer.renderTileLayer((TiledMapTileLayer) layer);
+        }
+        renderer.getBatch().end();
         this.update();
 
         shapeRenderer.setProjectionMatrix(camera.combined);
@@ -200,6 +212,10 @@ public class LevelScreen implements Screen {
             }
         }
         batch.end();
+        renderer.getBatch().begin();
+        renderer.renderTileLayer(leavesLayer);
+        renderer.renderTileLayer(bridgeLayer);
+        renderer.getBatch().end();
     }
 
     @Override
@@ -259,12 +275,21 @@ public class LevelScreen implements Screen {
 
     /**
      * Check if there was a collision between the main character and the map borders
+     * and the enemies and the map border
      */
     private void mapCollision(){
         for(Rectangle rec: collisionObjects){
             if(rec.overlaps(mainCharacter.getMovementBox())){
                 mainCharacter.setPosition(mainCharacter.getPreviousX(), mainCharacter.getPreviousY());
                 break;
+            }
+        }
+        for(Rectangle rec: collisionObjects){
+            for(Character v: enemies){
+                if (rec.overlaps(v.getMovementBox())){
+                    v.setPosition(((v.getNearNode().getX() * 16) + 8 - 32),(v.getNearNode().getY() * 16) + 8 - 24);
+                    break;
+                }
             }
         }
     }
@@ -275,6 +300,7 @@ public class LevelScreen implements Screen {
     private void charactersCollision(){
         for(Character v : enemies){
             mainCharacter.collisionCheck(v);
+            v.collisionCheck(mainCharacter);
         }
     }
 }

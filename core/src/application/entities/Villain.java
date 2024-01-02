@@ -10,7 +10,8 @@ import application.ai.Node;
 
 public class Villain extends Character{
 
-    GraphPath<Node> currentPath;
+    protected Rectangle actionArea;
+    private GraphPath<Node> currentPath;
 
     /**
      * Initialize an enemy with its value of maxHealthPoints, attackPower, standardSpeed
@@ -79,6 +80,8 @@ public class Villain extends Character{
         this.attackBoxLeft = new Rectangle(this.getX() + 2, this.getY() +6, 27,45);
         this.attackBoxUp = new Rectangle(this.getX() +10,this.getY() + 34,45,27);
         this.attackBoxRight = new Rectangle(this.getX() + 35, this.getY() + 6,27,45);
+
+        this.actionArea = new Rectangle(this.getX(), this.getY(), 64, 64);
     }
 
     private void checkDirection(Character character){
@@ -107,13 +110,12 @@ public class Villain extends Character{
 
         Node node;
 
-            if (this.getCurrentPath().getCount() >= 2) {
-                node = this.getCurrentPath().get(1);
-            } else {
-                node = this.getCurrentPath().get(0);
-                this.checkDirection(character);
-                this.doAttack();
-            }
+        if (this.getCurrentPath().getCount() >= 2) {
+            node = this.getCurrentPath().get(1);
+        } else {
+            node = this.getCurrentPath().get(0);
+        }
+        if(!this.actionArea.overlaps(character.getMovementBox())) {
             if (node.getX() > this.getNearNode().getX()) {
                 this.setDirection(Directions.EAST);
                 this.doWalk();
@@ -127,9 +129,21 @@ public class Villain extends Character{
                 this.setDirection(Directions.SOUTH);
                 this.doWalk();
             }
+            this.collisionCheck(character);
+        }else {
+            this.checkDirection(character);
+            this.doAttack();
+            this.collisionCheck(character);
+        }
 
-        return (TextureRegion) this.getCurrentAnimation().getKeyFrame(stateTime,true);
+    return (TextureRegion) this.getCurrentAnimation().getKeyFrame(stateTime,true);
     }
 
-
+    /**
+     * Simple getter for action area
+     * @return Returns the field of view of an enemy
+     */
+    public Rectangle getActionArea() {
+        return actionArea;
+    }
 }

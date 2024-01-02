@@ -47,19 +47,19 @@ public class InputManager extends InputAdapter {
         switch (keycode) {
             case Input.Keys.A:
                 leftPressed = true;
-                //character.setDirection(Character.Directions.WEST);
+                character.setDirection(Character.Directions.WEST);
                 break;
             case Input.Keys.W:
                 upPressed = true;
-                //character.setDirection(Character.Directions.NORTH);
+                character.setDirection(Character.Directions.NORTH);
                 break;
             case Input.Keys.S:
                 downPressed = true;
-                //character.setDirection(Character.Directions.SOUTH);
+                character.setDirection(Character.Directions.SOUTH);
                 break;
             case Input.Keys.D:
                 rightPressed = true;
-                //character.setDirection(Character.Directions.EAST);
+                character.setDirection(Character.Directions.EAST);
                 break;
         }
         return true;

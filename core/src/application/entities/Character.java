@@ -217,6 +217,9 @@ public abstract class Character {
         this.attackBoxLeft.setPosition(x + 2, y +6);
         this.attackBoxUp.setPosition(x + 10, y + 34);
         this.attackBoxRight.setPosition(x + 35, y + 6);
+        if(this instanceof Villain){
+            ((Villain) this).actionArea.setPosition(x, y);
+        }
     }
 
     /**
