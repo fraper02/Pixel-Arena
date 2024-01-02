@@ -10,11 +10,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 
@@ -33,7 +37,7 @@ public class LevelScreen implements Screen {
     private Game game;
     private SpriteBatch batch;
     private OrthographicCamera camera;
-    private TiledMap map;
+    private List<Rectangle> collisionObjects = new ArrayList<>();
     private OrthogonalTiledMapRenderer renderer;
     private float stateTime;
     private Character mainCharacter;
@@ -66,9 +70,19 @@ public class LevelScreen implements Screen {
     public void show() {
         stateTime = 0;
         batch = new SpriteBatch();
-        map = new TmxMapLoader().load(("mappe/Livello1/Level1.tmx"));
+
+        TiledMap map = new TmxMapLoader().load(("mappe/Livello1/Level1.tmx"));
+        MapLayer collisionLayer = map.getLayers().get("Object Layer 1");
+        for (MapObject object : collisionLayer.getObjects()) {
+            if (object instanceof RectangleMapObject) {
+                Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                collisionObjects.add(rect);
+            }
+        }
+
         renderer = new OrthogonalTiledMapRenderer(map);
         camera = new OrthographicCamera();
+
         mainCharacter.doStopAndIdle();
         inputManager = new InputManager(mainCharacter,enemies);
 
@@ -134,7 +148,9 @@ public class LevelScreen implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        this.update();
         stateTime += delta;
+
 
         camera.position.set(mainCharacter.getX() + 32, mainCharacter.getY() + 32,0);
         camera.zoom = 0.8f;
@@ -166,7 +182,6 @@ public class LevelScreen implements Screen {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-
 
         for (Character v : enemies) {
             Villain villain = (Villain) enemies.get(0);
@@ -235,5 +250,34 @@ public class LevelScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    /**
+     * Method that updates the status of the game calling different check methods
+     */
+    private void update(){
+        this.mapCollision();
+        this.charactersCollision();
+    }
+
+    /**
+     * Check if there was a collision between the main character and the map borders
+     */
+    private void mapCollision(){
+        for(Rectangle rec: collisionObjects){
+            if(rec.overlaps(mainCharacter.getMovementBox())){
+                mainCharacter.setPosition(mainCharacter.getPreviousX(), mainCharacter.getPreviousY());
+                break;
+            }
+        }
+    }
+
+    /**
+     * check if there was a collision between characters
+     */
+    private void charactersCollision(){
+        for(Character v : enemies){
+            mainCharacter.collisionCheck(v);
+        }
     }
 }
