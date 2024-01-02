@@ -3,6 +3,7 @@ package application.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import application.ai.Node;
 
 public abstract class Character {
     private int maxHealthPoints;
@@ -47,6 +48,10 @@ public abstract class Character {
     protected Animation<TextureRegion> runLeft;
     private Animation<TextureRegion> currentAnimation;
 
+    private Node nearNode;
+
+    private boolean alive;
+
     /**
      * Initialize a character
      * @param maxHealthPoints indicates the max health points of the character
@@ -70,6 +75,7 @@ public abstract class Character {
         this.hitBox = new Rectangle(x + 22,y +15,22,30);
         this.direction = Directions.SOUTH;
         this.running = false;
+        this.alive = true;
     }
 
     public int getMaxHealthPoints() {
@@ -302,6 +308,29 @@ public abstract class Character {
         }
     }
 
+    public void doWalk(String direction){
+        if(direction.equalsIgnoreCase("LEFT")){
+            this.currentAnimation = walkLeft;
+            this.setPreviousPosition(this.getX(), this.getY());
+            this.setPosition(this.getX() - this.getStandardSpeed(), this.getY());
+        }
+        else if(direction.equalsIgnoreCase("RIGHT")){
+            this.currentAnimation = walkRight;
+            this.setPreviousPosition(this.getX(), this.getY());
+            this.setPosition(this.getX() + this.getStandardSpeed(), this.getY());
+        }
+        else if(direction.equalsIgnoreCase("UP")){
+            this.currentAnimation = walkUp;
+            this.setPreviousPosition(this.getX(), this.getY());
+            this.setPosition(this.getX(), this.getY() + this.getStandardSpeed());
+        }
+        else if(direction.equalsIgnoreCase("DOWN")){
+            this.currentAnimation = walkDown;
+            this.setPreviousPosition(this.getX(), this.getY());
+            this.setPosition(this.getX(), this.getY()  - this.getStandardSpeed());
+        }
+    }
+
     /**
      * Set the current animation to running in the direction which the character is facing and updates the character positions
      */
@@ -330,6 +359,29 @@ public abstract class Character {
         }
     }
 
+    public void doRun(String direction){
+        if(direction.equalsIgnoreCase("LEFT")){
+            this.currentAnimation = runLeft;
+            this.setPreviousPosition(this.getX(), this.getY());
+            this.setPosition(this.getX() - this.getRunningSpeed(), this.getY());
+        }
+        else if(direction.equalsIgnoreCase("RIGHT")){
+            this.currentAnimation = runRight;
+            this.setPreviousPosition(this.getX(), this.getY());
+            this.setPosition(this.getX() + this.getRunningSpeed(), this.getY());
+        }
+        else if(direction.equalsIgnoreCase("UP")){
+            this.currentAnimation = runUp;
+            this.setPreviousPosition(this.getX(), this.getY());
+            this.setPosition(this.getX(), this.getY() + this.getRunningSpeed());
+        }
+        else if(direction.equalsIgnoreCase("DOWN")){
+            this.currentAnimation = runDown;
+            this.setPreviousPosition(this.getX(), this.getY());
+            this.setPosition(this.getX(), this.getY()  - this.getRunningSpeed());
+        }
+    }
+
     /**
      * Check if there was a collision between two characters and resolve it
      * @param v the character we want to check if there was a collision with
@@ -343,4 +395,14 @@ public abstract class Character {
     public Animation<TextureRegion> getCurrentAnimation() {
         return currentAnimation;
     }
+
+    public void setNearNode(Node node){
+        this.nearNode = node;
+    }
+
+    public Node getNearNode(){ return this.nearNode; }
+
+    public boolean isAlive(){ return this.alive; }
+
+
 }

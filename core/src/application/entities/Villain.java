@@ -1,12 +1,17 @@
 package application.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import application.ai.Node;
 
 public class Villain extends Character{
+
+    GraphPath<Node> currentPath;
+
     /**
      * Initialize an enemy with its value of maxHealthPoints, attackPower, standardSpeed
      * and the textures for the character's animations
@@ -90,4 +95,41 @@ public class Villain extends Character{
             this.setDirection(Directions.SOUTH);
         }
     }
+
+    public void setPath(GraphPath<Node> currentPath){
+        this.currentPath = currentPath;
+    }
+
+    public GraphPath<Node> getCurrentPath(){
+        return this.currentPath;
+    }
+    public TextureRegion getNextStep(float stateTime,Character character){
+
+        Node node;
+
+            if (this.getCurrentPath().getCount() >= 2) {
+                node = this.getCurrentPath().get(1);
+            } else {
+                node = this.getCurrentPath().get(0);
+                this.checkDirection(character);
+                this.doAttack();
+            }
+            if (node.getX() > this.getNearNode().getX()) {
+                this.setDirection(Directions.EAST);
+                this.doWalk();
+            } else if (node.getX() < this.getNearNode().getX()) {
+                this.setDirection(Directions.WEST);
+                this.doWalk();
+            } else if (node.getY() > this.getNearNode().getY()) {
+                this.setDirection(Directions.NORTH);
+                this.doWalk();
+            } else if (node.getY() < this.getNearNode().getY()) {
+                this.setDirection(Directions.SOUTH);
+                this.doWalk();
+            }
+
+        return (TextureRegion) this.getCurrentAnimation().getKeyFrame(stateTime,true);
+    }
+
+
 }
