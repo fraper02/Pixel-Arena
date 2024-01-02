@@ -47,19 +47,19 @@ public class InputManager extends InputAdapter {
         switch (keycode) {
             case Input.Keys.A:
                 leftPressed = true;
-                character.setDirection(Character.Directions.WEST);
+                //character.setDirection(Character.Directions.WEST);
                 break;
             case Input.Keys.W:
                 upPressed = true;
-                character.setDirection(Character.Directions.NORTH);
+                //character.setDirection(Character.Directions.NORTH);
                 break;
             case Input.Keys.S:
                 downPressed = true;
-                character.setDirection(Character.Directions.SOUTH);
+                //character.setDirection(Character.Directions.SOUTH);
                 break;
             case Input.Keys.D:
                 rightPressed = true;
-                character.setDirection(Character.Directions.EAST);
+                //character.setDirection(Character.Directions.EAST);
                 break;
         }
         return true;
@@ -82,11 +82,32 @@ public class InputManager extends InputAdapter {
         if(Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)){
             this.toggleRun();
         }
-        if(this.isLeftPressed() || this.isDownPressed() || this.isUpPressed() || this.isRightPressed()){
+        if(this.isLeftPressed()){
             if(character.isRunning()){
-                character.doRun();
+                character.doRun("LEFT");
             }else{
-                character.doWalk();
+                character.doWalk("LEFT");
+            }
+        }
+        else if(this.isDownPressed()){
+            if(character.isRunning()){
+                character.doRun("DOWN");
+            }else{
+                character.doWalk("DOWN");
+            }
+        }
+        else if(this.isUpPressed()){
+            if(character.isRunning()){
+                character.doRun("UP");
+            }else{
+                character.doWalk("UP");
+            }
+        }
+        else if(this.isRightPressed()){
+            if(character.isRunning()){
+                character.doRun("RIGHT");
+            }else{
+                character.doWalk("RIGHT");
             }
         }
 
