@@ -48,25 +48,33 @@ public class LevelScreen implements Screen {
 
     private TextureRegion currentFrameVillain;
     InputManager inputManager;
-    private List<Character> enemies;
+    private List<Villain> enemies;
 
     TiledMapTileLayer legitLayer;
-
-    GraphPath<Node> path;
-
-    ArrayList<Node> nodes;
+    TiledMapTileLayer legitLayer2;
+    TiledMapTileLayer legitLayer3;
 
     ShapeRenderer shapeRenderer;
 
-    TilesGraph graph;
     MapLayers normalLayer;
     TiledMapTileLayer leavesLayer;
     TiledMapTileLayer bridgeLayer;
 
-    public LevelScreen(Game game, Character mainCharacter, List<Character> enemies){
+    List<TiledMapTileLayer> legitLayers;
+
+    List<TilesGraph> graphs;
+
+    List<GraphPath<Node>> paths;
+
+
+    public LevelScreen(Game game, Character mainCharacter, List<Villain> enemies){
         this.game = game;
         this.mainCharacter = mainCharacter;
         this.enemies = enemies;
+        this.legitLayers = new ArrayList<>();
+        this.graphs = new ArrayList<>();
+        this.paths = new ArrayList<>();
+
     }
 
     /**
@@ -103,60 +111,65 @@ public class LevelScreen implements Screen {
         mainCharacter.doStopAndIdle();
         inputManager = new InputManager(mainCharacter,enemies);
 
-        nodes = new ArrayList<>();
         shapeRenderer = new ShapeRenderer();
+        legitLayers.add((TiledMapTileLayer) map.getLayers().get("nodesLayer"));
+        legitLayers.add((TiledMapTileLayer) map.getLayers().get("nodesLayer2"));
+        legitLayers.add((TiledMapTileLayer) map.getLayers().get("nodesLayer3"));
 
-
-        legitLayer = (TiledMapTileLayer) map.getLayers().get("nodesLayer");
-        int width = legitLayer.getWidth();
-        int height = legitLayer.getHeight();
-
-        graph = new TilesGraph();
-
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                TiledMapTileLayer.Cell cell = legitLayer.getCell(x, y);
-                if (cell != null) {
-                    Node node = new Node(x, y);
-                    nodes.add(node);
-                    graph.addTiles(node);
+        int i = 0;
+        for(TiledMapTileLayer layer : legitLayers){
+            TilesGraph graph = new TilesGraph();
+            for (int x = 0; x < layer.getWidth(); x++) {
+                for (int y = 0; y < layer.getHeight(); y++) {
+                    TiledMapTileLayer.Cell cell = layer.getCell(x, y);
+                    if (cell != null) {
+                        Node node = new Node(x, y);
+                        graph.addTiles(node);
+                    }
                 }
             }
+
+            for (Node fromNode : graph.getTiles()) {
+                for (Node toNode : graph.getTiles()) {
+                    if (!fromNode.equals(toNode)) {
+                        graph.connectAdjacentNodes(fromNode, toNode);
+                    }
+                }
+            }
+            graphs.add(graph);
+            enemies.get(i).setGraph(graph);
+            i++;
         }
 
 
-        for (Node fromNode : graph.getTiles()) {
-            for (Node toNode : graph.getTiles()) {
-                if (!fromNode.equals(toNode)) {
-                    graph.connectAdjacentNodes(fromNode, toNode);
-                }
-            }
-        }
+        mainCharacter.setPosition((graphs.get(0).getTiles().get(0).getX() * 16 + 8) - 32,  (graphs.get(0).getTiles().get(0).getY() * 16 + 8) - 24);
+        mainCharacter.setNearNode(graphs.get(0).getTiles().get(0));
 
-
-        mainCharacter.setPosition((nodes.get(0).getX() * 16 + 8) - 32,  (nodes.get(0).getY() * 16 + 8) - 24);
-
-        mainCharacter.setNearNode(graph.getTiles().get(0));
-
-        enemies.get(0).setPosition((nodes.get(4).getX() * 16 + 8) - 32,(nodes.get(4).getY() * 16 + 8) - 24);
-        //enemies.get(1).setPosition((nodes.get(26).getX() * 16 + 8) - 32,(nodes.get(26).getY() * 16 + 8) - 24);
-        //enemies.get(2).setPosition((nodes.get(43).getX() * 16 + 8) - 32,(nodes.get(43).getY() * 16 + 8) - 24);
+        enemies.get(0).setPosition((graphs.get(0).getTiles().get(4).getX() * 16 + 8) - 32,(graphs.get(0).getTiles().get(4).getY() * 16 + 8) - 24);
+        enemies.get(1).setPosition((graphs.get(1).getTiles().get(26).getX() * 16 + 8) - 32,(graphs.get(1).getTiles().get(26).getY() * 16 + 8) - 24);
+        enemies.get(2).setPosition((graphs.get(2).getTiles().get(43).getX() * 16 + 8) - 32,(graphs.get(2).getTiles().get(43).getY() * 16 + 8) - 24);
         //*enemies.get(3).setPosition((nodes.get(65).getX() * 16 + 8) - 32,(nodes.get(65).getY() * 16 + 8) - 24);
 
-        enemies.get(0).setNearNode(graph.getTiles().get(4));
+        enemies.get(0).setNearNode(graphs.get(0).getTiles().get(4));
+        enemies.get(1).setNearNode(graphs.get(1).getTiles().get(26));
+        enemies.get(2).setNearNode(graphs.get(2).getTiles().get(43));
+        //enemies.get(3).setNearNode(graph.getTiles().get(65));*/
 
-        /*enemies.get(1).setNearNode(graph.getTiles().get(26));
-        enemies.get(2).setNearNode(graph.getTiles().get(43));
-        enemies.get(3).setNearNode(graph.getTiles().get(65));*/
-
-        System.out.println("SIZE: " + graph.getTiles().size());
 
         Random random = new Random();
         Gdx.input.setInputProcessor(inputManager);
 
-        path = graph.findPath(graph.getTiles().get(4), graph.getTiles().get(random.nextInt(0,87)));
-        Villain v = (Villain) enemies.get(0);
-        v.setPath(path);
+        paths.add(graphs.get(0).findPath(graphs.get(0).getTiles().get(4), graphs.get(0).getTiles().get(random.nextInt(0,93))));
+        paths.add(graphs.get(1).findPath(graphs.get(1).getTiles().get(7),graphs.get(1).getTiles().get(random.nextInt(0,189))));
+        paths.add(graphs.get(2).findPath(graphs.get(2).getTiles().get(15),graphs.get(2).getTiles().get(random.nextInt(0,70))));
+        int vi = 0;
+        for(Villain v: enemies){
+            v.setPath(paths.get(vi));
+            i++;
+        }
+
+        enemies.get(1).doStopAndIdle();
+        enemies.get(2).doStopAndIdle();
 
     }
 
@@ -183,18 +196,21 @@ public class LevelScreen implements Screen {
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        for(Node node: graph.getTiles()){
+        for(Character v: enemies){
+            Villain v1 = (Villain) v;
+            for(Node node: v1.getVillainGraph().getTiles()){
 
-            shapeRenderer.setColor(Color.RED);
-            shapeRenderer.circle(node.getX() * 16 + 8, node.getY() * 16 + 8, 8);
+                shapeRenderer.setColor(Color.RED);
+                shapeRenderer.circle(node.getX() * 16 + 8, node.getY() * 16 + 8, 8);
+            }
+            shapeRenderer.setColor(Color.BLUE);
+
+            for(Arch a: v1.getVillainGraph().getConnectionsLines()){
+
+                a.render(shapeRenderer);
+            }
         }
-        shapeRenderer.setColor(Color.BLUE);
-        shapeRenderer.circle(enemies.get(0).getNearNode().getX()*16 +8,enemies.get(0).getNearNode().getY()*16 + 8,8);
 
-        for(Arch a: graph.getConnectionsLines()){
-
-            a.render(shapeRenderer);
-        }
         shapeRenderer.end();
 
         currentFrame = inputManager.nextFrame(stateTime);
@@ -204,7 +220,7 @@ public class LevelScreen implements Screen {
         batch.begin();
 
         for (Character v : enemies) {
-            Villain villain = (Villain) enemies.get(0);
+            Villain villain = (Villain) v;
             currentFrameVillain = villain.getNextStep(stateTime,mainCharacter);
             if(mainCharacter.getY() > villain.getY()){
                 batch.draw(currentFrame,mainCharacter.getX(),mainCharacter.getY());
@@ -236,7 +252,7 @@ public class LevelScreen implements Screen {
      * Method that updates the status of the game calling different check methods
      */
     public void update(){
-        for(Node node : graph.getTiles()){
+        for(Node node : graphs.get(0).getTiles()){
             if(Vector2.dst(mainCharacter.getX() + 32,mainCharacter.getY() + 24,mainCharacter.getNearNode().getX() * 16 + 8,mainCharacter.getNearNode().getY() * 16 + 8) >
                     Vector2.dst(mainCharacter.getX() + 32,mainCharacter.getY() + 24,node.getX()* 16 + 8,node.getY() * 16 + 8)){
                 mainCharacter.setNearNode(node);
@@ -250,10 +266,8 @@ public class LevelScreen implements Screen {
 
         }
 
-        for(Character v: enemies){
-                Villain villain = (Villain) v;
-                path = graph.findPath(v.getNearNode(), mainCharacter.getNearNode());
-                ((Villain) v).setPath(path);
+        for(Villain v: enemies){
+                v.setPath(graphs.get(0).findPath(v.getNearNode(), mainCharacter.getNearNode()));
         }
 
         this.mapCollision();

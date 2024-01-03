@@ -20,11 +20,11 @@ public class PixelArenaGame extends Game {
 	@Override
 	public void create () {
 
-		List<Character> enemies = new ArrayList<>();
+		List<Villain> enemies = new ArrayList<>();
 		enemies.add(new Villain(40,40));
-		/*enemies.add(new Villain(60,60));
+		enemies.add(new Villain(60,60));
 		enemies.add(new Villain(90,90));
-		enemies.add(new Villain(110,110));*/
+		/*enemies.add(new Villain(110,110));*/
 
 		setScreen(new LevelScreen(this, new Knight(0, 0), enemies));
 	}
