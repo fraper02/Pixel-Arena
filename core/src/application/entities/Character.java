@@ -65,7 +65,7 @@ public abstract class Character {
         this.healthPoints = maxHealthPoints;
         this.attackPower = attackPower;
         this.standardSpeed = standardSpeed;
-        this.runningSpeed = standardSpeed * 1.5f;
+        this.runningSpeed = standardSpeed * 1.75f;
         this.attacking = false;
         this.x = x;
         this.y = y;
@@ -407,5 +407,12 @@ public abstract class Character {
 
     public boolean isAlive(){ return this.alive; }
 
-
+    /**
+     * Heals the character back to full health
+     */
+    public void doHeal(){
+        if(this.healthPoints != this.maxHealthPoints){
+            this.setHealthPoints(this.healthPoints);
+        }
+    }
 }
