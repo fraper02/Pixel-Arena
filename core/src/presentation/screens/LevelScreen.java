@@ -40,6 +40,7 @@ public class LevelScreen implements Screen {
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private List<Rectangle> collisionObjects = new ArrayList<>();
+    private List<Rectangle> healingBases = new ArrayList<>();
     private OrthogonalTiledMapRenderer renderer;
     private float stateTime;
     private Character mainCharacter;
@@ -86,10 +87,17 @@ public class LevelScreen implements Screen {
 
         TiledMap map = new TmxMapLoader().load(("mappe/Livello1/Level1.tmx"));
         MapLayer collisionLayer = map.getLayers().get("Object Layer 1");
+        MapLayer healingLayer = map.getLayers().get("HealingBases");
         for (MapObject object : collisionLayer.getObjects()) {
             if (object instanceof RectangleMapObject) {
                 Rectangle rect = ((RectangleMapObject) object).getRectangle();
                 collisionObjects.add(rect);
+            }
+        }
+        for (MapObject object : healingLayer.getObjects()) {
+            if (object instanceof RectangleMapObject) {
+                Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                healingBases.add(rect);
             }
         }
         MapGroupLayer groupLayer = (MapGroupLayer) map.getLayers().get("NormalLayer");
@@ -264,6 +272,7 @@ public class LevelScreen implements Screen {
 
         this.mapCollision();
         this.charactersCollision();
+        this.checkHealingBases();
     }
 
 
@@ -315,6 +324,19 @@ public class LevelScreen implements Screen {
         for(Character v : enemies){
             mainCharacter.collisionCheck(v);
             v.collisionCheck(mainCharacter);
+        }
+    }
+
+    /**
+     * Check if the main character is stepping on a healing base
+     * if so then it calls the healing method
+     */
+    private void checkHealingBases(){
+        for(Rectangle rec: healingBases){
+            if(rec.overlaps(mainCharacter.getMovementBox())){
+                mainCharacter.doHeal();
+                break;
+            }
         }
     }
 }
