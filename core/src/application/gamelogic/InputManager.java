@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import application.entities.Character;
+import application.entities.Villain;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class InputManager extends InputAdapter {
 
     Character character;
 
-    List<Character> characters;
+    List<Villain> characters;
 
     private boolean leftPressed = false;
     private boolean rightPressed = false;
@@ -33,7 +34,7 @@ public class InputManager extends InputAdapter {
      * @param characters indicates a List of Character used for the Enemies
      */
 
-    public InputManager(Character character, List<Character> characters){
+    public InputManager(Character character, List<Villain> characters){
         this.character = character;
         this.characters = characters;
     }

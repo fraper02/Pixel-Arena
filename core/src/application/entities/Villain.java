@@ -7,11 +7,14 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import application.ai.Node;
+import application.ai.TilesGraph;
 
 public class Villain extends Character{
 
     protected Rectangle actionArea;
     private GraphPath<Node> currentPath;
+
+    private TilesGraph villainGraph;
 
     /**
      * Initialize an enemy with its value of maxHealthPoints, attackPower, standardSpeed
@@ -113,7 +116,7 @@ public class Villain extends Character{
         if (this.getCurrentPath().getCount() >= 2) {
             node = this.getCurrentPath().get(1);
         } else {
-            node = this.getCurrentPath().get(0);
+            node = this.getNearNode();
         }
         if(!this.actionArea.overlaps(character.getMovementBox())) {
             if (node.getX() > this.getNearNode().getX()) {
@@ -146,4 +149,10 @@ public class Villain extends Character{
     public Rectangle getActionArea() {
         return actionArea;
     }
+
+    public void setGraph(TilesGraph graph){
+        this.villainGraph = graph;
+    }
+
+    public TilesGraph getVillainGraph(){ return villainGraph;}
 }
