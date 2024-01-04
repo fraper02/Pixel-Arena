@@ -13,9 +13,9 @@ public class Villain extends Character{
 
     protected Rectangle actionArea;
     private GraphPath<Node> currentPath;
-
     private TilesGraph villainGraph;
-
+    private boolean walking;
+    private int randDestination;
     /**
      * Initialize an enemy with its value of maxHealthPoints, attackPower, standardSpeed
      * and the textures for the character's animations
@@ -114,8 +114,11 @@ public class Villain extends Character{
         Node node;
 
         if (this.getCurrentPath().getCount() >= 2) {
+            walking = true;
             node = this.getCurrentPath().get(1);
+
         } else {
+            walking = false;
             node = this.getNearNode();
         }
         if(!this.actionArea.overlaps(character.getMovementBox())) {
@@ -155,4 +158,16 @@ public class Villain extends Character{
     }
 
     public TilesGraph getVillainGraph(){ return villainGraph;}
+
+    public boolean isWalking(){
+        return walking;
+    }
+
+    public int getRandDestination() {
+        return randDestination;
+    }
+
+    public void setRandDestination(int randDestination) {
+        this.randDestination = randDestination;
+    }
 }

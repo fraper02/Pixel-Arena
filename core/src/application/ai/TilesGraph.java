@@ -95,4 +95,8 @@ public class TilesGraph implements IndexedGraph<Node> {
     }
 
     public ArrayList<Node> getTiles(){ return this.tiles; }
+
+    public boolean hasNode(Node node){
+        return tiles.contains(node);
+    }
 }
