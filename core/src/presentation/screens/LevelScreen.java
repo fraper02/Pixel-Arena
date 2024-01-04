@@ -24,6 +24,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -65,8 +66,8 @@ public class LevelScreen implements Screen {
     List<TilesGraph> graphs;
 
     List<GraphPath<Node>> paths;
-
-
+    private HashMap<TilesGraph,Villain> graphVillainHashMap = new HashMap<>();
+    private Random random = new Random();
     public LevelScreen(Game game, Character mainCharacter, List<Villain> enemies){
         this.game = game;
         this.mainCharacter = mainCharacter;
@@ -138,6 +139,7 @@ public class LevelScreen implements Screen {
             }
             graphs.add(graph);
             enemies.get(i).setGraph(graph);
+            graphVillainHashMap.put(graph,enemies.get(i));
             i++;
         }
 
@@ -156,7 +158,6 @@ public class LevelScreen implements Screen {
         //enemies.get(3).setNearNode(graph.getTiles().get(65));*/
 
 
-        Random random = new Random();
         Gdx.input.setInputProcessor(inputManager);
 
         paths.add(graphs.get(0).findPath(graphs.get(0).getTiles().get(4), graphs.get(0).getTiles().get(random.nextInt(0,93))));
@@ -165,7 +166,7 @@ public class LevelScreen implements Screen {
         int vi = 0;
         for(Villain v: enemies){
             v.setPath(paths.get(vi));
-            i++;
+            vi++;
         }
 
         enemies.get(1).doStopAndIdle();
@@ -183,7 +184,7 @@ public class LevelScreen implements Screen {
 
 
         camera.position.set(mainCharacter.getX() + 32, mainCharacter.getY() + 32,0);
-        camera.zoom = 0.8f;
+        camera.zoom = 1.4f;
         camera.update();
         renderer.setView(camera);
         renderer.getBatch().begin();
@@ -203,6 +204,11 @@ public class LevelScreen implements Screen {
                 shapeRenderer.setColor(Color.RED);
                 shapeRenderer.circle(node.getX() * 16 + 8, node.getY() * 16 + 8, 8);
             }
+            for(Node node: v1.getCurrentPath()){
+
+                shapeRenderer.setColor(Color.WHITE);
+                shapeRenderer.circle(node.getX() * 16 + 8, node.getY() * 16 + 8, 8);
+            }
             shapeRenderer.setColor(Color.BLUE);
 
             for(Arch a: v1.getVillainGraph().getConnectionsLines()){
@@ -210,7 +216,8 @@ public class LevelScreen implements Screen {
                 a.render(shapeRenderer);
             }
         }
-
+        shapeRenderer.setColor(Color.BLUE);
+        shapeRenderer.circle(mainCharacter.getNearNode().getX()*16+8,mainCharacter.getNearNode().getY()*16+8,8);
         shapeRenderer.end();
 
         currentFrame = inputManager.nextFrame(stateTime);
@@ -219,7 +226,7 @@ public class LevelScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
-        for (Character v : enemies) {
+        for (Villain v : enemies) {
             Villain villain = (Villain) v;
             currentFrameVillain = villain.getNextStep(stateTime,mainCharacter);
             if(mainCharacter.getY() > villain.getY()){
@@ -266,8 +273,31 @@ public class LevelScreen implements Screen {
 
         }
 
-        for(Villain v: enemies){
-                v.setPath(graphs.get(0).findPath(v.getNearNode(), mainCharacter.getNearNode()));
+
+        for(TilesGraph g: graphs){
+            Villain v = graphVillainHashMap.get(g);
+            for(Node n : g.getTiles()){
+                if(Vector2.dst(mainCharacter.getX() + 32,mainCharacter.getY() + 24,mainCharacter.getNearNode().getX() * 16 + 8,mainCharacter.getNearNode().getY() * 16 + 8) >
+                        Vector2.dst(mainCharacter.getX() + 32,mainCharacter.getY() + 24,n.getX()* 16 + 8,n.getY() * 16 + 8)) {
+                    mainCharacter.setNearNode(n);
+                }
+                if(Vector2.dst(v.getX() + 32,v.getY() + 24,v.getNearNode().getX() * 16 + 8,v.getNearNode().getY() * 16 + 8) >
+                        Vector2.dst(v.getX() + 32,v.getY() + 24,n.getX()* 16 + 8,n.getY() * 16 + 8)) {
+                    v.setNearNode(n);
+                    }
+            }
+                if(g.hasNode(mainCharacter.getNearNode())){
+                    v.setPath(g.findPath(v.getNearNode(),mainCharacter.getNearNode()));
+                }
+                else{
+                    if(!v.isWalking()) {
+                        v.setRandDestination(random.nextInt(0, g.getTiles().size() - 1));
+                        v.setPath(g.findPath(v.getNearNode(), g.getTiles().get(v.getRandDestination())));
+                    }
+                    else{
+                        v.setPath(g.findPath(v.getNearNode(), g.getTiles().get(v.getRandDestination())));
+                    }
+                }
         }
 
         this.mapCollision();
