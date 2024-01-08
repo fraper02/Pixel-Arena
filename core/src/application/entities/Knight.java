@@ -6,7 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
+import application.ai.Node;
+
 public class Knight extends Character{
+    private final Node loneNode = new Node(1000, 1000);
     /**
      * Initialize a knight with its value of maxHealthPoints, attackPower, standardSpeed
      * and the textures for the character's animations
@@ -74,5 +77,9 @@ public class Knight extends Character{
         this.attackBoxLeft = new Rectangle(this.getX() + 2, this.getY() +6, 27,45);
         this.attackBoxUp = new Rectangle(this.getX() +10,this.getY() + 34,45,27);
         this.attackBoxRight = new Rectangle(this.getX() + 35, this.getY() + 6,27,45);
+    }
+
+    public Node getLoneNode(){
+        return this.loneNode;
     }
 }
