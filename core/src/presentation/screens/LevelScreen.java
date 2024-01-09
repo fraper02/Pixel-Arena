@@ -199,6 +199,8 @@ public class LevelScreen implements Screen {
 
         for(Character v: enemies){
             Villain v1 = (Villain) v;
+            shapeRenderer.setColor(Color.GREEN);
+            shapeRenderer.rect(v1.getActionArea().getX(),v1.getActionArea().getY(), v1.getActionArea().getWidth(), v1.getActionArea().getHeight());
             for(Node node: v1.getVillainGraph().getTiles()){
 
                 shapeRenderer.setColor(Color.RED);
