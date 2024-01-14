@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import application.ai.Node;
+import application.ai.TilesGraph;
 
 public abstract class Character {
     private int maxHealthPoints;
@@ -48,9 +49,8 @@ public abstract class Character {
     protected Animation<TextureRegion> runUp;
     protected Animation<TextureRegion> runLeft;
     private Animation<TextureRegion> currentAnimation;
-
     private Node nearNode;
-
+    private TilesGraph tilesGraph;
     private boolean alive;
 
     /**
@@ -414,6 +414,14 @@ public abstract class Character {
 
     public Node getNearNode(){ return this.nearNode; }
 
+    public TilesGraph getTilesGraph() {
+        return tilesGraph;
+    }
+
+    public void setTilesGraph(TilesGraph tilesGraph) {
+        this.tilesGraph = tilesGraph;
+    }
+
     public boolean isAlive(){ return this.alive; }
 
     /**
@@ -422,6 +430,31 @@ public abstract class Character {
     public void doHeal(){
         if(this.healthPoints != this.maxHealthPoints){
             this.setHealthPoints(this.healthPoints);
+        }
+    }
+
+    public void checkAttack(Character attacked){
+        switch(direction){
+            case EAST:{
+                if(this.attackBoxRight.overlaps(attacked.getHitBox())){
+                    attacked.decreaseHealth(this.attackPower);
+                }
+            }break;
+            case WEST:{
+                if(this.attackBoxLeft.overlaps(attacked.getHitBox())){
+                    attacked.decreaseHealth(this.attackPower);
+                }
+            }break;
+            case NORTH:{
+                if(this.attackBoxUp.overlaps(attacked.getHitBox())){
+                    attacked.decreaseHealth(this.attackPower);
+                }
+            }break;
+            case SOUTH:{
+                if(this.attackBoxDown.overlaps(attacked.getHitBox())){
+                    attacked.decreaseHealth(this.attackPower);
+                }
+            }break;
         }
     }
 }

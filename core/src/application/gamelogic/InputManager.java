@@ -4,17 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import application.ai.TilesGraph;
 import application.entities.Character;
 import application.entities.Villain;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class InputManager extends InputAdapter {
 
     Character character;
-
-    List<Villain> characters;
-
+    private HashMap<TilesGraph,Villain> graphVillainHashMap;
     private boolean leftPressed = false;
     private boolean rightPressed = false;
 
@@ -31,12 +32,12 @@ public class InputManager extends InputAdapter {
     /**
      * Initialize the InputManager class
      * @param character indicates the MainCharacter used by the User
-     * @param characters indicates a List of Character used for the Enemies
+     * @param graphVillainHashMap indicates a Map of each Graph with the assigned Enemy
      */
 
-    public InputManager(Character character, List<Villain> characters){
+    public InputManager(Character character, HashMap<TilesGraph,Villain> graphVillainHashMap){
         this.character = character;
-        this.characters = characters;
+        this.graphVillainHashMap = graphVillainHashMap;
     }
 
     /**
@@ -116,7 +117,9 @@ public class InputManager extends InputAdapter {
             character.doAttack();
             startTime = stateTime;
             attackPressed = true;
-            //character.checkAttack(character2);
+            if(character.getTilesGraph() != null){
+                character.checkAttack(graphVillainHashMap.get(character.getTilesGraph()));
+            }
             keyframe = 0;
         }
 

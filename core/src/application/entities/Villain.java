@@ -13,7 +13,6 @@ public class Villain extends Character{
 
     protected Rectangle actionArea;
     private GraphPath<Node> currentPath;
-    private TilesGraph villainGraph;
     private boolean walking;
     private int randDestination;
     /**
@@ -140,7 +139,14 @@ public class Villain extends Character{
             this.collisionCheck(character);
         }else {
             this.checkDirection(character);
+            float startTime = 0;
             this.doAttack();
+            startTime = stateTime;
+            if(stateTime - startTime >= 0.6f){
+                System.out.println("STO ATTACCANDO");
+                this.checkAttack(character);
+                this.setAttacking(false);
+            }
             this.collisionCheck(character);
         }
 
@@ -154,12 +160,6 @@ public class Villain extends Character{
     public Rectangle getActionArea() {
         return actionArea;
     }
-
-    public void setGraph(TilesGraph graph){
-        this.villainGraph = graph;
-    }
-
-    public TilesGraph getVillainGraph(){ return villainGraph;}
 
     public boolean isWalking(){
         return walking;
