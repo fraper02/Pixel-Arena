@@ -33,6 +33,7 @@ import application.ai.Node;
 import application.ai.TilesGraph;
 import application.entities.Character;
 import application.entities.Knight;
+import application.entities.Level;
 import application.entities.Villain;
 import application.gamelogic.InputManager;
 
@@ -40,42 +41,27 @@ public class LevelScreen implements Screen {
     private Game game;
     private SpriteBatch batch;
     private OrthographicCamera camera;
-    private List<Rectangle> collisionObjects = new ArrayList<>();
-    private List<Rectangle> healingBases = new ArrayList<>();
     private OrthogonalTiledMapRenderer renderer;
     private float stateTime;
     private Character mainCharacter;
     private TextureRegion currentFrame;
-
     private TextureRegion currentFrameVillain;
     InputManager inputManager;
     private List<Villain> enemies;
-
-    TiledMapTileLayer legitLayer;
-    TiledMapTileLayer legitLayer2;
-    TiledMapTileLayer legitLayer3;
-
     ShapeRenderer shapeRenderer;
-
-    MapLayers normalLayer;
-    TiledMapTileLayer leavesLayer;
-    TiledMapTileLayer bridgeLayer;
-
-    List<TiledMapTileLayer> legitLayers;
-
     List<TilesGraph> graphs;
-
     List<GraphPath<Node>> paths;
     private HashMap<TilesGraph,Villain> graphVillainHashMap = new HashMap<>();
     private Random random = new Random();
-    public LevelScreen(Game game, Character mainCharacter, List<Villain> enemies){
+    private Level level;
+
+    public LevelScreen(Game game, Character mainCharacter, List<Villain> enemies, int numLevel){
         this.game = game;
         this.mainCharacter = mainCharacter;
         this.enemies = enemies;
-        this.legitLayers = new ArrayList<>();
         this.graphs = new ArrayList<>();
         this.paths = new ArrayList<>();
-
+        this.level = new Level(numLevel);
     }
 
     /**
@@ -86,39 +72,16 @@ public class LevelScreen implements Screen {
         stateTime = 0;
         batch = new SpriteBatch();
 
-        TiledMap map = new TmxMapLoader().load(("mappe/Livello1/Level1.tmx"));
-        MapLayer collisionLayer = map.getLayers().get("Object Layer 1");
-        MapLayer healingLayer = map.getLayers().get("HealingBases");
-        for (MapObject object : collisionLayer.getObjects()) {
-            if (object instanceof RectangleMapObject) {
-                Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                collisionObjects.add(rect);
-            }
-        }
-        for (MapObject object : healingLayer.getObjects()) {
-            if (object instanceof RectangleMapObject) {
-                Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                healingBases.add(rect);
-            }
-        }
-        MapGroupLayer groupLayer = (MapGroupLayer) map.getLayers().get("NormalLayer");
-        normalLayer = groupLayer.getLayers();
-        leavesLayer = (TiledMapTileLayer) map.getLayers().get("tree&leavesWalkable");
-        bridgeLayer = (TiledMapTileLayer) map.getLayers().get("Ponte");
-
-        renderer = new OrthogonalTiledMapRenderer(map);
+        renderer = new OrthogonalTiledMapRenderer(level.getMap());
         camera = new OrthographicCamera();
 
         mainCharacter.doStopAndIdle();
         inputManager = new InputManager(mainCharacter,enemies);
 
         shapeRenderer = new ShapeRenderer();
-        legitLayers.add((TiledMapTileLayer) map.getLayers().get("nodesLayer"));
-        legitLayers.add((TiledMapTileLayer) map.getLayers().get("nodesLayer2"));
-        legitLayers.add((TiledMapTileLayer) map.getLayers().get("nodesLayer3"));
 
         int i = 0;
-        for(TiledMapTileLayer layer : legitLayers){
+        for(TiledMapTileLayer layer : level.getLegitLayers()){
             TilesGraph graph = new TilesGraph();
             for (int x = 0; x < layer.getWidth(); x++) {
                 for (int y = 0; y < layer.getHeight(); y++) {
@@ -188,7 +151,7 @@ public class LevelScreen implements Screen {
         camera.update();
         renderer.setView(camera);
         renderer.getBatch().begin();
-        for(MapLayer layer : normalLayer){
+        for(MapLayer layer : level.getNormalLayer()){
             renderer.renderTileLayer((TiledMapTileLayer) layer);
         }
         renderer.getBatch().end();
@@ -247,8 +210,8 @@ public class LevelScreen implements Screen {
         }
         batch.end();
         renderer.getBatch().begin();
-        renderer.renderTileLayer(leavesLayer);
-        renderer.renderTileLayer(bridgeLayer);
+        renderer.renderTileLayer(level.getLeavesLayer());
+        renderer.renderTileLayer(level.getBridgeLayer());
         renderer.getBatch().end();
     }
 
@@ -337,13 +300,13 @@ public class LevelScreen implements Screen {
      * and the enemies and the map border
      */
     private void mapCollision(){
-        for(Rectangle rec: collisionObjects){
+        for(Rectangle rec: level.getCollisionObjects()){
             if(rec.overlaps(mainCharacter.getMovementBox())){
                 mainCharacter.setPosition(mainCharacter.getPreviousX(), mainCharacter.getPreviousY());
                 break;
             }
         }
-        for(Rectangle rec: collisionObjects){
+        for(Rectangle rec: level.getCollisionObjects()){
             for(Character v: enemies){
                 if (rec.overlaps(v.getMovementBox())){
                     v.setPosition(((v.getNearNode().getX() * 16) + 8 - 32),(v.getNearNode().getY() * 16) + 8 - 24);
@@ -368,7 +331,7 @@ public class LevelScreen implements Screen {
      * if so then it calls the healing method
      */
     private void checkHealingBases(){
-        for(Rectangle rec: healingBases){
+        for(Rectangle rec: level.getHealingBases()){
             if(rec.overlaps(mainCharacter.getMovementBox())){
                 mainCharacter.doHeal();
                 break;

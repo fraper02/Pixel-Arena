@@ -26,6 +26,6 @@ public class PixelArenaGame extends Game {
 		enemies.add(new Villain(90,90));
 		/*enemies.add(new Villain(110,110));*/
 
-		setScreen(new LevelScreen(this, new Knight(0, 0), enemies));
+		setScreen(new LevelScreen(this, new Knight(0, 0), enemies,1));
 	}
 }

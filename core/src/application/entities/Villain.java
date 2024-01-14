@@ -84,7 +84,9 @@ public class Villain extends Character{
         this.attackBoxUp = new Rectangle(this.getX() +10,this.getY() + 34,45,27);
         this.attackBoxRight = new Rectangle(this.getX() + 35, this.getY() + 6,27,45);
 
-        this.actionArea = new Rectangle(this.getX(), this.getY(), 64, 64);
+        this.actionArea = new Rectangle(this.getX() + 8, this.getY() + 8, 45, 40);
+
+        this.tipo = "Villain";
     }
 
     private void checkDirection(Character character){
