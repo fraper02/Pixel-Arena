@@ -76,7 +76,7 @@ public class LevelScreen implements Screen {
         camera = new OrthographicCamera();
 
         mainCharacter.doStopAndIdle();
-        inputManager = new InputManager(mainCharacter,enemies);
+        inputManager = new InputManager(mainCharacter, graphVillainHashMap);
 
         shapeRenderer = new ShapeRenderer();
 
@@ -101,7 +101,7 @@ public class LevelScreen implements Screen {
                 }
             }
             graphs.add(graph);
-            enemies.get(i).setGraph(graph);
+            enemies.get(i).setTilesGraph(graph);
             graphVillainHashMap.put(graph,enemies.get(i));
             i++;
         }
@@ -164,7 +164,7 @@ public class LevelScreen implements Screen {
             Villain v1 = (Villain) v;
             shapeRenderer.setColor(Color.GREEN);
             shapeRenderer.rect(v1.getActionArea().getX(),v1.getActionArea().getY(), v1.getActionArea().getWidth(), v1.getActionArea().getHeight());
-            for(Node node: v1.getVillainGraph().getTiles()){
+            for(Node node: v1.getTilesGraph().getTiles()){
 
                 shapeRenderer.setColor(Color.RED);
                 shapeRenderer.circle(node.getX() * 16 + 8, node.getY() * 16 + 8, 8);
@@ -176,7 +176,7 @@ public class LevelScreen implements Screen {
             }
             shapeRenderer.setColor(Color.BLUE);
 
-            for(Arch a: v1.getVillainGraph().getConnectionsLines()){
+            for(Arch a: v1.getTilesGraph().getConnectionsLines()){
 
                 a.render(shapeRenderer);
             }
@@ -225,27 +225,13 @@ public class LevelScreen implements Screen {
      * Method that updates the status of the game calling different check methods
      */
     public void update(){
-        for(Node node : graphs.get(0).getTiles()){
-            if(Vector2.dst(mainCharacter.getX() + 32,mainCharacter.getY() + 24,mainCharacter.getNearNode().getX() * 16 + 8,mainCharacter.getNearNode().getY() * 16 + 8) >
-                    Vector2.dst(mainCharacter.getX() + 32,mainCharacter.getY() + 24,node.getX()* 16 + 8,node.getY() * 16 + 8)){
-                mainCharacter.setNearNode(node);
-            }
-            for(Character v: enemies){
-                if(Vector2.dst(v.getX() + 32,v.getY() + 24,v.getNearNode().getX() * 16 + 8,v.getNearNode().getY() * 16 + 8) >
-                        Vector2.dst(v.getX() + 32,v.getY() + 24,node.getX()* 16 + 8,node.getY() * 16 + 8)){
-                    v.setNearNode(node);
-                }
-            }
-
-        }
-
-
         for(TilesGraph g: graphs){
             Villain v = graphVillainHashMap.get(g);
             for(Node n : g.getTiles()){
                 if((Vector2.dst(mainCharacter.getX() + 32,mainCharacter.getY() + 24,mainCharacter.getNearNode().getX() * 16 + 8,mainCharacter.getNearNode().getY() * 16 + 8) >
                         Vector2.dst(mainCharacter.getX() + 32,mainCharacter.getY() + 24,n.getX()* 16 + 8,n.getY() * 16 + 8))) {
                     mainCharacter.setNearNode(n);
+                    mainCharacter.setTilesGraph(g);
                 }
                 if(Vector2.dst(v.getX() + 32,v.getY() + 24,v.getNearNode().getX() * 16 + 8,v.getNearNode().getY() * 16 + 8) >
                         Vector2.dst(v.getX() + 32,v.getY() + 24,n.getX()* 16 + 8,n.getY() * 16 + 8)) {
@@ -255,6 +241,7 @@ public class LevelScreen implements Screen {
             if((Vector2.dst(mainCharacter.getX() + 32,mainCharacter.getY() + 24,mainCharacter.getNearNode().getX() * 16 + 8,mainCharacter.getNearNode().getY() * 16 + 8)) > 40){
                 Knight k = (Knight) mainCharacter;
                 mainCharacter.setNearNode(k.getLoneNode());
+                mainCharacter.setTilesGraph(null);
             }
             if(g.hasNode(mainCharacter.getNearNode())){
                 v.setPath(g.findPath(v.getNearNode(),mainCharacter.getNearNode()));
