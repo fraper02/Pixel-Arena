@@ -123,7 +123,7 @@ public class Villain extends Character{
             walking = false;
             node = this.getNearNode();
         }
-        if(!this.actionArea.overlaps(character.getMovementBox())) {
+        if(!this.actionArea.overlaps(character.getHitBox())) {
             if (node.getX() > this.getNearNode().getX()) {
                 this.setDirection(Directions.EAST);
                 this.doWalk();
