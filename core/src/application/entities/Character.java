@@ -12,6 +12,7 @@ public abstract class Character {
     private float standardSpeed;
     private float runningSpeed;
     private boolean attacking;
+    protected String tipo;
     private Rectangle movementBox;
     private Rectangle hitBox;
     protected Rectangle attackBoxDown;
@@ -142,6 +143,14 @@ public abstract class Character {
         return attackBoxDown;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
     public void setAttackBoxDown(Rectangle attackBoxDown) {
         this.attackBoxDown = attackBoxDown;
     }
@@ -218,7 +227,7 @@ public abstract class Character {
         this.attackBoxUp.setPosition(x + 10, y + 34);
         this.attackBoxRight.setPosition(x + 35, y + 6);
         if(this instanceof Villain){
-            ((Villain) this).actionArea.setPosition(x, y);
+            ((Villain) this).actionArea.setPosition(x + 8, y + 8);
         }
     }
 

@@ -3,26 +3,37 @@ package application.Save;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
+import java.util.HashMap;
+
+import application.entities.Character;
 import application.entities.Knight;
+import application.gamelogic.InputManager;
 
 public class SaveManager {
     private static final String PREFERENCES_NAME = "gamePreferences";
 
-    public static void saveStats(Knight knight) {
+    private HashMap<Character, Integer> mappa = new HashMap<>();
+
+    public static void saveStats(Character mainCharacter, int numLivello) {
         Preferences prefs = Gdx.app.getPreferences(PREFERENCES_NAME);
-        //Aggiungere tutte le statistiche e il livello che sta giocando il player
-        prefs.putInteger("score", stats.score);
-        prefs.putInteger("lives", stats.lives);
+        prefs.putInteger("vitaMassima", mainCharacter.getMaxHealthPoints());
+        prefs.putInteger("atkPower", mainCharacter.getAttackPower());
+        prefs.putFloat("stdSpeed", mainCharacter.getStandardSpeed());
+        prefs.putString("tipo", mainCharacter.getTipo());
+        prefs.putInteger("livello",numLivello);
         prefs.flush();
     }
 
-    public static Knight loadStats() {
-        //DA VERIFICARE SE ISTANZIARE O NO
-        Knight mainCharacter = new Knight();
+    public static SaveWrapper loadStats() {
         Preferences prefs = Gdx.app.getPreferences(PREFERENCES_NAME);
-        //PRENDERE DATI PER MC
-        stats.score = prefs.getInteger("score", 0);
-        stats.lives = prefs.getInteger("lives", 3); // Valore predefinito, se necessario
-        return stats;
+        Character mainCharacter = null;
+        if(prefs.getString("tipo").equalsIgnoreCase("Knight")){
+            mainCharacter = new Knight(0,0);
+        }
+        mainCharacter.setMaxHealthPoints(prefs.getInteger("vitaMassima"));
+        mainCharacter.setAttackPower(prefs.getInteger("atkPower"));
+        mainCharacter.setSpeed(prefs.getFloat("stdSpeed"));
+        SaveWrapper saveWrapper = new SaveWrapper(prefs.getInteger("livello"), mainCharacter);
+        return saveWrapper;
     }
 }
