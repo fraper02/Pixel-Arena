@@ -52,6 +52,8 @@ public abstract class Character {
     private Node nearNode;
     private TilesGraph tilesGraph;
     private boolean alive;
+    private boolean healing = false;
+    private float startHealing = 0;
 
     /**
      * Initialize a character
@@ -427,9 +429,17 @@ public abstract class Character {
     /**
      * Heals the character back to full health
      */
-    public void doHeal(){
-        if(this.healthPoints != this.maxHealthPoints){
-            this.setHealthPoints(this.healthPoints);
+    public void doHeal(float stateTime){
+        if(!healing){
+            startHealing = stateTime;
+            healing = true;
+            if(this.healthPoints != this.maxHealthPoints) {
+                this.setHealthPoints(this.healthPoints + 10);
+                System.out.println(this.getHealthPoints());
+            }
+        }
+        if(stateTime - startHealing >= 1f){
+            healing = false;
         }
     }
 
