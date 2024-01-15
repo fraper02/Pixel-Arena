@@ -17,6 +17,7 @@ public class Level {
     private int numLivello;
     private List<Rectangle> collisionObjects = new ArrayList<>();
     private List<Rectangle> healingBases = new ArrayList<>();
+    private List<Gemma> gems = new ArrayList<>();
     private MapLayers normalLayer;
     private TiledMapTileLayer leavesLayer;
     private TiledMapTileLayer bridgeLayer;
@@ -28,6 +29,7 @@ public class Level {
         map = new TmxMapLoader().load(("mappe/Livello" + numLivello + "/Level" + numLivello + ".tmx"));
         MapLayer collisionLayer = map.getLayers().get("Object Layer 1");
         MapLayer healingLayer = map.getLayers().get("HealingBases");
+        MapLayer gemsLayer = map.getLayers().get("GemsLayer");
         for (MapObject object : collisionLayer.getObjects()) {
             if (object instanceof RectangleMapObject) {
                 Rectangle rect = ((RectangleMapObject) object).getRectangle();
@@ -38,6 +40,12 @@ public class Level {
             if (object instanceof RectangleMapObject) {
                 Rectangle rect = ((RectangleMapObject) object).getRectangle();
                 healingBases.add(rect);
+            }
+        }
+        for (MapObject object : gemsLayer.getObjects()) {
+            if (object instanceof RectangleMapObject) {
+                Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                gems.add(new Gemma(rect.x, rect.y));
             }
         }
         MapGroupLayer groupLayer = (MapGroupLayer) map.getLayers().get("NormalLayer");
@@ -115,5 +123,9 @@ public class Level {
 
     public void setMap(TiledMap map) {
         this.map = map;
+    }
+
+    public List<Gemma> getGems() {
+        return gems;
     }
 }
