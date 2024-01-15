@@ -320,7 +320,7 @@ public class LevelScreen implements Screen {
     private void checkHealingBases(){
         for(Rectangle rec: level.getHealingBases()){
             if(rec.overlaps(mainCharacter.getMovementBox())){
-                mainCharacter.doHeal();
+                mainCharacter.doHeal(stateTime);
                 break;
             }
         }

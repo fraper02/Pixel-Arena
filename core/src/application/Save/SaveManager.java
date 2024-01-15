@@ -12,8 +12,6 @@ import application.gamelogic.InputManager;
 public class SaveManager {
     private static final String PREFERENCES_NAME = "gamePreferences";
 
-    private HashMap<Character, Integer> mappa = new HashMap<>();
-
     public static void saveStats(Character mainCharacter, int numLivello) {
         Preferences prefs = Gdx.app.getPreferences(PREFERENCES_NAME);
         prefs.putInteger("vitaMassima", mainCharacter.getMaxHealthPoints());
