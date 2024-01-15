@@ -54,6 +54,7 @@ public abstract class Character {
     private boolean alive;
     private boolean healing = false;
     private float startHealing = 0;
+    private int numGemme = 0;
 
     /**
      * Initialize a character
@@ -130,56 +131,14 @@ public abstract class Character {
         return movementBox;
     }
 
-    public void setMovementBox(Rectangle movementBox) {
-        this.movementBox = movementBox;
-    }
-
     public Rectangle getHitBox() {
         return hitBox;
-    }
-
-    public void setHitBox(Rectangle hitBox) {
-        this.hitBox = hitBox;
-    }
-    public Rectangle getAttackBoxDown() {
-        return attackBoxDown;
     }
 
     public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public void setAttackBoxDown(Rectangle attackBoxDown) {
-        this.attackBoxDown = attackBoxDown;
-    }
-
-    public Rectangle getAttackBoxUp() {
-        return attackBoxUp;
-    }
-
-    public void setAttackBoxUp(Rectangle attackBoxUp) {
-        this.attackBoxUp = attackBoxUp;
-    }
-
-    public Rectangle getAttackBoxRight() {
-        return attackBoxRight;
-    }
-
-    public void setAttackBoxRight(Rectangle attackBoxRight) {
-        this.attackBoxRight = attackBoxRight;
-    }
-
-    public Rectangle getAttackBoxLeft() {
-        return attackBoxLeft;
-    }
-
-    public void setAttackBoxLeft(Rectangle attackBoxLeft) {
-        this.attackBoxLeft = attackBoxLeft;
-    }
     public float getPreviousX() {
         return previousX;
     }
@@ -196,8 +155,12 @@ public abstract class Character {
         return y;
     }
 
-    public Directions getDirection() {
-        return direction;
+    public int getNumGemme() {
+        return numGemme;
+    }
+
+    public void setNumGemme(int numGemme) {
+        this.numGemme = numGemme;
     }
 
     public void setDirection(Directions direction) {
