@@ -78,6 +78,7 @@ public class Knight extends Character{
         this.attackBoxUp = new Rectangle(this.getX() +10,this.getY() + 34,45,27);
         this.attackBoxRight = new Rectangle(this.getX() + 35, this.getY() + 6,27,45);
         this.tipo = "Knight";
+        this.setAttackPower(30);
     }
 
     public Node getLoneNode(){

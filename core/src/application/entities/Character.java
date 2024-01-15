@@ -248,8 +248,9 @@ public abstract class Character {
      */
     public void decreaseHealth(int amount){
         this.healthPoints -= amount;
-        if(this.healthPoints < 0) {
+        if(this.healthPoints <= 0) {
             this.healthPoints = 0;
+            this.alive = false;
         }
     }
 
@@ -435,7 +436,6 @@ public abstract class Character {
             healing = true;
             if(this.healthPoints != this.maxHealthPoints) {
                 this.setHealthPoints(this.healthPoints + 10);
-                System.out.println(this.getHealthPoints());
             }
         }
         if(stateTime - startHealing >= 1f){

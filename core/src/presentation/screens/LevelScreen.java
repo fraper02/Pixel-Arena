@@ -142,6 +142,10 @@ public class LevelScreen implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        if(!mainCharacter.isAlive()){
+            this.game.setScreen(new LevelScreen(this.game, new Knight(0, 0), enemies,1));
+        }
+
         this.update();
         stateTime += delta;
 
@@ -194,18 +198,14 @@ public class LevelScreen implements Screen {
         for(Villain v : enemies){
             if(v.getY() > mainCharacter.getY()){
                 currentFrameVillain = v.getNextStep(stateTime,mainCharacter);
-                if(v.isAlive()){
-                    batch.draw(currentFrameVillain, v.getX(), v.getY());
-                }
+                batch.draw(currentFrameVillain, v.getX(), v.getY());
             }
         }
         batch.draw(currentFrame,mainCharacter.getX(),mainCharacter.getY());
         for(Villain v : enemies){
             if(v.getY() < mainCharacter.getY()){
                 currentFrameVillain = v.getNextStep(stateTime,mainCharacter);
-                if(v.isAlive()){
-                    batch.draw(currentFrameVillain, v.getX(), v.getY());
-                }
+                batch.draw(currentFrameVillain, v.getX(), v.getY());
             }
         }
         batch.end();
@@ -225,34 +225,36 @@ public class LevelScreen implements Screen {
      * Method that updates the status of the game calling different check methods
      */
     public void update(){
-        for(TilesGraph g: graphs){
+        for(TilesGraph g: graphs) {
             Villain v = graphVillainHashMap.get(g);
-            for(Node n : g.getTiles()){
-                if((Vector2.dst(mainCharacter.getX() + 32,mainCharacter.getY() + 24,mainCharacter.getNearNode().getX() * 16 + 8,mainCharacter.getNearNode().getY() * 16 + 8) >
-                        Vector2.dst(mainCharacter.getX() + 32,mainCharacter.getY() + 24,n.getX()* 16 + 8,n.getY() * 16 + 8))) {
-                    mainCharacter.setNearNode(n);
-                    mainCharacter.setTilesGraph(g);
+            if (!v.isAlive()) {
+                enemies.remove(v);
+            } else {
+                for (Node n : g.getTiles()) {
+                    if ((Vector2.dst(mainCharacter.getX() + 32, mainCharacter.getY() + 24, mainCharacter.getNearNode().getX() * 16 + 8, mainCharacter.getNearNode().getY() * 16 + 8) >
+                            Vector2.dst(mainCharacter.getX() + 32, mainCharacter.getY() + 24, n.getX() * 16 + 8, n.getY() * 16 + 8))) {
+                        mainCharacter.setNearNode(n);
+                        mainCharacter.setTilesGraph(g);
+                    }
+                    if (Vector2.dst(v.getX() + 32, v.getY() + 24, v.getNearNode().getX() * 16 + 8, v.getNearNode().getY() * 16 + 8) >
+                            Vector2.dst(v.getX() + 32, v.getY() + 24, n.getX() * 16 + 8, n.getY() * 16 + 8)) {
+                        v.setNearNode(n);
+                    }
                 }
-                if(Vector2.dst(v.getX() + 32,v.getY() + 24,v.getNearNode().getX() * 16 + 8,v.getNearNode().getY() * 16 + 8) >
-                        Vector2.dst(v.getX() + 32,v.getY() + 24,n.getX()* 16 + 8,n.getY() * 16 + 8)) {
-                    v.setNearNode(n);
+                if ((Vector2.dst(mainCharacter.getX() + 32, mainCharacter.getY() + 24, mainCharacter.getNearNode().getX() * 16 + 8, mainCharacter.getNearNode().getY() * 16 + 8)) > 40) {
+                    Knight k = (Knight) mainCharacter;
+                    mainCharacter.setNearNode(k.getLoneNode());
+                    mainCharacter.setTilesGraph(null);
                 }
-            }
-            if((Vector2.dst(mainCharacter.getX() + 32,mainCharacter.getY() + 24,mainCharacter.getNearNode().getX() * 16 + 8,mainCharacter.getNearNode().getY() * 16 + 8)) > 40){
-                Knight k = (Knight) mainCharacter;
-                mainCharacter.setNearNode(k.getLoneNode());
-                mainCharacter.setTilesGraph(null);
-            }
-            if(g.hasNode(mainCharacter.getNearNode())){
-                v.setPath(g.findPath(v.getNearNode(),mainCharacter.getNearNode()));
-            }
-            else{
-                if(!v.isWalking()) {
-                    v.setRandDestination(random.nextInt(0, g.getTiles().size() - 1));
-                    v.setPath(g.findPath(v.getNearNode(), g.getTiles().get(v.getRandDestination())));
-                }
-                else{
-                    v.setPath(g.findPath(v.getNearNode(), g.getTiles().get(v.getRandDestination())));
+                if (g.hasNode(mainCharacter.getNearNode())) {
+                    v.setPath(g.findPath(v.getNearNode(), mainCharacter.getNearNode()));
+                } else {
+                    if (!v.isWalking()) {
+                        v.setRandDestination(random.nextInt(0, g.getTiles().size() - 1));
+                        v.setPath(g.findPath(v.getNearNode(), g.getTiles().get(v.getRandDestination())));
+                    } else {
+                        v.setPath(g.findPath(v.getNearNode(), g.getTiles().get(v.getRandDestination())));
+                    }
                 }
             }
         }

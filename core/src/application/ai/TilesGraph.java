@@ -9,15 +9,13 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class TilesGraph implements IndexedGraph<Node> {
 
     private TileHeuristic tileHeuristic = new TileHeuristic();
-
     private ArrayList<Node> tiles = new ArrayList<>();
-
     private ArrayList<Arch> Connections = new ArrayList<>();
-
     private ObjectMap<Node, Array<Connection<Node>>> nodesMap = new ObjectMap<>();
 
     public TilesGraph(){}
