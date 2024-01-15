@@ -15,6 +15,7 @@ public class Villain extends Character{
     private GraphPath<Node> currentPath;
     private boolean walking;
     private int randDestination;
+    float startTime = 0;
     /**
      * Initialize an enemy with its value of maxHealthPoints, attackPower, standardSpeed
      * and the textures for the character's animations
@@ -139,11 +140,11 @@ public class Villain extends Character{
             this.collisionCheck(character);
         }else {
             this.checkDirection(character);
-            float startTime = 0;
-            this.doAttack();
-            startTime = stateTime;
+            if(!this.isAttacking()) {
+                this.doAttack();
+                startTime = stateTime;
+            }
             if(stateTime - startTime >= 0.6f){
-                System.out.println("STO ATTACCANDO");
                 this.checkAttack(character);
                 this.setAttacking(false);
             }
