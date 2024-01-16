@@ -19,13 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import application.entities.Character;
-import application.entities.Level;
-import application.entities.Villain;
 
 public class UpgradeScreen implements Screen {
 
@@ -37,6 +31,10 @@ public class UpgradeScreen implements Screen {
     private BitmapFont font;
     private Texture backgroundImageTexture;
     private TextureRegionDrawable backgroundDrawable;
+    private TextButton atkButton;
+    private TextButton healthButton;
+    private TextButton speedButton;
+    private TextButton numGems;
 
     public UpgradeScreen(Game game, Character mainCharacter, int numLevel) {
         this.game = game;
@@ -50,7 +48,7 @@ public class UpgradeScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         skin = new Skin();
         font = new BitmapFont(); // Create a default font. You can also load your own font here.
-        font.getData().setScale(1.5f);
+        font.getData().setScale(1f);
         skin.add("default", font);
 
         backgroundImageTexture = new Texture(Gdx.files.internal("MenuImages/BackG.png"));
@@ -70,8 +68,17 @@ public class UpgradeScreen implements Screen {
         ImageButton heart = new ImageButton(drawableUpHeart, drawableDownHeart, drawableDisabledHeart);
         heart.setTransform(true);
         heart.setSize(100,100);
-        heart.setScale((float)1.6, (float)1);
-        heart.setPosition(350,240);
+        heart.setScale((float)1.6, (float)1.6);
+        heart.setPosition(350,220);
+        heart.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                if(mainCharacter.getNumGemme() > 0){
+                    mainCharacter.setNumGemme(mainCharacter.getNumGemme() - 1);
+                    mainCharacter.setMaxHealthPoints(mainCharacter.getMaxHealthPoints() + 30);
+                }
+            }
+        });
         stage.addActor(heart);
 
         Texture textureUpSword = new Texture(Gdx.files.internal("textures/sword.png")); // Stato normale
@@ -85,8 +92,18 @@ public class UpgradeScreen implements Screen {
         ImageButton sword  = new ImageButton(drawableUpSword,drawableDownSword,drawableDisabledSword);
         sword.setTransform(true);
         sword.setSize(100,100);
-        sword.setScale((float)1.6, (float)1);
-        sword.setPosition(50,240);
+        sword.setScale((float)1.6, (float)1.6);
+        sword.setPosition(50,220);
+        sword.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                if(mainCharacter.getNumGemme() > 0){
+                    mainCharacter.setNumGemme(mainCharacter.getNumGemme() - 1);
+                    mainCharacter.setAttackPower(mainCharacter.getAttackPower() + 10);
+                }
+                System.out.println(mainCharacter.getNumGemme());
+            }
+        });
         stage.addActor(sword);
 
         Texture textureUpWings = new Texture(Gdx.files.internal("textures/wings.png")); // Stato normale
@@ -100,8 +117,17 @@ public class UpgradeScreen implements Screen {
         ImageButton wings  = new ImageButton(drawableUpWings,drawableDownWings,drawableDisabledWings);
         wings.setTransform(true);
         wings.setSize(100,100);
-        wings.setScale((float)1.6, (float)1);
-        wings.setPosition(650,240);
+        wings.setScale((float)1.6, (float)1.6);
+        wings.setPosition(650,220);
+        wings.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                if(mainCharacter.getNumGemme() > 0){
+                    mainCharacter.setNumGemme(mainCharacter.getNumGemme() - 1);
+                    mainCharacter.setSpeed(mainCharacter.getStandardSpeed() + 0.3f);
+                }
+            }
+        });
         stage.addActor(wings);
 
         Pixmap pixmap = new Pixmap(2, 2, Pixmap.Format.RGB888);
@@ -116,10 +142,20 @@ public class UpgradeScreen implements Screen {
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
         TextButton saveButton = new TextButton("GO to Save ->", skin , "default");
-        TextButton ChooseButton = new TextButton("Choose the Power Ups",skin,"default");
-        TextButton atkButton = new TextButton("Health Points: " + mainCharacter.getHealthPoints(), skin, "default");
-        TextButton healtButton = new TextButton("Attack: " + mainCharacter.getAttackPower(), skin, "default");
-        TextButton speedButton = new TextButton("Speed: " + mainCharacter.getStandardSpeed(), skin, "default");
+        TextButton chooseButton = new TextButton("Choose the Power Ups",skin,"default");
+        atkButton = new TextButton("Attack: " + mainCharacter.getAttackPower(), skin, "default");
+        healthButton = new TextButton("Health Points: " + mainCharacter.getMaxHealthPoints(), skin, "default");
+        speedButton = new TextButton("Speed: " + mainCharacter.getStandardSpeed(), skin, "default");
+        numGems = new TextButton("x" + mainCharacter.getNumGemme(), skin, "default");
+
+        numGems.setSize(75, 50);
+        numGems.setPosition(stage.getWidth() - numGems.getWidth(), stage.getHeight() - numGems.getHeight());
+        Texture textureGem = new Texture(Gdx.files.internal("textures/diamond.png"));
+        Drawable drawableGem = new TextureRegionDrawable(textureGem);
+        ImageButton gem = new ImageButton(drawableGem);
+        gem.setTransform(true);
+        gem.setSize(50, 50);
+        gem.setPosition(stage.getWidth() - numGems.getWidth()/2 - gem.getWidth(), stage.getHeight() - gem.getHeight());
 
         saveButton.addListener(new ClickListener() {
             @Override
@@ -130,24 +166,27 @@ public class UpgradeScreen implements Screen {
 
         saveButton.setPosition(290, 70);
         saveButton.setSize(260,44);
-        ChooseButton.setPosition(290,400);
-        ChooseButton.setSize(260,44);
-        atkButton.setSize(260,44);
+        chooseButton.setPosition(290,400);
+        chooseButton.setSize(260,44);
+        atkButton.setSize(150,20);
         atkButton.setPosition(50,170);
-        healtButton.setSize(260,44);
-        healtButton.setPosition(50,170);
-        speedButton.setSize(260,44);
-        speedButton.setPosition(50,170);
+        healthButton.setSize(150,20);
+        healthButton.setPosition(350,170);
+        speedButton.setSize(150,20);
+        speedButton.setPosition(650,170);
         stage.addActor(saveButton);
-        stage.addActor(ChooseButton);
+        stage.addActor(chooseButton);
         stage.addActor(atkButton);
+        stage.addActor(healthButton);
         stage.addActor(speedButton);
-        stage.addActor(healtButton);
+        stage.addActor(numGems);
+        stage.addActor(gem);
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear the screen
+        this.update();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
@@ -177,5 +216,12 @@ public class UpgradeScreen implements Screen {
         stage.dispose();
         stage.dispose();
         backgroundImageTexture.dispose();
+    }
+
+    public void update(){
+        atkButton.setText("Attack: " + mainCharacter.getAttackPower());
+        healthButton.setText("Health Points: " + mainCharacter.getMaxHealthPoints());
+        speedButton.setText("Speed: " + mainCharacter.getStandardSpeed());
+        numGems.setText("x" + mainCharacter.getNumGemme());
     }
 }
