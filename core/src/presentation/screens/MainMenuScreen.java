@@ -21,17 +21,12 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 public class MainMenuScreen implements Screen {
     private Stage stage;
     private Game game;
-
-    BitmapFont font;
-
-    Skin skin;
-
-    Texture backgroundImageTexture;
-
-    Texture mainLabel;
-
-    TextureRegionDrawable backgroundDrawable;
-    TextureRegionDrawable backgroundDrawable2;
+    private BitmapFont font;
+    private Skin skin;
+    private Texture backgroundImageTexture;
+    private Texture mainLabel;
+    private TextureRegionDrawable backgroundDrawable;
+    private TextureRegionDrawable backgroundDrawable2;
 
     public MainMenuScreen(Game game) {
         this.game = game;
