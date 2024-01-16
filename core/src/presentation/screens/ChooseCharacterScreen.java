@@ -23,6 +23,8 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import application.entities.Knight;
 import application.entities.Villain;
 import application.entities.Character;
+import application.gamelogic.GameLoader;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,11 +138,8 @@ public class ChooseCharacterScreen implements Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                List<Villain> enemies = new ArrayList<>();
-                enemies.add(new Villain(0,0));
-                enemies.add(new Villain(0,0));
-                enemies.add(new Villain(0,0));
-                game.setScreen(new LevelScreen(game,character,enemies,1)); // Switch to the game screen
+                GameLoader gl = new GameLoader(game, character, 1);
+                gl.load();// Switch to the game screen
             }
         });
 

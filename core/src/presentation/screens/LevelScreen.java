@@ -50,11 +50,11 @@ public class LevelScreen implements Screen {
     private Character mainCharacter;
     private TextureRegion currentFrame;
     private TextureRegion currentFrameVillain;
-    InputManager inputManager;
+    private InputManager inputManager;
     private List<Villain> enemies;
-    ShapeRenderer shapeRenderer;
-    List<TilesGraph> graphs;
-    List<GraphPath<Node>> paths;
+    private ShapeRenderer shapeRenderer;
+    private List<TilesGraph> graphs;
+    private List<GraphPath<Node>> paths;
     private HashMap<TilesGraph,Villain> graphVillainHashMap = new HashMap<>();
     private Random random = new Random();
     private Level level;
@@ -127,6 +127,7 @@ public class LevelScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if(!mainCharacter.isAlive()){
+            mainCharacter.setHealthPoints(mainCharacter.getMaxHealthPoints());
             this.game.setScreen(new LevelScreen(this.game, new Knight(0, 0), enemies,1));
         }
 
@@ -183,7 +184,7 @@ public class LevelScreen implements Screen {
             }
             renderer.getBatch().end();
             if(mainCharacter.getMovementBox().overlaps(level.getEndLevel())){
-                this.game.setScreen(new UpgradeScreen(this.game, mainCharacter,1));
+                this.game.setScreen(new UpgradeScreen(this.game, mainCharacter,level.getNumLivello()));
             }
         }else if(mainCharacter.getMovementBox().overlaps(level.getEndLevel())){
             mainCharacter.setPosition(mainCharacter.getPreviousX(), mainCharacter.getPreviousY());
