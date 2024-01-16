@@ -10,14 +10,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.MapGroupLayer;
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapLayers;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
@@ -29,8 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import javax.swing.Popup;
-
 import application.ai.Arch;
 import application.ai.Node;
 import application.ai.TilesGraph;
@@ -40,6 +32,7 @@ import application.entities.Knight;
 import application.entities.Level;
 import application.entities.Villain;
 import application.gamelogic.InputManager;
+import presentation.music.MusicManager;
 
 public class LevelScreen implements Screen {
     private Game game;
@@ -58,6 +51,7 @@ public class LevelScreen implements Screen {
     private HashMap<TilesGraph,Villain> graphVillainHashMap = new HashMap<>();
     private Random random = new Random();
     private Level level;
+    private MusicManager musicManager = MusicManager.getInstance();
     public LevelScreen(Game game, Character mainCharacter, List<Villain> enemies, int numLevel){
         this.game = game;
         this.mainCharacter = mainCharacter;
@@ -117,6 +111,8 @@ public class LevelScreen implements Screen {
 
 
         mainCharacter.setPosition(level.getStartPoint().getX(),  level.getStartPoint().getY());
+        musicManager.stopIntro();
+        musicManager.playBattle();
 
         Gdx.input.setInputProcessor(inputManager);
     }

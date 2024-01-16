@@ -406,28 +406,33 @@ public abstract class Character {
         }
     }
 
-    public void checkAttack(Character attacked){
+    public boolean checkAttack(Character attacked){
         switch(direction){
             case EAST:{
                 if(this.attackBoxRight.overlaps(attacked.getHitBox())){
                     attacked.decreaseHealth(this.attackPower);
+                    return true;
                 }
             }break;
             case WEST:{
                 if(this.attackBoxLeft.overlaps(attacked.getHitBox())){
                     attacked.decreaseHealth(this.attackPower);
+                    return true;
                 }
             }break;
             case NORTH:{
                 if(this.attackBoxUp.overlaps(attacked.getHitBox())){
                     attacked.decreaseHealth(this.attackPower);
+                    return true;
                 }
             }break;
             case SOUTH:{
                 if(this.attackBoxDown.overlaps(attacked.getHitBox())){
                     attacked.decreaseHealth(this.attackPower);
+                    return true;
                 }
             }break;
         }
+        return false;
     }
 }
