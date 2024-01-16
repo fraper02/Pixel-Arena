@@ -19,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+
+import application.Save.SaveManager;
 import application.entities.Character;
 import application.gamelogic.GameLoader;
 
@@ -146,6 +148,7 @@ public class UpgradeScreen implements Screen {
         saveAndContinueButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                SaveManager.saveStats(mainCharacter, numLevel +1);
                 GameLoader gl = new GameLoader(game, mainCharacter, numLevel + 1);
                 if(numLevel + 1 <= gl.getMaxNumLevel()){
                     gl.load();
@@ -156,8 +159,8 @@ public class UpgradeScreen implements Screen {
         saveAndExit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                GameLoader gl = new GameLoader(game, mainCharacter, numLevel + 1);
-                gl.load();
+                SaveManager.saveStats(mainCharacter, numLevel +1);
+                game.setScreen(new MainMenuScreen(game));
             }
         });
         atkButton = new TextButton("Attack: " + mainCharacter.getAttackPower(), skin, "default");
