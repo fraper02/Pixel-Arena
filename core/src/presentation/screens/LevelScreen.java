@@ -21,6 +21,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import java.util.ArrayList;
 
@@ -106,6 +107,7 @@ public class LevelScreen implements Screen {
                 graphs.add(graph);
                 enemies.get(i).setTilesGraph(graph);
                 graphVillainHashMap.put(graph, enemies.get(i));
+                enemies.get(i).doStopAndIdle();
                 enemies.get(i).setPosition((graph.getTiles().get(0).getX() * 16 + 8) - 32, (graph.getTiles().get(0).getY() * 16 + 8) - 24);
                 enemies.get(i).setNearNode(graph.getTiles().get(0));
                 enemies.get(i).setPath(graph.findPath(graph.getTiles().get(0), graph.getTiles().get(random.nextInt(0, graph.getTiles().size()))));
@@ -133,7 +135,7 @@ public class LevelScreen implements Screen {
 
 
         camera.position.set(mainCharacter.getX() + 32, mainCharacter.getY() + 32,0);
-        camera.zoom = 1.4f;
+        camera.zoom = 0.6f;
         camera.update();
         renderer.setView(camera);
         renderer.getBatch().begin();
@@ -192,7 +194,7 @@ public class LevelScreen implements Screen {
             batch.draw(g.getTexture(), g.getHitBox().x, g.getHitBox().y);
         }
         for(Villain v : enemies){
-            if(v.getY() > mainCharacter.getY()){
+            if(v.getY() >= mainCharacter.getY()){
                 currentFrameVillain = v.getNextStep(stateTime,mainCharacter);
                 batch.draw(currentFrameVillain, v.getX(), v.getY());
             }

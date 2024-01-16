@@ -19,13 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import application.entities.Character;
-import application.entities.Level;
-import application.entities.Villain;
 
 public class UpgradeScreen implements Screen {
 
@@ -37,6 +31,10 @@ public class UpgradeScreen implements Screen {
     private BitmapFont font;
     private Texture backgroundImageTexture;
     private TextureRegionDrawable backgroundDrawable;
+    private TextButton atkButton;
+    private TextButton healthButton;
+    private TextButton speedButton;
+    private TextButton numGems;
 
     public UpgradeScreen(Game game, Character mainCharacter, int numLevel) {
         this.game = game;
@@ -50,7 +48,7 @@ public class UpgradeScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         skin = new Skin();
         font = new BitmapFont(); // Create a default font. You can also load your own font here.
-        font.getData().setScale(1.5f);
+        font.getData().setScale(1f);
         skin.add("default", font);
 
         backgroundImageTexture = new Texture(Gdx.files.internal("MenuImages/BackG.png"));
@@ -59,57 +57,78 @@ public class UpgradeScreen implements Screen {
         stage.addActor(backgroundImage);
 
 
-        Texture textureUp = new Texture(Gdx.files.internal("textures/heart.png")); // Stato normale
-        Texture textureDown = new Texture(Gdx.files.internal("textures/heart.png")); // Stato premuto (opzionale)
-        Texture textureDisabled = new Texture(Gdx.files.internal("textures/heart.png")); // Stato disabilitato (opzionale)
+        Texture textureUpHeart = new Texture(Gdx.files.internal("textures/heart.png")); // Stato normale
+        Texture textureDownHeart = new Texture(Gdx.files.internal("textures/heart.png")); // Stato premuto (opzionale)
+        Texture textureDisabledHeart = new Texture(Gdx.files.internal("textures/heart.png")); // Stato disabilitato (opzionale)
 
-        Drawable drawableUp = new TextureRegionDrawable(new TextureRegion(textureUp));
-        Drawable drawableDown = new TextureRegionDrawable(new TextureRegion(textureDown));
-        Drawable drawableDisabled = new TextureRegionDrawable(new TextureRegion(textureDisabled));
+        Drawable drawableUpHeart = new TextureRegionDrawable(new TextureRegion(textureUpHeart));
+        Drawable drawableDownHeart = new TextureRegionDrawable(new TextureRegion(textureDownHeart));
+        Drawable drawableDisabledHeart = new TextureRegionDrawable(new TextureRegion(textureDisabledHeart));
 
-        ImageButton buttonKnight = new ImageButton(drawableUp, drawableDown, drawableDisabled);
-        buttonKnight.setTransform(true);
-        buttonKnight.setSize(100,100);
-        buttonKnight.setScale((float)1.6, (float)1);
-        buttonKnight.setPosition(223,170);
-        stage.addActor(buttonKnight);
-
-        Texture textureUpArcher = new Texture(Gdx.files.internal("textures/sword.png")); // Stato normale
-        Texture textureDownArcher = new Texture(Gdx.files.internal("textures/sword.png")); // Stato premuto (opzionale)
-        Texture textureDisabledArcher = new Texture(Gdx.files.internal("textures/sword.png")); // Stato disabilitato (opzionale)
-
-        Drawable drawableUpArcher = new TextureRegionDrawable(new TextureRegion(textureUpArcher));
-        Drawable drawableDownArcher = new TextureRegionDrawable(new TextureRegion(textureDownArcher));
-        Drawable drawableDisabledArcher = new TextureRegionDrawable(new TextureRegion(textureDisabledArcher));
-
-        buttonKnight.addListener(new ClickListener(){
+        ImageButton heart = new ImageButton(drawableUpHeart, drawableDownHeart, drawableDisabledHeart);
+        heart.setTransform(true);
+        heart.setSize(100,100);
+        heart.setScale((float)1.6, (float)1.6);
+        heart.setPosition(350,220);
+        heart.addListener(new ClickListener(){
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-
+            public void clicked(InputEvent event, float x, float y){
+                if(mainCharacter.getNumGemme() > 0){
+                    mainCharacter.setNumGemme(mainCharacter.getNumGemme() - 1);
+                    mainCharacter.setMaxHealthPoints(mainCharacter.getMaxHealthPoints() + 30);
+                }
             }
         });
+        stage.addActor(heart);
 
-        ImageButton buttonArcher  = new ImageButton(drawableUpArcher,drawableDownArcher,drawableDisabledArcher);
-        buttonArcher.setTransform(true);
-        buttonArcher.setSize(100,100);
-        buttonArcher.setScale((float)1.6, (float)1);
-        buttonArcher.setPosition(23,170);
-        stage.addActor(buttonArcher);
+        Texture textureUpSword = new Texture(Gdx.files.internal("textures/sword.png")); // Stato normale
+        Texture textureDownSword = new Texture(Gdx.files.internal("textures/sword.png")); // Stato premuto (opzionale)
+        Texture textureDisabledSword = new Texture(Gdx.files.internal("textures/sword.png")); // Stato disabilitato (opzionale)
 
-        Texture textureUpWizard = new Texture(Gdx.files.internal("textures/wings.png")); // Stato normale
-        Texture textureDownWizard = new Texture(Gdx.files.internal("textures/wings.png")); // Stato premuto (opzionale)
-        Texture textureDisableWizard = new Texture(Gdx.files.internal("textures/wings.png")); // Stato disabilitato (opzionale)
+        Drawable drawableUpSword = new TextureRegionDrawable(new TextureRegion(textureUpSword));
+        Drawable drawableDownSword = new TextureRegionDrawable(new TextureRegion(textureDownSword));
+        Drawable drawableDisabledSword = new TextureRegionDrawable(new TextureRegion(textureDisabledSword));
 
-        Drawable drawableUpWizard = new TextureRegionDrawable(new TextureRegion(textureUpWizard));
-        Drawable drawableDownWizard = new TextureRegionDrawable(new TextureRegion(textureDownWizard));
-        Drawable drawableDisabledWizard = new TextureRegionDrawable(new TextureRegion(textureDisableWizard));
+        ImageButton sword  = new ImageButton(drawableUpSword,drawableDownSword,drawableDisabledSword);
+        sword.setTransform(true);
+        sword.setSize(100,100);
+        sword.setScale((float)1.6, (float)1.6);
+        sword.setPosition(50,220);
+        sword.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                if(mainCharacter.getNumGemme() > 0){
+                    mainCharacter.setNumGemme(mainCharacter.getNumGemme() - 1);
+                    mainCharacter.setAttackPower(mainCharacter.getAttackPower() + 10);
+                }
+                System.out.println(mainCharacter.getNumGemme());
+            }
+        });
+        stage.addActor(sword);
 
-        ImageButton buttonWizard  = new ImageButton(drawableUpWizard,drawableDownWizard,drawableDisabledWizard);
-        buttonWizard.setTransform(true);
-        buttonWizard.setSize(100,100);
-        buttonWizard.setScale((float)1.6, (float)1);
-        buttonWizard.setPosition(423,170);
-        stage.addActor(buttonWizard);
+        Texture textureUpWings = new Texture(Gdx.files.internal("textures/wings.png")); // Stato normale
+        Texture textureDownWings = new Texture(Gdx.files.internal("textures/wings.png")); // Stato premuto (opzionale)
+        Texture textureDisableWings = new Texture(Gdx.files.internal("textures/wings.png")); // Stato disabilitato (opzionale)
+
+        Drawable drawableUpWings= new TextureRegionDrawable(new TextureRegion(textureUpWings));
+        Drawable drawableDownWings = new TextureRegionDrawable(new TextureRegion(textureDownWings));
+        Drawable drawableDisabledWings = new TextureRegionDrawable(new TextureRegion(textureDisableWings));
+
+        ImageButton wings  = new ImageButton(drawableUpWings,drawableDownWings,drawableDisabledWings);
+        wings.setTransform(true);
+        wings.setSize(100,100);
+        wings.setScale((float)1.6, (float)1.6);
+        wings.setPosition(650,220);
+        wings.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                if(mainCharacter.getNumGemme() > 0){
+                    mainCharacter.setNumGemme(mainCharacter.getNumGemme() - 1);
+                    mainCharacter.setSpeed(mainCharacter.getStandardSpeed() + 0.3f);
+                }
+            }
+        });
+        stage.addActor(wings);
 
         Pixmap pixmap = new Pixmap(2, 2, Pixmap.Format.RGB888);
         pixmap.setColor(Color.BROWN);
@@ -122,31 +141,52 @@ public class UpgradeScreen implements Screen {
         textButtonStyle.down = backgroundDrawable;
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
-        TextButton playButton = new TextButton("GO to Save ->", skin , "default");
-        TextButton ChooseButton = new TextButton("Choose the Power Ups",skin,"default");
+        TextButton saveButton = new TextButton("GO to Save ->", skin , "default");
+        TextButton chooseButton = new TextButton("Choose the Power Ups",skin,"default");
+        atkButton = new TextButton("Attack: " + mainCharacter.getAttackPower(), skin, "default");
+        healthButton = new TextButton("Health Points: " + mainCharacter.getMaxHealthPoints(), skin, "default");
+        speedButton = new TextButton("Speed: " + mainCharacter.getStandardSpeed(), skin, "default");
+        numGems = new TextButton("x" + mainCharacter.getNumGemme(), skin, "default");
 
-        playButton.addListener(new ClickListener() {
+        numGems.setSize(75, 50);
+        numGems.setPosition(stage.getWidth() - numGems.getWidth(), stage.getHeight() - numGems.getHeight());
+        Texture textureGem = new Texture(Gdx.files.internal("textures/diamond.png"));
+        Drawable drawableGem = new TextureRegionDrawable(textureGem);
+        ImageButton gem = new ImageButton(drawableGem);
+        gem.setTransform(true);
+        gem.setSize(50, 50);
+        gem.setPosition(stage.getWidth() - numGems.getWidth()/2 - gem.getWidth(), stage.getHeight() - gem.getHeight());
+
+        saveButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                List<Villain> enemies = new ArrayList<>();
-                enemies.add(new Villain(0,0));
-                enemies.add(new Villain(0,0));
-                enemies.add(new Villain(0,0));
-                //game.setScreen(new LevelScreen(game,character,enemies,1)); // Switch to the game screen
+
             }
         });
 
-        playButton.setPosition(290, 70);
-        playButton.setSize(260,44);
-        ChooseButton.setPosition(290,400);
-        ChooseButton.setSize(260,44);
-        stage.addActor(playButton);
-        stage.addActor(ChooseButton);
+        saveButton.setPosition(290, 70);
+        saveButton.setSize(260,44);
+        chooseButton.setPosition(290,400);
+        chooseButton.setSize(260,44);
+        atkButton.setSize(150,20);
+        atkButton.setPosition(50,170);
+        healthButton.setSize(150,20);
+        healthButton.setPosition(350,170);
+        speedButton.setSize(150,20);
+        speedButton.setPosition(650,170);
+        stage.addActor(saveButton);
+        stage.addActor(chooseButton);
+        stage.addActor(atkButton);
+        stage.addActor(healthButton);
+        stage.addActor(speedButton);
+        stage.addActor(numGems);
+        stage.addActor(gem);
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear the screen
+        this.update();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
@@ -176,5 +216,12 @@ public class UpgradeScreen implements Screen {
         stage.dispose();
         stage.dispose();
         backgroundImageTexture.dispose();
+    }
+
+    public void update(){
+        atkButton.setText("Attack: " + mainCharacter.getAttackPower());
+        healthButton.setText("Health Points: " + mainCharacter.getMaxHealthPoints());
+        speedButton.setText("Speed: " + mainCharacter.getStandardSpeed());
+        numGems.setText("x" + mainCharacter.getNumGemme());
     }
 }
