@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import application.entities.Character;
+import application.gamelogic.GameLoader;
 
 public class UpgradeScreen implements Screen {
 
@@ -101,7 +102,6 @@ public class UpgradeScreen implements Screen {
                     mainCharacter.setNumGemme(mainCharacter.getNumGemme() - 1);
                     mainCharacter.setAttackPower(mainCharacter.getAttackPower() + 10);
                 }
-                System.out.println(mainCharacter.getNumGemme());
             }
         });
         stage.addActor(sword);
@@ -141,8 +141,25 @@ public class UpgradeScreen implements Screen {
         textButtonStyle.down = backgroundDrawable;
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
-        TextButton saveButton = new TextButton("GO to Save ->", skin , "default");
         TextButton chooseButton = new TextButton("Choose the Power Ups",skin,"default");
+        TextButton saveAndContinueButton = new TextButton("Save and continue ->", skin , "default");
+        saveAndContinueButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameLoader gl = new GameLoader(game, mainCharacter, numLevel + 1);
+                if(numLevel + 1 <= gl.getMaxNumLevel()){
+                    gl.load();
+                }
+            }
+        });
+        TextButton saveAndExit = new TextButton("Save and exit", skin , "default");
+        saveAndExit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameLoader gl = new GameLoader(game, mainCharacter, numLevel + 1);
+                gl.load();
+            }
+        });
         atkButton = new TextButton("Attack: " + mainCharacter.getAttackPower(), skin, "default");
         healthButton = new TextButton("Health Points: " + mainCharacter.getMaxHealthPoints(), skin, "default");
         speedButton = new TextButton("Speed: " + mainCharacter.getStandardSpeed(), skin, "default");
@@ -157,15 +174,10 @@ public class UpgradeScreen implements Screen {
         gem.setSize(50, 50);
         gem.setPosition(stage.getWidth() - numGems.getWidth()/2 - gem.getWidth(), stage.getHeight() - gem.getHeight());
 
-        saveButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });
-
-        saveButton.setPosition(290, 70);
-        saveButton.setSize(260,44);
+        saveAndContinueButton.setPosition(290, 70);
+        saveAndContinueButton.setSize(260,44);
+        saveAndExit.setPosition(290, saveAndContinueButton.getY() - saveAndContinueButton.getHeight() - 10f);
+        saveAndExit.setSize(260, 44);
         chooseButton.setPosition(290,400);
         chooseButton.setSize(260,44);
         atkButton.setSize(150,20);
@@ -174,7 +186,8 @@ public class UpgradeScreen implements Screen {
         healthButton.setPosition(350,170);
         speedButton.setSize(150,20);
         speedButton.setPosition(650,170);
-        stage.addActor(saveButton);
+        stage.addActor(saveAndContinueButton);
+        stage.addActor(saveAndExit);
         stage.addActor(chooseButton);
         stage.addActor(atkButton);
         stage.addActor(healthButton);
