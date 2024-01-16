@@ -20,27 +20,28 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
-import application.entities.Knight;
-import application.entities.Villain;
-import application.entities.Character;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChooseCharacterScreen implements Screen {
+import application.entities.Character;
+import application.entities.Level;
+import application.entities.Villain;
+
+public class UpgradeScreen implements Screen {
 
     private Game game;
-    private Texture backgroundImageTexture;
+    private Character mainCharacter;
+    private int numLevel;
     private Stage stage;
-    private BitmapFont font;
-    private TextureRegionDrawable backgroundDrawable;
     private Skin skin;
-    private Knight k1 = new Knight(0,0);
-    private Villain v1 = new Villain(1,1);
-    private Character character = k1;
+    private BitmapFont font;
+    private Texture backgroundImageTexture;
+    private TextureRegionDrawable backgroundDrawable;
 
-
-    public ChooseCharacterScreen(Game game) {
+    public UpgradeScreen(Game game, Character mainCharacter, int numLevel) {
         this.game = game;
+        this.mainCharacter = mainCharacter;
+        this.numLevel = numLevel;
     }
 
     @Override
@@ -58,9 +59,9 @@ public class ChooseCharacterScreen implements Screen {
         stage.addActor(backgroundImage);
 
 
-        Texture textureUp = new Texture(Gdx.files.internal("MenuImages/ATM.png")); // Stato normale
-        Texture textureDown = new Texture(Gdx.files.internal("MenuImages/ATM.png")); // Stato premuto (opzionale)
-        Texture textureDisabled = new Texture(Gdx.files.internal("MenuIMages/ATM.png")); // Stato disabilitato (opzionale)
+        Texture textureUp = new Texture(Gdx.files.internal("textures/heart.png")); // Stato normale
+        Texture textureDown = new Texture(Gdx.files.internal("textures/heart.png")); // Stato premuto (opzionale)
+        Texture textureDisabled = new Texture(Gdx.files.internal("textures/heart.png")); // Stato disabilitato (opzionale)
 
         Drawable drawableUp = new TextureRegionDrawable(new TextureRegion(textureUp));
         Drawable drawableDown = new TextureRegionDrawable(new TextureRegion(textureDown));
@@ -68,14 +69,14 @@ public class ChooseCharacterScreen implements Screen {
 
         ImageButton buttonKnight = new ImageButton(drawableUp, drawableDown, drawableDisabled);
         buttonKnight.setTransform(true);
-        buttonKnight.setSize(225,200);
+        buttonKnight.setSize(100,100);
         buttonKnight.setScale((float)1.6, (float)1);
-        buttonKnight.setPosition(265,170);
+        buttonKnight.setPosition(223,170);
         stage.addActor(buttonKnight);
 
-        Texture textureUpArcher = new Texture(Gdx.files.internal("MenuImages/ArcPoster.png")); // Stato normale
-        Texture textureDownArcher = new Texture(Gdx.files.internal("MenuImages/ArcPoster.png")); // Stato premuto (opzionale)
-        Texture textureDisabledArcher = new Texture(Gdx.files.internal("MenuImages/ArcPoster.png")); // Stato disabilitato (opzionale)
+        Texture textureUpArcher = new Texture(Gdx.files.internal("textures/sword.png")); // Stato normale
+        Texture textureDownArcher = new Texture(Gdx.files.internal("textures/sword.png")); // Stato premuto (opzionale)
+        Texture textureDisabledArcher = new Texture(Gdx.files.internal("textures/sword.png")); // Stato disabilitato (opzionale)
 
         Drawable drawableUpArcher = new TextureRegionDrawable(new TextureRegion(textureUpArcher));
         Drawable drawableDownArcher = new TextureRegionDrawable(new TextureRegion(textureDownArcher));
@@ -84,20 +85,20 @@ public class ChooseCharacterScreen implements Screen {
         buttonKnight.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                character = v1;
+
             }
         });
 
         ImageButton buttonArcher  = new ImageButton(drawableUpArcher,drawableDownArcher,drawableDisabledArcher);
         buttonArcher.setTransform(true);
-        buttonArcher.setSize(245,200);
+        buttonArcher.setSize(100,100);
         buttonArcher.setScale((float)1.6, (float)1);
         buttonArcher.setPosition(23,170);
         stage.addActor(buttonArcher);
 
-        Texture textureUpWizard = new Texture(Gdx.files.internal("MenuImages/WizPosterOff.png")); // Stato normale
-        Texture textureDownWizard = new Texture(Gdx.files.internal("MenuImages/WizPosterOff.png")); // Stato premuto (opzionale)
-        Texture textureDisableWizard = new Texture(Gdx.files.internal("MenuImages/WizPosterOff.png")); // Stato disabilitato (opzionale)
+        Texture textureUpWizard = new Texture(Gdx.files.internal("textures/wings.png")); // Stato normale
+        Texture textureDownWizard = new Texture(Gdx.files.internal("textures/wings.png")); // Stato premuto (opzionale)
+        Texture textureDisableWizard = new Texture(Gdx.files.internal("textures/wings.png")); // Stato disabilitato (opzionale)
 
         Drawable drawableUpWizard = new TextureRegionDrawable(new TextureRegion(textureUpWizard));
         Drawable drawableDownWizard = new TextureRegionDrawable(new TextureRegion(textureDownWizard));
@@ -105,19 +106,10 @@ public class ChooseCharacterScreen implements Screen {
 
         ImageButton buttonWizard  = new ImageButton(drawableUpWizard,drawableDownWizard,drawableDisabledWizard);
         buttonWizard.setTransform(true);
-        buttonWizard.setSize(225,200);
+        buttonWizard.setSize(100,100);
         buttonWizard.setScale((float)1.6, (float)1);
-        buttonWizard.setPosition(500,170);
+        buttonWizard.setPosition(423,170);
         stage.addActor(buttonWizard);
-
-
-
-
-        Texture myTexture = new Texture(Gdx.files.internal("MenuImages/Bordo.png"));
-        Image bordo = new Image(myTexture);
-        bordo.setSize(190,210);
-        bordo.setPosition(348,165);
-        stage.addActor(bordo);
 
         Pixmap pixmap = new Pixmap(2, 2, Pixmap.Format.RGB888);
         pixmap.setColor(Color.BROWN);
@@ -130,8 +122,8 @@ public class ChooseCharacterScreen implements Screen {
         textButtonStyle.down = backgroundDrawable;
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
-        TextButton playButton = new TextButton("GO in the Pixel Arena ->", skin , "default");
-        TextButton ChooseButton = new TextButton("Choose the Character",skin,"default");
+        TextButton playButton = new TextButton("GO to Save ->", skin , "default");
+        TextButton ChooseButton = new TextButton("Choose the Power Ups",skin,"default");
 
         playButton.addListener(new ClickListener() {
             @Override
@@ -140,7 +132,7 @@ public class ChooseCharacterScreen implements Screen {
                 enemies.add(new Villain(0,0));
                 enemies.add(new Villain(0,0));
                 enemies.add(new Villain(0,0));
-                game.setScreen(new LevelScreen(game,character,enemies,1)); // Switch to the game screen
+                //game.setScreen(new LevelScreen(game,character,enemies,1)); // Switch to the game screen
             }
         });
 
@@ -184,6 +176,5 @@ public class ChooseCharacterScreen implements Screen {
         stage.dispose();
         stage.dispose();
         backgroundImageTexture.dispose();
-
     }
 }

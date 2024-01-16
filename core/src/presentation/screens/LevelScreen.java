@@ -28,6 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.Popup;
+
 import application.ai.Arch;
 import application.ai.Node;
 import application.ai.TilesGraph;
@@ -55,7 +57,6 @@ public class LevelScreen implements Screen {
     private HashMap<TilesGraph,Villain> graphVillainHashMap = new HashMap<>();
     private Random random = new Random();
     private Level level;
-
     public LevelScreen(Game game, Character mainCharacter, List<Villain> enemies, int numLevel){
         this.game = game;
         this.mainCharacter = mainCharacter;
@@ -180,7 +181,7 @@ public class LevelScreen implements Screen {
             }
             renderer.getBatch().end();
             if(mainCharacter.getMovementBox().overlaps(level.getEndLevel())){
-                this.game.setScreen(new LevelScreen(this.game, new Knight(0, 0), enemies,1));
+                this.game.setScreen(new UpgradeScreen(this.game, mainCharacter,1));
             }
         }else if(mainCharacter.getMovementBox().overlaps(level.getEndLevel())){
             mainCharacter.setPosition(mainCharacter.getPreviousX(), mainCharacter.getPreviousY());
