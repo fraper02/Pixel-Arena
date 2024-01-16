@@ -17,12 +17,15 @@ public class Level {
     private int numLivello;
     private List<Rectangle> collisionObjects = new ArrayList<>();
     private List<Rectangle> healingBases = new ArrayList<>();
+    private Rectangle endLevel;
     private List<Gemma> gems = new ArrayList<>();
     private MapLayers normalLayer;
+    private MapLayers endTiles;
     private TiledMapTileLayer leavesLayer;
     private TiledMapTileLayer bridgeLayer;
     private List<TiledMapTileLayer> legitLayers = new ArrayList<>();
     private TiledMap map;
+    private Rectangle startPoint;
 
     public Level(int numLivello){
         this.numLivello = numLivello;
@@ -30,6 +33,8 @@ public class Level {
         MapLayer collisionLayer = map.getLayers().get("Object Layer 1");
         MapLayer healingLayer = map.getLayers().get("HealingBases");
         MapLayer gemsLayer = map.getLayers().get("GemsLayer");
+        MapLayer endLayer = map.getLayers().get("EndLayer");
+        MapLayer startLayer = map.getLayers().get("Start");
         for (MapObject object : collisionLayer.getObjects()) {
             if (object instanceof RectangleMapObject) {
                 Rectangle rect = ((RectangleMapObject) object).getRectangle();
@@ -48,6 +53,8 @@ public class Level {
                 gems.add(new Gemma(rect.x, rect.y));
             }
         }
+        endLevel = ((RectangleMapObject) endLayer.getObjects().get(0)).getRectangle();
+        startPoint = ((RectangleMapObject) startLayer.getObjects().get(0)).getRectangle();;
         MapGroupLayer groupLayer = (MapGroupLayer) map.getLayers().get("NormalLayer");
         normalLayer = groupLayer.getLayers();
         leavesLayer = (TiledMapTileLayer) map.getLayers().get("tree&leavesWalkable");
@@ -55,6 +62,9 @@ public class Level {
 
         MapGroupLayer nodesLayers = (MapGroupLayer) map.getLayers().get("nodesLayers");
         MapLayers mapLayers = nodesLayers.getLayers();
+
+        MapGroupLayer endLayers = (MapGroupLayer) map.getLayers().get("EndLayers");
+        endTiles = endLayers.getLayers();
 
         for(MapLayer l : mapLayers){
             legitLayers.add((TiledMapTileLayer) l);
@@ -127,5 +137,17 @@ public class Level {
 
     public List<Gemma> getGems() {
         return gems;
+    }
+
+    public Rectangle getEndLevel() {
+        return endLevel;
+    }
+
+    public MapLayers getEndTiles() {
+        return endTiles;
+    }
+
+    public Rectangle getStartPoint() {
+        return startPoint;
     }
 }

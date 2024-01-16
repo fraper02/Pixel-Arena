@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="33" nextobjectid="182">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="35" nextobjectid="183">
  <editorsettings>
   <export target="MapOff.tmx" format="tmx"/>
  </editorsettings>
@@ -1605,5 +1605,8 @@
   <object id="175" x="719.909" y="672" width="16" height="16"/>
   <object id="176" x="1120" y="64.1042" width="16" height="15.8958"/>
   <object id="177" x="32" y="32" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="34" name="Start">
+  <object id="182" x="608" y="224" width="16" height="16"/>
  </objectgroup>
 </map>

@@ -82,60 +82,40 @@ public class LevelScreen implements Screen {
         shapeRenderer = new ShapeRenderer();
 
         int i = 0;
-        for(TiledMapTileLayer layer : level.getLegitLayers()){
-            TilesGraph graph = new TilesGraph();
-            for (int x = 0; x < layer.getWidth(); x++) {
-                for (int y = 0; y < layer.getHeight(); y++) {
-                    TiledMapTileLayer.Cell cell = layer.getCell(x, y);
-                    if (cell != null) {
-                        Node node = new Node(x, y);
-                        graph.addTiles(node);
+        if(!enemies.isEmpty()) {
+            for (TiledMapTileLayer layer : level.getLegitLayers()) {
+                TilesGraph graph = new TilesGraph();
+                for (int x = 0; x < layer.getWidth(); x++) {
+                    for (int y = 0; y < layer.getHeight(); y++) {
+                        TiledMapTileLayer.Cell cell = layer.getCell(x, y);
+                        if (cell != null) {
+                            Node node = new Node(x, y);
+                            graph.addTiles(node);
+                        }
                     }
                 }
-            }
 
-            for (Node fromNode : graph.getTiles()) {
-                for (Node toNode : graph.getTiles()) {
-                    if (!fromNode.equals(toNode)) {
-                        graph.connectAdjacentNodes(fromNode, toNode);
+                for (Node fromNode : graph.getTiles()) {
+                    for (Node toNode : graph.getTiles()) {
+                        if (!fromNode.equals(toNode)) {
+                            graph.connectAdjacentNodes(fromNode, toNode);
+                        }
                     }
                 }
+                graphs.add(graph);
+                enemies.get(i).setTilesGraph(graph);
+                graphVillainHashMap.put(graph, enemies.get(i));
+                enemies.get(i).setPosition((graph.getTiles().get(0).getX() * 16 + 8) - 32, (graph.getTiles().get(0).getY() * 16 + 8) - 24);
+                enemies.get(i).setNearNode(graph.getTiles().get(0));
+                enemies.get(i).setPath(graph.findPath(graph.getTiles().get(0), graph.getTiles().get(random.nextInt(0, graph.getTiles().size()))));
+                i++;
             }
-            graphs.add(graph);
-            enemies.get(i).setTilesGraph(graph);
-            graphVillainHashMap.put(graph,enemies.get(i));
-            i++;
         }
 
 
-        mainCharacter.setPosition((graphs.get(0).getTiles().get(0).getX() * 16 + 8) - 32,  (graphs.get(0).getTiles().get(0).getY() * 16 + 8) - 24);
-        mainCharacter.setNearNode(graphs.get(0).getTiles().get(0));
-
-        enemies.get(0).setPosition((graphs.get(0).getTiles().get(4).getX() * 16 + 8) - 32,(graphs.get(0).getTiles().get(4).getY() * 16 + 8) - 24);
-        enemies.get(1).setPosition((graphs.get(1).getTiles().get(26).getX() * 16 + 8) - 32,(graphs.get(1).getTiles().get(26).getY() * 16 + 8) - 24);
-        enemies.get(2).setPosition((graphs.get(2).getTiles().get(43).getX() * 16 + 8) - 32,(graphs.get(2).getTiles().get(43).getY() * 16 + 8) - 24);
-        //*enemies.get(3).setPosition((nodes.get(65).getX() * 16 + 8) - 32,(nodes.get(65).getY() * 16 + 8) - 24);
-
-        enemies.get(0).setNearNode(graphs.get(0).getTiles().get(4));
-        enemies.get(1).setNearNode(graphs.get(1).getTiles().get(26));
-        enemies.get(2).setNearNode(graphs.get(2).getTiles().get(43));
-        //enemies.get(3).setNearNode(graph.getTiles().get(65));*/
-
+        mainCharacter.setPosition(level.getStartPoint().getX(),  level.getStartPoint().getY());
 
         Gdx.input.setInputProcessor(inputManager);
-
-        paths.add(graphs.get(0).findPath(graphs.get(0).getTiles().get(4), graphs.get(0).getTiles().get(random.nextInt(0,93))));
-        paths.add(graphs.get(1).findPath(graphs.get(1).getTiles().get(7),graphs.get(1).getTiles().get(random.nextInt(0,189))));
-        paths.add(graphs.get(2).findPath(graphs.get(2).getTiles().get(15),graphs.get(2).getTiles().get(random.nextInt(0,70))));
-        int vi = 0;
-        for(Villain v: enemies){
-            v.setPath(paths.get(vi));
-            vi++;
-        }
-
-        enemies.get(1).doStopAndIdle();
-        enemies.get(2).doStopAndIdle();
-
     }
 
     @Override
@@ -193,6 +173,18 @@ public class LevelScreen implements Screen {
         currentFrame = inputManager.nextFrame(stateTime);
 
 
+        if(enemies.isEmpty()){
+            renderer.getBatch().begin();
+            for(MapLayer layer : level.getEndTiles()){
+                renderer.renderTileLayer((TiledMapTileLayer) layer);
+            }
+            renderer.getBatch().end();
+            if(mainCharacter.getMovementBox().overlaps(level.getEndLevel())){
+                this.game.setScreen(new LevelScreen(this.game, new Knight(0, 0), enemies,1));
+            }
+        }else if(mainCharacter.getMovementBox().overlaps(level.getEndLevel())){
+            mainCharacter.setPosition(mainCharacter.getPreviousX(), mainCharacter.getPreviousY());
+        }
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         for(Gemma g: level.getGems()){
@@ -340,6 +332,9 @@ public class LevelScreen implements Screen {
         }
     }
 
+    /**
+     * Check if the player picked up a gem
+     */
     private void checkGems(){
         for(int gem = 0; gem < level.getGems().size(); gem++){
             if(mainCharacter.getMovementBox().overlaps(level.getGems().get(gem).getHitBox())){
@@ -347,6 +342,5 @@ public class LevelScreen implements Screen {
                 level.getGems().remove(gem);
             }
         }
-        System.out.println(mainCharacter.getNumGemme());
     }
 }
