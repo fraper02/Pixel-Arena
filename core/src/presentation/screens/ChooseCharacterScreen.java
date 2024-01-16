@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+import application.Save.SaveManager;
 import application.entities.Knight;
 import application.entities.Villain;
 import application.entities.Character;
@@ -37,7 +38,6 @@ public class ChooseCharacterScreen implements Screen {
     private TextureRegionDrawable backgroundDrawable;
     private Skin skin;
     private Knight k1 = new Knight(0,0);
-    private Villain v1 = new Villain(1,1);
     private Character character = k1;
 
 
@@ -82,13 +82,6 @@ public class ChooseCharacterScreen implements Screen {
         Drawable drawableUpArcher = new TextureRegionDrawable(new TextureRegion(textureUpArcher));
         Drawable drawableDownArcher = new TextureRegionDrawable(new TextureRegion(textureDownArcher));
         Drawable drawableDisabledArcher = new TextureRegionDrawable(new TextureRegion(textureDisabledArcher));
-
-        buttonKnight.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                character = v1;
-            }
-        });
 
         ImageButton buttonArcher  = new ImageButton(drawableUpArcher,drawableDownArcher,drawableDisabledArcher);
         buttonArcher.setTransform(true);
@@ -138,6 +131,7 @@ public class ChooseCharacterScreen implements Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                SaveManager.saveStats(character, 1);
                 GameLoader gl = new GameLoader(game, character, 1);
                 gl.load();// Switch to the game screen
             }

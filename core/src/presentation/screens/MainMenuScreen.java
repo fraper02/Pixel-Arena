@@ -18,6 +18,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+import java.sql.Wrapper;
+
+import application.Save.SaveManager;
+import application.Save.SaveWrapper;
+import application.gamelogic.GameLoader;
+
 public class MainMenuScreen implements Screen {
     private Stage stage;
     private Game game;
@@ -66,12 +72,16 @@ public class MainMenuScreen implements Screen {
 
         TextButton playButton = new TextButton("New Game", skin,"default");
         TextButton loadGameButton = new TextButton("Load Game",skin,"default");
+        TextButton exitGameButton = new TextButton("Exit Game",skin,"default");
 
-        playButton.setPosition(350, 75); // Center the button on the screen
         playButton.setSize(155,44);
+        playButton.setPosition(350, 0 + playButton.getHeight() * 3);
 
-        loadGameButton.setPosition(365,30);
-        loadGameButton.setSize(134,40);
+        loadGameButton.setSize(155,44);
+        loadGameButton.setPosition(350,playButton.getY() - loadGameButton.getHeight() - 10);
+
+        exitGameButton.setSize(155, 44);
+        exitGameButton.setPosition(350, loadGameButton.getY() - exitGameButton.getHeight() - 10);
 
         mainLabel = new Texture(Gdx.files.internal("MenuImages/LABEL.png"));
         Image mainLabelImg = new Image(mainLabel);
@@ -89,10 +99,23 @@ public class MainMenuScreen implements Screen {
         loadGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //game.setScreen(); // Switch to the game screen
+                SaveWrapper wrapper = SaveManager.loadStats();//Save and load the game from the last save
+                GameLoader gl = new GameLoader(game, wrapper.getMainCharacter(), wrapper.getNumLevel());
+                System.out.println(wrapper.getNumLevel());
+                if(wrapper.getNumLevel() <= gl.getMaxNumLevel()){
+                    gl.load();
+                }
             }
         });
 
+        exitGameButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+               Gdx.app.exit(); // Exit the game
+            }
+        });
+
+        stage.addActor(exitGameButton);
         stage.addActor(playButton);
         stage.addActor(loadGameButton);
     }
