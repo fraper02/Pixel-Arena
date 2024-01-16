@@ -59,57 +59,50 @@ public class UpgradeScreen implements Screen {
         stage.addActor(backgroundImage);
 
 
-        Texture textureUp = new Texture(Gdx.files.internal("textures/heart.png")); // Stato normale
-        Texture textureDown = new Texture(Gdx.files.internal("textures/heart.png")); // Stato premuto (opzionale)
-        Texture textureDisabled = new Texture(Gdx.files.internal("textures/heart.png")); // Stato disabilitato (opzionale)
+        Texture textureUpHeart = new Texture(Gdx.files.internal("textures/heart.png")); // Stato normale
+        Texture textureDownHeart = new Texture(Gdx.files.internal("textures/heart.png")); // Stato premuto (opzionale)
+        Texture textureDisabledHeart = new Texture(Gdx.files.internal("textures/heart.png")); // Stato disabilitato (opzionale)
 
-        Drawable drawableUp = new TextureRegionDrawable(new TextureRegion(textureUp));
-        Drawable drawableDown = new TextureRegionDrawable(new TextureRegion(textureDown));
-        Drawable drawableDisabled = new TextureRegionDrawable(new TextureRegion(textureDisabled));
+        Drawable drawableUpHeart = new TextureRegionDrawable(new TextureRegion(textureUpHeart));
+        Drawable drawableDownHeart = new TextureRegionDrawable(new TextureRegion(textureDownHeart));
+        Drawable drawableDisabledHeart = new TextureRegionDrawable(new TextureRegion(textureDisabledHeart));
 
-        ImageButton buttonKnight = new ImageButton(drawableUp, drawableDown, drawableDisabled);
-        buttonKnight.setTransform(true);
-        buttonKnight.setSize(100,100);
-        buttonKnight.setScale((float)1.6, (float)1);
-        buttonKnight.setPosition(223,170);
-        stage.addActor(buttonKnight);
+        ImageButton heart = new ImageButton(drawableUpHeart, drawableDownHeart, drawableDisabledHeart);
+        heart.setTransform(true);
+        heart.setSize(100,100);
+        heart.setScale((float)1.6, (float)1);
+        heart.setPosition(350,240);
+        stage.addActor(heart);
 
-        Texture textureUpArcher = new Texture(Gdx.files.internal("textures/sword.png")); // Stato normale
-        Texture textureDownArcher = new Texture(Gdx.files.internal("textures/sword.png")); // Stato premuto (opzionale)
-        Texture textureDisabledArcher = new Texture(Gdx.files.internal("textures/sword.png")); // Stato disabilitato (opzionale)
+        Texture textureUpSword = new Texture(Gdx.files.internal("textures/sword.png")); // Stato normale
+        Texture textureDownSword = new Texture(Gdx.files.internal("textures/sword.png")); // Stato premuto (opzionale)
+        Texture textureDisabledSword = new Texture(Gdx.files.internal("textures/sword.png")); // Stato disabilitato (opzionale)
 
-        Drawable drawableUpArcher = new TextureRegionDrawable(new TextureRegion(textureUpArcher));
-        Drawable drawableDownArcher = new TextureRegionDrawable(new TextureRegion(textureDownArcher));
-        Drawable drawableDisabledArcher = new TextureRegionDrawable(new TextureRegion(textureDisabledArcher));
+        Drawable drawableUpSword = new TextureRegionDrawable(new TextureRegion(textureUpSword));
+        Drawable drawableDownSword = new TextureRegionDrawable(new TextureRegion(textureDownSword));
+        Drawable drawableDisabledSword = new TextureRegionDrawable(new TextureRegion(textureDisabledSword));
 
-        buttonKnight.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
+        ImageButton sword  = new ImageButton(drawableUpSword,drawableDownSword,drawableDisabledSword);
+        sword.setTransform(true);
+        sword.setSize(100,100);
+        sword.setScale((float)1.6, (float)1);
+        sword.setPosition(50,240);
+        stage.addActor(sword);
 
-            }
-        });
+        Texture textureUpWings = new Texture(Gdx.files.internal("textures/wings.png")); // Stato normale
+        Texture textureDownWings = new Texture(Gdx.files.internal("textures/wings.png")); // Stato premuto (opzionale)
+        Texture textureDisableWings = new Texture(Gdx.files.internal("textures/wings.png")); // Stato disabilitato (opzionale)
 
-        ImageButton buttonArcher  = new ImageButton(drawableUpArcher,drawableDownArcher,drawableDisabledArcher);
-        buttonArcher.setTransform(true);
-        buttonArcher.setSize(100,100);
-        buttonArcher.setScale((float)1.6, (float)1);
-        buttonArcher.setPosition(23,170);
-        stage.addActor(buttonArcher);
+        Drawable drawableUpWings= new TextureRegionDrawable(new TextureRegion(textureUpWings));
+        Drawable drawableDownWings = new TextureRegionDrawable(new TextureRegion(textureDownWings));
+        Drawable drawableDisabledWings = new TextureRegionDrawable(new TextureRegion(textureDisableWings));
 
-        Texture textureUpWizard = new Texture(Gdx.files.internal("textures/wings.png")); // Stato normale
-        Texture textureDownWizard = new Texture(Gdx.files.internal("textures/wings.png")); // Stato premuto (opzionale)
-        Texture textureDisableWizard = new Texture(Gdx.files.internal("textures/wings.png")); // Stato disabilitato (opzionale)
-
-        Drawable drawableUpWizard = new TextureRegionDrawable(new TextureRegion(textureUpWizard));
-        Drawable drawableDownWizard = new TextureRegionDrawable(new TextureRegion(textureDownWizard));
-        Drawable drawableDisabledWizard = new TextureRegionDrawable(new TextureRegion(textureDisableWizard));
-
-        ImageButton buttonWizard  = new ImageButton(drawableUpWizard,drawableDownWizard,drawableDisabledWizard);
-        buttonWizard.setTransform(true);
-        buttonWizard.setSize(100,100);
-        buttonWizard.setScale((float)1.6, (float)1);
-        buttonWizard.setPosition(423,170);
-        stage.addActor(buttonWizard);
+        ImageButton wings  = new ImageButton(drawableUpWings,drawableDownWings,drawableDisabledWings);
+        wings.setTransform(true);
+        wings.setSize(100,100);
+        wings.setScale((float)1.6, (float)1);
+        wings.setPosition(650,240);
+        stage.addActor(wings);
 
         Pixmap pixmap = new Pixmap(2, 2, Pixmap.Format.RGB888);
         pixmap.setColor(Color.BROWN);
@@ -122,26 +115,34 @@ public class UpgradeScreen implements Screen {
         textButtonStyle.down = backgroundDrawable;
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
-        TextButton playButton = new TextButton("GO to Save ->", skin , "default");
+        TextButton saveButton = new TextButton("GO to Save ->", skin , "default");
         TextButton ChooseButton = new TextButton("Choose the Power Ups",skin,"default");
+        TextButton atkButton = new TextButton("Health Points: " + mainCharacter.getHealthPoints(), skin, "default");
+        TextButton healtButton = new TextButton("Attack: " + mainCharacter.getAttackPower(), skin, "default");
+        TextButton speedButton = new TextButton("Speed: " + mainCharacter.getStandardSpeed(), skin, "default");
 
-        playButton.addListener(new ClickListener() {
+        saveButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                List<Villain> enemies = new ArrayList<>();
-                enemies.add(new Villain(0,0));
-                enemies.add(new Villain(0,0));
-                enemies.add(new Villain(0,0));
-                //game.setScreen(new LevelScreen(game,character,enemies,1)); // Switch to the game screen
+
             }
         });
 
-        playButton.setPosition(290, 70);
-        playButton.setSize(260,44);
+        saveButton.setPosition(290, 70);
+        saveButton.setSize(260,44);
         ChooseButton.setPosition(290,400);
         ChooseButton.setSize(260,44);
-        stage.addActor(playButton);
+        atkButton.setSize(260,44);
+        atkButton.setPosition(50,170);
+        healtButton.setSize(260,44);
+        healtButton.setPosition(50,170);
+        speedButton.setSize(260,44);
+        speedButton.setPosition(50,170);
+        stage.addActor(saveButton);
         stage.addActor(ChooseButton);
+        stage.addActor(atkButton);
+        stage.addActor(speedButton);
+        stage.addActor(healtButton);
     }
 
     @Override
