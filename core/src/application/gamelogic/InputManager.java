@@ -8,26 +8,23 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import application.ai.TilesGraph;
 import application.entities.Character;
 import application.entities.Villain;
+import presentation.music.AudioManager;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class InputManager extends InputAdapter {
 
-    Character character;
+    private Character character;
     private HashMap<TilesGraph,Villain> graphVillainHashMap;
     private boolean leftPressed = false;
     private boolean rightPressed = false;
-
     private boolean upPressed = false;
-
     private boolean downPressed = false;
-
     private boolean attackPressed = false;
-
     float keyframe = 0;
-
     float startTime = 0;
+    private AudioManager audioManager = AudioManager.getInstance();
 
     /**
      * Initialize the InputManager class
@@ -118,8 +115,15 @@ public class InputManager extends InputAdapter {
             startTime = stateTime;
             attackPressed = true;
             if(character.getTilesGraph() != null){
-                character.checkAttack(graphVillainHashMap.get(character.getTilesGraph()));
+                if(character.checkAttack(graphVillainHashMap.get(character.getTilesGraph()))){
+                    audioManager.playHit();
+                }else{
+                    audioManager.playMiss();
+                }
+            }else{
+                audioManager.playMiss();
             }
+
             keyframe = 0;
         }
 

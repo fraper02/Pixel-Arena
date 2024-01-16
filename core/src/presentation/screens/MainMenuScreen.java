@@ -18,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
-import presentation.music.AudioManagerIntro;
+import presentation.music.MusicManager;
 
 public class MainMenuScreen implements Screen {
     private Stage stage;
@@ -29,7 +29,7 @@ public class MainMenuScreen implements Screen {
     private Texture mainLabel;
     private TextureRegionDrawable backgroundDrawable;
     private TextureRegionDrawable backgroundDrawable2;
-    private AudioManagerIntro audioManagerIntro = AudioManagerIntro.getInstance();
+    private MusicManager musicManager = MusicManager.getInstance();
     public MainMenuScreen(Game game) {
         this.game = game;
     }
@@ -98,7 +98,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(playButton);
         stage.addActor(loadGameButton);
 
-        audioManagerIntro.playMusic();
+        musicManager.playIntro();
     }
 
     @Override
