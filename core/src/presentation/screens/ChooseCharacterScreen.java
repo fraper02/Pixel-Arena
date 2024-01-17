@@ -105,8 +105,19 @@ public class ChooseCharacterScreen implements Screen {
         buttonWizard.setPosition(500,170);
         stage.addActor(buttonWizard);
 
-
-
+        Texture backArrow = new Texture(Gdx.files.internal("MenuImages/freccia.png")); // Stato normale
+        Drawable backArrowDrawable = new TextureRegionDrawable(new TextureRegion(backArrow));
+        ImageButton buttonArrow = new ImageButton(backArrowDrawable);
+        buttonArrow.setTransform(true);
+        buttonArrow.setSize(70,70);
+        buttonArrow.setPosition(0, stage.getHeight() - buttonArrow.getHeight());
+        buttonArrow.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                game.setScreen(new MainMenuScreen(game));
+            }
+        });
+        stage.addActor(buttonArrow);
 
         Texture myTexture = new Texture(Gdx.files.internal("MenuImages/Bordo.png"));
         Image bordo = new Image(myTexture);
