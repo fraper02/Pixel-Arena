@@ -2,6 +2,7 @@ package presentation.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.graphics.Color;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.mygdx.game.PixelArenaGame;
 
 import java.util.ArrayList;
 
@@ -36,9 +38,10 @@ import application.gamelogic.InputManager;
 import presentation.hud.LevelHud;
 import presentation.music.AudioManager;
 import presentation.music.MusicManager;
+import presentation.ui.PauseMenu;
 
 public class LevelScreen implements Screen {
-    private Game game;
+    private PixelArenaGame game;
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer renderer;
@@ -56,10 +59,11 @@ public class LevelScreen implements Screen {
     private MusicManager musicManager = MusicManager.getInstance();
     private AudioManager audioManager = AudioManager.getInstance();
     private LevelHud hud;
+    private PauseMenu pauseMenu;
 
     private GameLoader loader;
     public LevelScreen(Game game, Character mainCharacter, List<Villain> enemies, int numLevel){
-        this.game = game;
+        this.game = (PixelArenaGame) game;
         this.mainCharacter = mainCharacter;
         this.enemies = enemies;
         this.graphs = new ArrayList<>();
@@ -80,6 +84,7 @@ public class LevelScreen implements Screen {
         mainCharacter.doStopAndIdle();
         inputManager = new InputManager(mainCharacter, graphVillainHashMap);
         hud = new LevelHud();
+        pauseMenu = new PauseMenu(game);
         shapeRenderer = new ShapeRenderer();
 
         int i = 0;
@@ -130,70 +135,79 @@ public class LevelScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        if(!mainCharacter.isAlive()){
-            mainCharacter.setHealthPoints(mainCharacter.getMaxHealthPoints());
-            mainCharacter.setAlive(true);
-            loader.load();
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            game.togglePause();
         }
+        if(!game.isPaused()) {
+            Gdx.gl.glClearColor(0, 0, 0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            Gdx.input.setInputProcessor(inputManager);
 
-        this.update();
-        stateTime += delta;
+            if (!mainCharacter.isAlive()) {
+                mainCharacter.setHealthPoints(mainCharacter.getMaxHealthPoints());
+                mainCharacter.setAlive(true);
+                loader.load();
+            }
 
-
-        camera.position.set(mainCharacter.getX() + 32, mainCharacter.getY() + 32,0);
-        camera.zoom = 0.3f;
-        camera.update();
-        renderer.setView(camera);
-        renderer.getBatch().begin();
-        for(MapLayer layer : level.getNormalLayer()){
-            renderer.renderTileLayer((TiledMapTileLayer) layer);
-        }
-        renderer.getBatch().end();
-        this.update();
-
-        currentFrame = inputManager.nextFrame(stateTime);
+            this.update();
+            stateTime += delta;
 
 
-        if(enemies.isEmpty()){
+            camera.position.set(mainCharacter.getX() + 32, mainCharacter.getY() + 32, 0);
+            camera.zoom = 0.3f;
+            camera.update();
+            renderer.setView(camera);
             renderer.getBatch().begin();
-            for(MapLayer layer : level.getEndTiles()){
+            for (MapLayer layer : level.getNormalLayer()) {
                 renderer.renderTileLayer((TiledMapTileLayer) layer);
             }
             renderer.getBatch().end();
-            if(mainCharacter.getMovementBox().overlaps(level.getEndLevel())){
-                mainCharacter.setHealthPoints(mainCharacter.getMaxHealthPoints());
-                this.game.setScreen(new UpgradeScreen(this.game, mainCharacter,level.getNumLivello()));
+            this.update();
+
+            currentFrame = inputManager.nextFrame(stateTime);
+
+
+            if (enemies.isEmpty()) {
+                renderer.getBatch().begin();
+                for (MapLayer layer : level.getEndTiles()) {
+                    renderer.renderTileLayer((TiledMapTileLayer) layer);
+                }
+                renderer.getBatch().end();
+                if (mainCharacter.getMovementBox().overlaps(level.getEndLevel())) {
+                    mainCharacter.setHealthPoints(mainCharacter.getMaxHealthPoints());
+                    this.game.setScreen(new UpgradeScreen(this.game, mainCharacter, level.getNumLivello()));
+                }
+            } else if (mainCharacter.getMovementBox().overlaps(level.getEndLevel())) {
+                mainCharacter.setPosition(mainCharacter.getPreviousX(), mainCharacter.getPreviousY());
             }
-        }else if(mainCharacter.getMovementBox().overlaps(level.getEndLevel())){
-            mainCharacter.setPosition(mainCharacter.getPreviousX(), mainCharacter.getPreviousY());
-        }
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        for(Gemma g: level.getGems()){
-            batch.draw(g.getTexture(), g.getHitBox().x, g.getHitBox().y);
-        }
-        for(Villain v : enemies){
-            if(v.getY() >= mainCharacter.getY()){
-                currentFrameVillain = v.getNextStep(stateTime,mainCharacter);
-                batch.draw(currentFrameVillain, v.getX(), v.getY());
+            batch.setProjectionMatrix(camera.combined);
+            batch.begin();
+            for (Gemma g : level.getGems()) {
+                batch.draw(g.getTexture(), g.getHitBox().x, g.getHitBox().y);
             }
-        }
-        batch.draw(currentFrame,mainCharacter.getX(),mainCharacter.getY());
-        for(Villain v : enemies){
-            if(v.getY() < mainCharacter.getY()){
-                currentFrameVillain = v.getNextStep(stateTime,mainCharacter);
-                batch.draw(currentFrameVillain, v.getX(), v.getY());
+            for (Villain v : enemies) {
+                if (v.getY() >= mainCharacter.getY()) {
+                    currentFrameVillain = v.getNextStep(stateTime, mainCharacter);
+                    batch.draw(currentFrameVillain, v.getX(), v.getY());
+                }
             }
+            batch.draw(currentFrame, mainCharacter.getX(), mainCharacter.getY());
+            for (Villain v : enemies) {
+                if (v.getY() < mainCharacter.getY()) {
+                    currentFrameVillain = v.getNextStep(stateTime, mainCharacter);
+                    batch.draw(currentFrameVillain, v.getX(), v.getY());
+                }
+            }
+            batch.end();
+            renderer.getBatch().begin();
+            renderer.renderTileLayer(level.getLeavesLayer());
+            renderer.renderTileLayer(level.getBridgeLayer());
+            renderer.getBatch().end();
+            hud.render();
+        }else{
+            Gdx.input.setInputProcessor(pauseMenu);
+            pauseMenu.render();
         }
-        batch.end();
-        renderer.getBatch().begin();
-        renderer.renderTileLayer(level.getLeavesLayer());
-        renderer.renderTileLayer(level.getBridgeLayer());
-        renderer.getBatch().end();
-        hud.render();
     }
 
     @Override
@@ -219,7 +233,6 @@ public class LevelScreen implements Screen {
 
     @Override
     public void pause() {
-
     }
 
     @Override
