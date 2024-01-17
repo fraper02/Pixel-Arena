@@ -123,6 +123,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(playButton);
         stage.addActor(loadGameButton);
 
+        musicManager.stopBattle();
         musicManager.playIntro();
     }
 

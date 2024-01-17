@@ -15,9 +15,17 @@ import presentation.screens.MainMenuScreen;
 
 
 public class PixelArenaGame extends Game {
-
+	private boolean isPaused = false;
 	@Override
 	public void create () {
 		setScreen(new MainMenuScreen(this));
+	}
+
+	public boolean isPaused() {
+		return isPaused;
+	}
+
+	public void togglePause() {
+		isPaused = !isPaused;
 	}
 }
