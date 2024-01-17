@@ -37,6 +37,7 @@ public class TilesGraph implements IndexedGraph<Node> {
      * return all fromNode connections
      * @param fromNode the node whose outgoing connections will be returned
      * @return An Array with the connections.
+     * @Pre il nodo fromNode deve essere non nullo
      */
 
     @Override
@@ -51,6 +52,7 @@ public class TilesGraph implements IndexedGraph<Node> {
     /**
      * Adds nodes to the ArrayList, and updates the index that will be used by the IndexedA*
      * @param node represent the passed node
+     * @Pre node deve essere un nodo non nullo.
      */
 
     public void addTiles(Node node){
@@ -64,6 +66,7 @@ public class TilesGraph implements IndexedGraph<Node> {
      * A method that menage the way to connect the different node.
      * @param fromNode is the start node.
      * @param toNode is the arrival node.
+     * @Pre Numeri di nodi nel grafo > 1, fromNode e toNode devono essere Nodi non nulli e diversi tra loro.
      */
     public void connectAdjacentNodes(Node fromNode, Node toNode){
         if(fromNode.isAdjacentTo(toNode,3)) {
@@ -80,7 +83,9 @@ public class TilesGraph implements IndexedGraph<Node> {
      * This method menage the way to find a path in the graph, we use the A* Algorithm.
      * @param startNode
      * @param goalNode represent the node where the mainCharacter is situated.
-     * @return the graphPath.
+     * @return il path da startNode a GoaLNode
+     * @Pre startNode e goalNode devono essere due nodi validi non nulli nel grafo
+     * @Pre Esiste un percorso tra startNode al goalNode
      */
     public GraphPath<Node> findPath(Node startNode, Node goalNode){
         GraphPath<Node> cityPath = new DefaultGraphPath<>();

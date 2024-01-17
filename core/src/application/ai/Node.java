@@ -31,6 +31,7 @@ public class Node {
      * @param node it is the explicit node to compare with the implicit node
      * @param maxDistance it's the maxDistance we want (in term of tiles) between nodes
      * @return true if the nodes can be connected otherwise returns false
+     * @Pre maxDistance deve essere un valore > 0
      */
     public boolean isAdjacentTo(Node node, int maxDistance){
         int distanceX = Math.abs(this.x - node.x );

@@ -14,6 +14,7 @@ public class Arch implements Connection<Node> {
      * Initialize a connection between two nodes and calculates the connection cost
      * @param fromTile starting point of the connection
      * @param toTile end point of the connection
+     * @Pre fromtTile e toTile devono essere due nodi non nulli
      */
     public Arch(Node fromTile,Node toTile){
         this.fromTile = fromTile;

@@ -9,6 +9,7 @@ public class TileHeuristic implements Heuristic<Node> {
      * @param node the start node
      * @param endNode the end node
      * @return returns the estimated cost, in this case the distance between the start node and the end node
+     * @Pre node e andNode devono essere nodi non nulli
      */
     @Override
     public float estimate(Node node, Node endNode) {
