@@ -33,6 +33,7 @@ import application.entities.Level;
 import application.entities.Villain;
 import application.gamelogic.InputManager;
 import presentation.hud.LevelHud;
+import presentation.music.AudioManager;
 import presentation.music.MusicManager;
 
 public class LevelScreen implements Screen {
@@ -52,6 +53,7 @@ public class LevelScreen implements Screen {
     private Random random = new Random();
     private Level level;
     private MusicManager musicManager = MusicManager.getInstance();
+    private AudioManager audioManager = AudioManager.getInstance();
     private LevelHud hud;
     public LevelScreen(Game game, Character mainCharacter, List<Villain> enemies, int numLevel){
         this.game = game;
@@ -341,6 +343,7 @@ public class LevelScreen implements Screen {
     private void checkGems(){
         for(int gem = 0; gem < level.getGems().size(); gem++){
             if(mainCharacter.getMovementBox().overlaps(level.getGems().get(gem).getHitBox())){
+                audioManager.playGemPickup();
                 mainCharacter.setNumGemme(mainCharacter.getNumGemme() + 1);
                 level.getGems().remove(gem);
             }
