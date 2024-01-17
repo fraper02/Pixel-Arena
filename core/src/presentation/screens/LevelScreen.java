@@ -32,6 +32,7 @@ import application.entities.Knight;
 import application.entities.Level;
 import application.entities.Villain;
 import application.gamelogic.InputManager;
+import presentation.hud.LevelHud;
 import presentation.music.MusicManager;
 
 public class LevelScreen implements Screen {
@@ -47,17 +48,16 @@ public class LevelScreen implements Screen {
     private List<Villain> enemies;
     private ShapeRenderer shapeRenderer;
     private List<TilesGraph> graphs;
-    private List<GraphPath<Node>> paths;
     private HashMap<TilesGraph,Villain> graphVillainHashMap = new HashMap<>();
     private Random random = new Random();
     private Level level;
     private MusicManager musicManager = MusicManager.getInstance();
+    private LevelHud hud;
     public LevelScreen(Game game, Character mainCharacter, List<Villain> enemies, int numLevel){
         this.game = game;
         this.mainCharacter = mainCharacter;
         this.enemies = enemies;
         this.graphs = new ArrayList<>();
-        this.paths = new ArrayList<>();
         this.level = new Level(numLevel);
     }
 
@@ -74,7 +74,7 @@ public class LevelScreen implements Screen {
 
         mainCharacter.doStopAndIdle();
         inputManager = new InputManager(mainCharacter, graphVillainHashMap);
-
+        hud = new LevelHud();
         shapeRenderer = new ShapeRenderer();
 
         int i = 0;
@@ -114,6 +114,7 @@ public class LevelScreen implements Screen {
         musicManager.stopIntro();
         musicManager.playBattle();
 
+        hud.setHealthPoints(mainCharacter.getHealthPoints());
         Gdx.input.setInputProcessor(inputManager);
     }
 
@@ -132,7 +133,7 @@ public class LevelScreen implements Screen {
 
 
         camera.position.set(mainCharacter.getX() + 32, mainCharacter.getY() + 32,0);
-        camera.zoom = 0.6f;
+        camera.zoom = 0.3f;
         camera.update();
         renderer.setView(camera);
         renderer.getBatch().begin();
@@ -208,6 +209,7 @@ public class LevelScreen implements Screen {
         renderer.renderTileLayer(level.getLeavesLayer());
         renderer.renderTileLayer(level.getBridgeLayer());
         renderer.getBatch().end();
+        hud.render();
     }
 
     @Override
@@ -220,6 +222,7 @@ public class LevelScreen implements Screen {
      * Method that updates the status of the game calling different check methods
      */
     public void update(){
+        hud.setHealthPoints(mainCharacter.getHealthPoints());
         this.updateAI();
         this.mapCollision();
         this.charactersCollision();

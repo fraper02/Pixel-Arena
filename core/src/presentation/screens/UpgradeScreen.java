@@ -62,9 +62,9 @@ public class UpgradeScreen implements Screen {
         stage.addActor(backgroundImage);
 
 
-        Texture textureUpHeart = new Texture(Gdx.files.internal("textures/heart.png")); // Stato normale
-        Texture textureDownHeart = new Texture(Gdx.files.internal("textures/heart.png")); // Stato premuto (opzionale)
-        Texture textureDisabledHeart = new Texture(Gdx.files.internal("textures/heart.png")); // Stato disabilitato (opzionale)
+        Texture textureUpHeart = new Texture(Gdx.files.internal("MenuImages/heart.png")); // Stato normale
+        Texture textureDownHeart = new Texture(Gdx.files.internal("MenuImages/heart.png")); // Stato premuto (opzionale)
+        Texture textureDisabledHeart = new Texture(Gdx.files.internal("MenuImages/heart.png")); // Stato disabilitato (opzionale)
 
         Drawable drawableUpHeart = new TextureRegionDrawable(new TextureRegion(textureUpHeart));
         Drawable drawableDownHeart = new TextureRegionDrawable(new TextureRegion(textureDownHeart));
@@ -86,9 +86,9 @@ public class UpgradeScreen implements Screen {
         });
         stage.addActor(heart);
 
-        Texture textureUpSword = new Texture(Gdx.files.internal("textures/sword.png")); // Stato normale
-        Texture textureDownSword = new Texture(Gdx.files.internal("textures/sword.png")); // Stato premuto (opzionale)
-        Texture textureDisabledSword = new Texture(Gdx.files.internal("textures/sword.png")); // Stato disabilitato (opzionale)
+        Texture textureUpSword = new Texture(Gdx.files.internal("MenuImages/sword.png")); // Stato normale
+        Texture textureDownSword = new Texture(Gdx.files.internal("MenuImages/sword.png")); // Stato premuto (opzionale)
+        Texture textureDisabledSword = new Texture(Gdx.files.internal("MenuImages/sword.png")); // Stato disabilitato (opzionale)
 
         Drawable drawableUpSword = new TextureRegionDrawable(new TextureRegion(textureUpSword));
         Drawable drawableDownSword = new TextureRegionDrawable(new TextureRegion(textureDownSword));
@@ -110,9 +110,9 @@ public class UpgradeScreen implements Screen {
         });
         stage.addActor(sword);
 
-        Texture textureUpWings = new Texture(Gdx.files.internal("textures/wings.png")); // Stato normale
-        Texture textureDownWings = new Texture(Gdx.files.internal("textures/wings.png")); // Stato premuto (opzionale)
-        Texture textureDisableWings = new Texture(Gdx.files.internal("textures/wings.png")); // Stato disabilitato (opzionale)
+        Texture textureUpWings = new Texture(Gdx.files.internal("MenuImages/wings.png")); // Stato normale
+        Texture textureDownWings = new Texture(Gdx.files.internal("MenuImages/wings.png")); // Stato premuto (opzionale)
+        Texture textureDisableWings = new Texture(Gdx.files.internal("MenuImages/wings.png")); // Stato disabilitato (opzionale)
 
         Drawable drawableUpWings= new TextureRegionDrawable(new TextureRegion(textureUpWings));
         Drawable drawableDownWings = new TextureRegionDrawable(new TextureRegion(textureDownWings));
