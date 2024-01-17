@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import application.Save.SaveManager;
 import application.entities.Character;
 import application.gamelogic.GameLoader;
+import presentation.music.MusicManager;
 
 public class UpgradeScreen implements Screen {
 
@@ -38,6 +39,7 @@ public class UpgradeScreen implements Screen {
     private TextButton healthButton;
     private TextButton speedButton;
     private TextButton numGems;
+    private MusicManager musicManager = MusicManager.getInstance();
 
     public UpgradeScreen(Game game, Character mainCharacter, int numLevel) {
         this.game = game;
@@ -160,6 +162,7 @@ public class UpgradeScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SaveManager.saveStats(mainCharacter, numLevel +1);
+                musicManager.stopBattle();
                 game.setScreen(new MainMenuScreen(game));
             }
         });
