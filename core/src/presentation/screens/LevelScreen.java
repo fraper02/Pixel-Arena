@@ -123,7 +123,6 @@ public class LevelScreen implements Screen {
         hud.setEnemiesNum(enemies.size());
         Gdx.input.setInputProcessor(inputManager);
 
-        loader = new GameLoader(game,mainCharacter,level.getNumLivello());
     }
 
     @Override
@@ -132,9 +131,8 @@ public class LevelScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if(!mainCharacter.isAlive()){
-            mainCharacter.setHealthPoints(mainCharacter.getMaxHealthPoints());
-            mainCharacter.setAlive(true);
-            loader.load();
+            musicManager.stopBattle();
+            this.game.setScreen(new GameOverScreen(enemies,game,mainCharacter,level.getNumLivello()));
         }
 
         this.update();
