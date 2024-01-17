@@ -51,7 +51,6 @@ public class PauseMenu extends Stage {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 pixelArenaGame.togglePause();
-                System.out.println("Riprendi");
             }
         });
 
@@ -63,7 +62,6 @@ public class PauseMenu extends Stage {
             public void clicked(InputEvent event, float x, float y){
                 pixelArenaGame.togglePause();
                 pixelArenaGame.setScreen(new MainMenuScreen(pixelArenaGame));
-                System.out.println("Esci");
             }
         });
         this.addActor(pauseTitle);

@@ -59,7 +59,6 @@ public class GameOverScreen implements Screen{
     @Override
     public void show() {
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
-        Gdx.input.setInputProcessor(stage);
 
         musicManager.playGameOver();
 
@@ -99,6 +98,7 @@ public class GameOverScreen implements Screen{
         restartGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                System.out.println("Restart");
                 mainCharacter.setHealthPoints(mainCharacter.getMaxHealthPoints());
                 mainCharacter.setAlive(true);
                 musicManager.stopGameOver();
@@ -109,6 +109,7 @@ public class GameOverScreen implements Screen{
         backToMainMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                System.out.println("Ritorna");
                 musicManager.stopGameOver();
                 game.setScreen(new MainMenuScreen(game));
             }
@@ -117,14 +118,12 @@ public class GameOverScreen implements Screen{
         stage.addActor(restartGame);
         stage.addActor(backToMainMenu);
         Gdx.input.setInputProcessor(stage);
-
     }
 
     @Override
     public void render(float delta) {
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-
-
     }
 
     @Override
