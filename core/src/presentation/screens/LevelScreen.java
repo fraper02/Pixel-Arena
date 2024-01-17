@@ -31,6 +31,7 @@ import application.entities.Gemma;
 import application.entities.Knight;
 import application.entities.Level;
 import application.entities.Villain;
+import application.gamelogic.GameLoader;
 import application.gamelogic.InputManager;
 import presentation.hud.LevelHud;
 import presentation.music.AudioManager;
@@ -55,6 +56,8 @@ public class LevelScreen implements Screen {
     private MusicManager musicManager = MusicManager.getInstance();
     private AudioManager audioManager = AudioManager.getInstance();
     private LevelHud hud;
+
+    private GameLoader loader;
     public LevelScreen(Game game, Character mainCharacter, List<Villain> enemies, int numLevel){
         this.game = game;
         this.mainCharacter = mainCharacter;
@@ -117,7 +120,12 @@ public class LevelScreen implements Screen {
         musicManager.playBattle();
 
         hud.setHealthPoints(mainCharacter.getHealthPoints());
+        hud.setGemsCounter(mainCharacter.getNumGemme());
+        hud.setNumLevel("Level: " + level.getNumLivello());
+        hud.setEnemiesNum(enemies.size());
         Gdx.input.setInputProcessor(inputManager);
+
+        loader = new GameLoader(game,mainCharacter,level.getNumLivello());
     }
 
     @Override
@@ -127,7 +135,8 @@ public class LevelScreen implements Screen {
 
         if(!mainCharacter.isAlive()){
             mainCharacter.setHealthPoints(mainCharacter.getMaxHealthPoints());
-            this.game.setScreen(new LevelScreen(this.game, new Knight(0, 0), enemies,1));
+            mainCharacter.setAlive(true);
+            loader.load();
         }
 
         this.update();
@@ -145,34 +154,6 @@ public class LevelScreen implements Screen {
         renderer.getBatch().end();
         this.update();
 
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
-        for(Character v: enemies){
-            Villain v1 = (Villain) v;
-            shapeRenderer.setColor(Color.GREEN);
-            shapeRenderer.rect(v1.getActionArea().getX(),v1.getActionArea().getY(), v1.getActionArea().getWidth(), v1.getActionArea().getHeight());
-            for(Node node: v1.getTilesGraph().getTiles()){
-
-                shapeRenderer.setColor(Color.RED);
-                shapeRenderer.circle(node.getX() * 16 + 8, node.getY() * 16 + 8, 8);
-            }
-            for(Node node: v1.getCurrentPath()){
-
-                shapeRenderer.setColor(Color.WHITE);
-                shapeRenderer.circle(node.getX() * 16 + 8, node.getY() * 16 + 8, 8);
-            }
-            shapeRenderer.setColor(Color.BLUE);
-
-            for(Arch a: v1.getTilesGraph().getConnectionsLines()){
-
-                a.render(shapeRenderer);
-            }
-        }
-        shapeRenderer.setColor(Color.BLUE);
-        shapeRenderer.circle(mainCharacter.getNearNode().getX()*16+8,mainCharacter.getNearNode().getY()*16+8,8);
-        shapeRenderer.end();
-
         currentFrame = inputManager.nextFrame(stateTime);
 
 
@@ -183,6 +164,7 @@ public class LevelScreen implements Screen {
             }
             renderer.getBatch().end();
             if(mainCharacter.getMovementBox().overlaps(level.getEndLevel())){
+                mainCharacter.setHealthPoints(mainCharacter.getMaxHealthPoints());
                 this.game.setScreen(new UpgradeScreen(this.game, mainCharacter,level.getNumLivello()));
             }
         }else if(mainCharacter.getMovementBox().overlaps(level.getEndLevel())){
@@ -225,6 +207,8 @@ public class LevelScreen implements Screen {
      */
     public void update(){
         hud.setHealthPoints(mainCharacter.getHealthPoints());
+        hud.setGemsCounter(mainCharacter.getNumGemme());
+        hud.setEnemiesNum(enemies.size());
         this.updateAI();
         this.mapCollision();
         this.charactersCollision();

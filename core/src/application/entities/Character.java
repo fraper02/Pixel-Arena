@@ -56,6 +56,7 @@ public abstract class Character {
     private float startHealing = 0;
     private int numGemme = 0;
 
+
     /**
      * Initialize a character
      * @param maxHealthPoints indicates the max health points of the character
@@ -213,8 +214,12 @@ public abstract class Character {
         this.healthPoints -= amount;
         if(this.healthPoints <= 0) {
             this.healthPoints = 0;
-            this.alive = false;
+            this.setAlive(false);
         }
+    }
+
+    public void setAlive(boolean alive){
+        this.alive = alive;
     }
 
     /**
