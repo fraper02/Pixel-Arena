@@ -130,13 +130,21 @@ public class LevelScreen implements Screen {
         hud.setEnemiesNum(enemies.size());
         Gdx.input.setInputProcessor(inputManager);
 
-        loader = new GameLoader(game,mainCharacter,level.getNumLivello());
     }
 
     @Override
     public void render(float delta) {
+
+        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if(!mainCharacter.isAlive()){
+            musicManager.stopBattle();
+            this.game.setScreen(new GameOverScreen(enemies,game,mainCharacter,level.getNumLivello()));
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             game.togglePause();
+
         }
         if(!game.isPaused()) {
             Gdx.gl.glClearColor(0, 0, 0, 1);

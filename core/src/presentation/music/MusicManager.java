@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 
 public class MusicManager {
     private static MusicManager instance = new MusicManager();
+    private Music gameOverMusic;
     private Music musicIntro;
     private Music musicBattle;
 
@@ -15,6 +16,9 @@ public class MusicManager {
         musicBattle = Gdx.audio.newMusic(Gdx.files.internal("Audio/LevelBackground.mp3"));
         musicBattle.setLooping(true);
         musicBattle.setVolume(0.05f);
+        gameOverMusic = Gdx.audio.newMusic(Gdx.files.internal("Audio/GameOver.mp3"));
+        gameOverMusic.setLooping(true);
+        gameOverMusic.setVolume(0.05f);
     }
 
     public static MusicManager getInstance() {
@@ -31,6 +35,18 @@ public class MusicManager {
 
     public void disposeIntro() {
         musicIntro.dispose();
+    }
+
+    public void playGameOver() {
+        gameOverMusic.play();
+    }
+
+    public void stopGameOver() {
+        gameOverMusic.stop();
+    }
+
+    public void disposeGameOver() {
+        gameOverMusic.dispose();
     }
 
     public void playBattle(){ musicBattle.play();}

@@ -23,7 +23,7 @@ public class Villain extends Character{
      * @param y indicates position on the y axis
      */
     public Villain(float x, float y) {
-        super(500, 10, 0.6f, x, y);
+        super(500, 500, 0.6f, x, y);
         Texture spriteSheets = new Texture(Gdx.files.internal("textures/Warrior_PN.png"));
         TextureRegion[][] frames = TextureRegion.split(spriteSheets,64,64);
         TextureRegion[] textureIdleDown = new TextureRegion[8];
