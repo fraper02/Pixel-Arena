@@ -7,10 +7,12 @@ public class AudioManager {
     private static final AudioManager instance = new AudioManager();
     private Sound hit;
     private Sound miss;
+    private Sound gemPickup;
 
     private AudioManager() {
         hit = Gdx.audio.newSound(Gdx.files.internal("audio/hit.mp3"));
         miss = Gdx.audio.newSound(Gdx.files.internal("audio/miss.mp3"));
+        gemPickup = Gdx.audio.newSound(Gdx.files.internal("audio/gemPickup.mp3"));
     }
 
     public static AudioManager getInstance() {
@@ -28,4 +30,8 @@ public class AudioManager {
     public void playMiss(){ miss.play(0.1f);}
 
     public void disposeMiss(){miss.dispose();}
+
+    public void playGemPickup(){gemPickup.play(0.1f);}
+
+    public void disposeGemPickup(){gemPickup.dispose();}
 }
