@@ -83,7 +83,7 @@ public class UpgradeScreen implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 if(mainCharacter.getNumGemme() > 0){
                     mainCharacter.setNumGemme(mainCharacter.getNumGemme() - 1);
-                    mainCharacter.setMaxHealthPoints(mainCharacter.getMaxHealthPoints() + 30);
+                    mainCharacter.setMaxHealthPoints(mainCharacter.getMaxHealthPoints() + 30);git
                 }
             }
         });
