@@ -13,14 +13,21 @@ piena di nemici dotati di un'AI che cercheranno di fermarlo ad ogni costo.
 Siamo 3 studenti dell'università di salerno che hanno deciso di sviluppare un videogioco come progetto combinato per gli esami di Ingegneria del Software e Fondamenti di Intelligenza Artificiale.
 L'idea è nata dal voler fare un progetto differente e abbastanza complesso che potesse mettere alla prova le nostre capacità, dandoci la possibilità anche di imparare nuove tecnologie nell'ambito del game development.
 Per la realizzazione di questo progetto abbiamo usato il framework libGDX per il motore di gioco e il programma Tiled per realizzare la mappa, 
-il codice è stato scritto con Android Studio ed utilizza come sistema di build gradle.
+il codice è stato scritto in Java usando l'IDE Android Studio ed utilizza come sistema di build gradle.
 
-### Features
+## Features
 
 L'applicazione prevede all'avvio un menù principale che offre la possibiltà al giocatore di iniziare una nuova partita oppure di caricare un vecchio salvataggio.
+Inoltre il giocatore dovrà scegliere il personaggio da utilizzare attraverso un Menù apposito prima di iniziare la partita.
 All'avvio della partita il giocatore si ritroverà nella mappa dove dovrà eliminare tutti i nemici per passare al livello successivo,
 i nemici saranno dotati di intelligenza e cercheranno il nemico nelle loro aree di competenza, provando a loro volta ad eliminare il giocatore.
+In ogni livello saranno seminate basi di cura e delle gemme che il giocatore può raccogliere per generare successivamente dei potenziamenti che saranno scelti a fine livello.
 
+### Menu principale
+
+### Scelta personaggi
+
+### Gioco in esecuzione
 ![ScreenShotMappa](https://github.com/fraper02/Pixel-Arena/assets/114185914/0ddd0e95-1844-4625-b91a-1fdd84aa182d)
 Un esempio di mappa con visualizzazione delle aree di ricerca dei nemici
 
