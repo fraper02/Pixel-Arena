@@ -27,6 +27,8 @@ In ogni livello saranno seminate basi di cura e delle gemme che il giocatore pu�
 <img width="1920" alt="MainMenu-min" src="https://github.com/fraper02/Pixel-Arena/assets/114728100/afe9208a-546a-4316-bf6f-d4ddc6704f5d">
 
 ### Scelta personaggi
+<img width="1918" alt="ChooseCharacter-min" src="https://github.com/fraper02/Pixel-Arena/assets/114728100/1284ac64-1c83-4d9c-bc22-51d827f2591b">
+
 ### Gioco in esecuzione
 ![ScreenShotMappa](https://github.com/fraper02/Pixel-Arena/assets/114185914/0ddd0e95-1844-4625-b91a-1fdd84aa182d)
 Un esempio di mappa con visualizzazione delle aree di ricerca dei nemici
@@ -39,10 +41,30 @@ Per l'attacco l'agente si comporterà come un agente reattivo semplice, di fatti
 
 ![ScreenShotAttacci](https://github.com/fraper02/Pixel-Arena/assets/114185914/3693a25a-f216-4747-bfab-ff3156354242)
 
-## Comandi di gioco
+## Tutorial[PixelArena]
 
-Il giocatore potrà muovere il proprio personaggio con la pressione prolungata  dei tasti WASD, questi lo sposteranno nelle 4 direzioni: W per il nord, A per l'ovest, D per l'est e S per il sud.
+### Movimento
+WASD per Muoversi: Usa i tasti W, A, S, D per muoverti.
+- Premi W per muoverti verso Nord.
+- Premi A per andare verso Ovest.
+- Usa S per dirigersi a Sud.
+- Clicca D per spostarti verso Est.
+#### Corsa
 Il giocatore potrà anche attivare o disattivare la corsa premendo il tasto LSHIFT, mentre per attaccare il nemico bisognerà premere il tasto K.
+
+### Recupero Salute
+Basi di Guarigione: Trova le basi sparse per il livello.
+Staziona sulla Base: Posizionati su una base per recuperare salute.
+Guarigione: Mentre sei su una base, recupererai 10HP al secondo.
+
+### Raccogliere Gemme 
+Gemme nel Livello: Nel livello sono disseminate gemme.
+Raccogli le Gemme: Cammina sopra le gemme per raccoglierle.
+
+### Nemici e Combattimento
+Vita dei Nemici: I nemici hanno 80HP di vita totale.
+Attacco: Sia tu che i nemici avete un attacco pari a 10.
+Strategia: Usa la tua abilità e astuzia per sconfiggere i nemici.
 
 ## Avvio da Android Studio
 
