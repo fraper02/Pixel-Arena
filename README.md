@@ -5,71 +5,71 @@
 
 # Pixel Arena
 
-Pixel Arena è un videogioco platform ortogonale che vedrà il giocatore addentrarsi in una mappa 
-piena di nemici dotati di un'AI che cercheranno di fermarlo ad ogni costo.
+Pixel Arena is an orthogonal platforming video game that will see the player delving into a map 
+filled with AI-enhanced enemies who will try to stop him at any cost.
 
-## Descrizione
+## Description
 
-Siamo 3 studenti dell'università di salerno che hanno deciso di sviluppare un videogioco come progetto combinato per gli esami di Ingegneria del Software e Fondamenti di Intelligenza Artificiale.
-L'idea è nata dal voler fare un progetto differente e abbastanza complesso che potesse mettere alla prova le nostre capacità, dandoci la possibilità anche di imparare nuove tecnologie nell'ambito del game development.
-Per la realizzazione di questo progetto abbiamo usato il framework libGDX per il motore di gioco e il programma Tiled per realizzare la mappa, 
-il codice è stato scritto in Java usando l'IDE Android Studio ed utilizza come sistema di build gradle.
+We are 3 students from the University of salerno who decided to develop a video game as a combined project for our Software Engineering and Fundamentals of Artificial Intelligence exams.
+The idea came from wanting to do a different and quite complex project that could test our skills, while also giving us a chance to learn new technologies in the field of game development.
+For the realization of this project we used the libGDX framework for the game engine and the Tiled program to make the map, 
+the code was written in Java using the Android Studio IDE and uses gradle as the build system.
 
 ## Features
 
-L'applicazione prevede all'avvio un menù principale che offre la possibiltà al giocatore di iniziare una nuova partita oppure di caricare un vecchio salvataggio.
-Inoltre il giocatore dovrà scegliere il personaggio da utilizzare attraverso un Menù apposito prima di iniziare la partita.
-All'avvio della partita il giocatore si ritroverà nella mappa dove dovrà eliminare tutti i nemici per passare al livello successivo,
-i nemici saranno dotati di intelligenza e cercheranno il nemico nelle loro aree di competenza, provando a loro volta ad eliminare il giocatore.
-In ogni livello saranno seminate basi di cura e delle gemme che il giocatore può raccogliere per generare successivamente dei potenziamenti che saranno scelti a fine livello.
+The application provides a main menu at startup that gives the player the option of starting a new game or loading an old save.
+In addition, the player will have to choose the character to use through a special Menu before starting the game.
+When the game starts, the player will find himself in the map where he will have to eliminate all enemies to advance to the next level,
+the enemies will be equipped with intelligence and will seek out the enemy in their areas of responsibility, in turn trying to eliminate the player.
+In each level, healing bases and gems will be seeded that the player can collect to later generate power-ups that will be chosen at the end of the level.
 
-### Menu principale
+### Main Menu
 <img width="1920" alt="MainMenu-min" src="https://github.com/fraper02/Pixel-Arena/assets/114728100/afe9208a-546a-4316-bf6f-d4ddc6704f5d">
 
-### Scelta personaggi
+### Choice of characters 
 <img width="1918" alt="ChooseCharacter-min" src="https://github.com/fraper02/Pixel-Arena/assets/114728100/1284ac64-1c83-4d9c-bc22-51d827f2591b">
 
-### Gioco in esecuzione
+### Running Game
 ![ScreenShotMappa](https://github.com/fraper02/Pixel-Arena/assets/114185914/0ddd0e95-1844-4625-b91a-1fdd84aa182d)
-Un esempio di mappa con visualizzazione delle aree di ricerca dei nemici
+An example of a map showing enemy search areas.
 
-## Pathfinding & Attacco
+## Pathfinding & Attack
 
-Il pathfinding dei nemici avviene tramite l'algoritmo di A* indicizzato, la cui implementazione è fornita nella libreria di libGDX "GDX.ai",
-grazie a questo il nemico riuscirà a raggiungere il giocatore quando quest'ultimo entrerà nella propria area di azione.
-Per l'attacco l'agente si comporterà come un agente reattivo semplice, di fatti è fornito di un'actionArea che funge da sensore, quando il giocatore entrerà nell'actionArea del nemico, questo inizierà ad attaccarlo.
+Enemy pathfinding is done through the indexed A* algorithm, the implementation of which is provided in the libGDX library "GDX.ai",
+thanks to this the enemy will be able to reach the player when the player enters its area of action.
+For attacking the agent will behave as a simple reactive agent, in fact it is provided with an actionArea that acts as a sensor, when the player enters the enemy's actionArea, the enemy will start attacking it.
 
 ![ScreenShotAttacci](https://github.com/fraper02/Pixel-Arena/assets/114185914/3693a25a-f216-4747-bfab-ff3156354242)
 
 ## Tutorial[PixelArena]
 
-### Movimento
-WASD per Muoversi: Usa i tasti W, A, S, D per muoverti.
-- Premi W per muoverti verso Nord.
-- Premi A per andare verso Ovest.
-- Usa S per dirigersi a Sud.
-- Clicca D per spostarti verso Est.
-#### Corsa
-- Il giocatore potrà anche attivare o disattivare la corsa premendo il tasto LSHIFT, mentre per attaccare il nemico bisognerà premere il tasto K.
+### Movement
+WASD to Move: Use the W, A, S, D keys to move.
+- Press W to move north.
+- Press A to head west.
+- Use S to head south.
+- Click D to move east.
+#### Running
+- The player will also be able to turn the run on or off by pressing the LSHIFT key, while attacking the enemy will require pressing the K key.
 
-### Recupero Salute
-- Basi di Guarigione: Trova le basi sparse per il livello.
-- Staziona sulla Base: Posizionati su una base per recuperare salute.
-- Guarigione: Mentre sei su una base, recupererai 10HP al secondo.
+### Health Recovery.
+- Healing Bases: Find bases scattered around the level.
+- Stand on Base: Stand on a base to recover health.
+- Healing: While on a base, you will recover 10HP per second.
 
-### Raccogliere Gemme 
-- Gemme nel Livello: Nel livello sono disseminate gemme.
-- Raccogli le Gemme: Cammina sopra le gemme per raccoglierle.
-
-### Nemici e Combattimento
-- Vita dei Nemici: I nemici hanno 80HP di vita totale.
-- Attacco: Sia tu che i nemici avete un attacco pari a 10.
-- Strategia: Usa la tua abilità e astuzia per sconfiggere i nemici.
+### Collect Gems 
+- Gems in the Level: Gems are scattered throughout the level.
+- Collect Gems: Walk over the gems to collect them.
+  
+### Enemies and Combat
+- Life of Enemies: Enemies have 80HP total life.
+- Attack: Both you and enemies have an attack of 10.
+- Strategy: Use your skill and cunning to defeat enemies.
 
 # Avvio da Android Studio
 
-Per avviare il progetto da Android Studio per prima cosa sarà necessario clonare la repository
+To start the project from Android Studio first you will need to clone the repository.
 ```bash
   git clone https://github.com/fraper02/Pixel-Arena.git
 ```
-dopodicché bisognerà creare una nuova configurazione per poter fare il run del progetto, le istruzioni a questo link: https://libgdx.com/wiki/start/import-and-running
+after which you will need to create a new configuration in order to run the project, instructions at this link: https://libgdx.com/wiki/start/import-and-running
