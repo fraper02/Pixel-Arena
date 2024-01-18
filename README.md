@@ -10,7 +10,7 @@ filled with AI-enhanced enemies who will try to stop him at any cost.
 
 ## Description
 
-We are 3 students from the University of salerno who decided to develop a video game as a combined project for our Software Engineering and Fundamentals of Artificial Intelligence exams.
+We are 3 students from the University of Salerno who decided to develop a video game as a combined project for our Software Engineering and Fundamentals of Artificial Intelligence exams.
 The idea came from wanting to do a different and quite complex project that could test our skills, while also giving us a chance to learn new technologies in the field of game development.
 For the realization of this project we used the libGDX framework for the game engine and the Tiled program to make the map, 
 the code was written in Java using the Android Studio IDE and uses gradle as the build system.
