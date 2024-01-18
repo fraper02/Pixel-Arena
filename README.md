@@ -66,7 +66,7 @@ WASD to Move: Use the W, A, S, D keys to move.
 - Attack: Both you and enemies have an attack of 10.
 - Strategy: Use your skill and cunning to defeat enemies.
 
-# Avvio da Android Studio
+# Start from Android Studio
 
 To start the project from Android Studio first you will need to clone the repository.
 ```bash
