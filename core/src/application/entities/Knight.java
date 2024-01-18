@@ -18,7 +18,7 @@ public class Knight extends Character{
      * @param y posizione del cavaliere sull'asse delle y
      */
     public Knight(float x, float y) {
-        super(500, 10, 0.6f, x, y);
+        super(150, 10, 1f, x, y);
         Texture spriteSheets = new Texture(Gdx.files.internal("textures/Raver_P0.png"));
         TextureRegion[][] frames = TextureRegion.split(spriteSheets,64,64);
         TextureRegion[] textureIdleDown = new TextureRegion[8];
@@ -79,8 +79,7 @@ public class Knight extends Character{
         this.attackBoxUp = new Rectangle(this.getX() +10,this.getY() + 34,45,27);
         this.attackBoxRight = new Rectangle(this.getX() + 35, this.getY() + 6,27,45);
         this.tipo = "Knight";
-        this.setAttackPower(500);
-        this.setSpeed(10);
+
         this.setNearNode(loneNode);
     }
 

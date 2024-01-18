@@ -24,7 +24,7 @@ public class Villain extends Character{
      * @param y posizione del cavaliere sull'asse delle y
      */
     public Villain(float x, float y) {
-        super(500, 500, 0.6f, x, y);
+        super(80, 10, 0.6f, x, y);
         Texture spriteSheets = new Texture(Gdx.files.internal("textures/Warrior_PN.png"));
         TextureRegion[][] frames = TextureRegion.split(spriteSheets,64,64);
         TextureRegion[] textureIdleDown = new TextureRegion[8];

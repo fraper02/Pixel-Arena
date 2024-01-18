@@ -250,7 +250,8 @@ public class UpgradeScreen implements Screen {
     public void update(){
         atkButton.setText("Attack: " + mainCharacter.getAttackPower());
         healthButton.setText("Health Points: " + mainCharacter.getMaxHealthPoints());
-        speedButton.setText("Speed: " + mainCharacter.getStandardSpeed());
+        String formattedString = String.format("%.1f", mainCharacter.getStandardSpeed());
+        speedButton.setText("Speed: " + formattedString);
         numGems.setText("x" + mainCharacter.getNumGemme());
     }
 }

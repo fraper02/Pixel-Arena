@@ -28,8 +28,10 @@ public class LevelHud extends Stage {
 
     /**
      * Inizializza tutti i vari assets presenti e li posiziona sullo schermo
+     * @param width indica la larghezza dello schermo
+     * @param height indica l'altezza dello schermo
      */
-    public LevelHud(){
+    public LevelHud(float width, float height){
         skin = new Skin();
         font = new BitmapFont(); // Create a default font. You can also load your own font here.
         font.getData().setScale(4f);
@@ -51,22 +53,22 @@ public class LevelHud extends Stage {
         ImageButton heartButton = new ImageButton(heartDrawable);
         heartButton.setTransform(true);
         heartButton.setSize(90, 90);
-        heartButton.setPosition(0 + 10f, Gdx.graphics.getHeight() - heartButton.getHeight() - 5);
+        heartButton.setPosition(0 + 10f,  height - heartButton.getHeight() - 5);
 
         ImageButton diamondButton = new ImageButton(diamondDrawable);
         diamondButton.setTransform(true);
         diamondButton.setSize(90,90);
-        diamondButton.setPosition(Gdx.graphics.getWidth() - diamondButton.getWidth() - 10,Gdx.graphics.getHeight() - heartButton.getHeight() - 5);
+        diamondButton.setPosition(width - diamondButton.getWidth() - 10,height - heartButton.getHeight() - 5);
 
         ImageButton enemiesButton = new ImageButton(enemiesDrawable);
         enemiesButton.setTransform(true);
         enemiesButton.setSize(90,90);
-        enemiesButton.setPosition(0 + 10f,Gdx.graphics.getHeight() - heartButton.getHeight() - enemiesButton.getHeight() - 5);
+        enemiesButton.setPosition(0 + 10f,height - heartButton.getHeight() - enemiesButton.getHeight() - 5);
 
         ImageButton flagLivButton = new ImageButton(levelFlagDrawable);
         flagLivButton.setTransform(true);
         flagLivButton.setSize(90,90);
-        flagLivButton.setPosition(((Gdx.graphics.getWidth()/2) - flagLivButton.getHeight()) - 90,Gdx.graphics.getHeight() - flagLivButton.getHeight() - 5);
+        flagLivButton.setPosition((width/2f - flagLivButton.getHeight()) - 90,height - flagLivButton.getHeight() - 5);
 
 
         healthPoints = new TextButton("", skin, "default");
@@ -79,7 +81,7 @@ public class LevelHud extends Stage {
 
         numLevel = new TextButton("",skin,"default");
         numLevel.setSize(90,90);
-        numLevel.setPosition((Gdx.graphics.getWidth()/2) - (numLevel.getWidth()/2),Gdx.graphics.getHeight() - numLevel.getHeight() - 5);
+        numLevel.setPosition((width/2f) - (numLevel.getWidth()/2),height - numLevel.getHeight() - 5);
 
         enemiesNum = new TextButton("",skin,"default");
         enemiesNum.setSize(90,90);
@@ -115,6 +117,14 @@ public class LevelHud extends Stage {
     public void setGemsCounter(int gemsCounter) {
         Integer wrapperGems = gemsCounter;
         this.gemsCounter.setText(wrapperGems.toString());
+    }
+
+    /**
+     * Restituisce l'elemento che contiene il numero di gemme
+     * @return Ritorna il bottone contenente il numero di gemme
+     */
+    public TextButton getGemsCounter() {
+        return gemsCounter;
     }
 
     /**
