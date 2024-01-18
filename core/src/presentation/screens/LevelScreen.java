@@ -83,7 +83,7 @@ public class LevelScreen implements Screen {
 
         mainCharacter.doStopAndIdle();
         inputManager = new InputManager(mainCharacter, graphVillainHashMap);
-        hud = new LevelHud();
+        hud = new LevelHud(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         pauseMenu = new PauseMenu(game);
         shapeRenderer = new ShapeRenderer();
 

@@ -56,7 +56,7 @@ public abstract class Character {
     private float startHealing = 0;
     private int numGemme = 0;
 
-
+    public Character(){}
     /**
      * Inizializza un personaggio
      * @param maxHealthPoints indica il valore massimo dei punti vita
@@ -186,17 +186,21 @@ public abstract class Character {
      * @param y posizione sull'asse delle y
      */
     public void setPosition(float x, float y){
-        this.setPreviousPosition(this.x, this.y);
-        this.x = x;
-        this.y = y;
-        this.movementBox.setPosition(x + 22,y + 15);
-        this.hitBox.setPosition(x + 22,y +15);
-        this.attackBoxDown.setPosition(x + 10, y);
-        this.attackBoxLeft.setPosition(x + 2, y +6);
-        this.attackBoxUp.setPosition(x + 10, y + 34);
-        this.attackBoxRight.setPosition(x + 35, y + 6);
-        if(this instanceof Villain){
-            ((Villain) this).actionArea.setPosition(x + 8, y + 8);
+        if(standardSpeed >= 0) {
+            this.setPreviousPosition(this.x, this.y);
+            this.x = x;
+            this.y = y;
+            if (this.movementBox != null) {
+                this.movementBox.setPosition(x + 22, y + 15);
+                this.hitBox.setPosition(x + 22, y + 15);
+                this.attackBoxDown.setPosition(x + 10, y);
+                this.attackBoxLeft.setPosition(x + 2, y + 6);
+                this.attackBoxUp.setPosition(x + 10, y + 34);
+                this.attackBoxRight.setPosition(x + 35, y + 6);
+            }
+            if (this instanceof Villain) {
+                ((Villain) this).actionArea.setPosition(x + 8, y + 8);
+            }
         }
     }
 
@@ -215,7 +219,9 @@ public abstract class Character {
      *               @Pre: amount deve essere > 0
      */
     public void decreaseHealth(int amount){
-        this.healthPoints -= amount;
+        if(amount > 0){
+            this.healthPoints -= amount;
+        }
         if(this.healthPoints <= 0) {
             this.healthPoints = 0;
             this.setAlive(false);
