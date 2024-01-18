@@ -24,7 +24,8 @@ i nemici saranno dotati di intelligenza e cercheranno il nemico nelle loro aree 
 In ogni livello saranno seminate basi di cura e delle gemme che il giocatore può raccogliere per generare successivamente dei potenziamenti che saranno scelti a fine livello.
 
 ### Menu principale
-![Uploading MainMenu-min.png…]
+<img width="1920" alt="MainMenu-min" src="https://github.com/fraper02/Pixel-Arena/assets/114728100/afe9208a-546a-4316-bf6f-d4ddc6704f5d">
+
 ### Scelta personaggi
 ### Gioco in esecuzione
 ![ScreenShotMappa](https://github.com/fraper02/Pixel-Arena/assets/114185914/0ddd0e95-1844-4625-b91a-1fdd84aa182d)
