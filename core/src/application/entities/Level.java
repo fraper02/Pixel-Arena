@@ -27,6 +27,11 @@ public class Level {
     private TiledMap map;
     private Rectangle startPoint;
 
+    /**
+     * Inizializza la mappa da passare al LevelScreen
+     * @param numLivello il numero del livello da preparare
+     *                   @Pre: il numero passato deve avere una mappa corrispondente negli assets
+     */
     public Level(int numLivello){
         this.numLivello = numLivello;
         map = new TmxMapLoader().load(("mappe/Livello" + numLivello + "/Level" + numLivello + ".tmx"));

@@ -17,10 +17,11 @@ public class Villain extends Character{
     private int randDestination;
     float startTime = 0;
     /**
-     * Initialize an enemy with its value of maxHealthPoints, attackPower, standardSpeed
-     * and the textures for the character's animations
-     * @param x indicates position on the x axis
-     * @param y indicates position on the y axis
+     * Inizializza un nemico con i suoi valori di maxHealtPoints,
+     * attack power, standard speed, la sua posizione e le animazioni di
+     * camminata, corsa ed attacco
+     * @param x posizione del cavaliere sull'asse delle x
+     * @param y posizione del cavaliere sull'asse delle y
      */
     public Villain(float x, float y) {
         super(500, 500, 0.6f, x, y);
@@ -89,6 +90,11 @@ public class Villain extends Character{
         this.tipo = "Villain";
     }
 
+    /**
+     * Controlla in che direzione si trova il personaggio del giocatore
+     * e si gira verso di esso
+     * @param character il personaggio del giocatore verso il quale vogliamo girarci
+     */
     private void checkDirection(Character character){
         if(this.getX() < character.getX() && Math.abs(this.getX() - character.getX()) > Math.abs(this.getY() - character.getY())){
             this.setDirection(Directions.EAST);
@@ -111,6 +117,13 @@ public class Villain extends Character{
     public GraphPath<Node> getCurrentPath(){
         return this.currentPath;
     }
+
+    /**
+     * Seleziona qual è il prossimo frame del nemico da renderizzare e lo sposta se cammina
+     * @param stateTime indice usato per la selzione del frame dell'animazione
+     * @param character personaggio del giocatore
+     * @return Ritorna il frame dell'animazione corretto
+     */
     public TextureRegion getNextStep(float stateTime,Character character){
 
         Node node;

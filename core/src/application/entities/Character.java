@@ -58,12 +58,12 @@ public abstract class Character {
 
 
     /**
-     * Initialize a character
-     * @param maxHealthPoints indicates the max health points of the character
-     * @param attackPower indicates how much damage the character deals with an attack
-     * @param standardSpeed indicates the walking speed of the character
-     * @param x indicates position on the x axis
-     * @param y indicates position on the y axis
+     * Inizializza un personaggio
+     * @param maxHealthPoints indica il valore massimo dei punti vita
+     * @param attackPower indica quanto danno fa un attacco del personaggio
+     * @param standardSpeed indica la velocità di camminata del personaggio
+     * @param x indica la posizione sull'asse delle x
+     * @param y indica la posizione sull'asse delle y
      */
     public Character(int maxHealthPoints, int attackPower, float standardSpeed, float x, float y) {
         this.maxHealthPoints = maxHealthPoints;
@@ -111,6 +111,10 @@ public abstract class Character {
         return standardSpeed;
     }
 
+    /**
+     * Imposta la velocità di camminata al valore passato e la velocità di corsa il 50% più veloce di questa
+     * @param standardSpeed is the walking speed of the character
+     */
     public void setSpeed(float standardSpeed) {
         this.standardSpeed = standardSpeed ;
         this.runningSpeed = standardSpeed * 1.5f;
@@ -177,10 +181,9 @@ public abstract class Character {
     }
 
     /**
-     * Updates the position of the character after a movement
-     * and its boxes
-     * @param x position on the x axis
-     * @param y position on the y axis
+     * Aggiorna la posizione di un personaggio e le sue box
+     * @param x posizione sull'asse delle x
+     * @param y posizione sull'asse delle y
      */
     public void setPosition(float x, float y){
         this.setPreviousPosition(this.x, this.y);
@@ -198,17 +201,18 @@ public abstract class Character {
     }
 
     /**
-     * Changes the values of the previous coordinates
-     * @param x position on the x axis
-     * @param y position on the y axis
+     * Cambia le ultime coordinate del personaggio
+     * @param x posizione sull'asse delle x
+     * @param y posizione sull'asse delle y
      */
     public void setPreviousPosition(float x, float y){
         this.previousX = x;
         this.previousY = y;
     }
     /**
-     * Decreases the healthPoints of the character by the given amount
+     * Diminuisce la vita del personaggio di un valore passato
      * @param amount amount of healthPoint lost
+     *               @Pre: amount deve essere > 0
      */
     public void decreaseHealth(int amount){
         this.healthPoints -= amount;
@@ -223,7 +227,8 @@ public abstract class Character {
     }
 
     /**
-     * Set the animation to idle in the current direction which the character is facing
+     * Imposta l'animazione del personaggio ad idle nella direzione
+     * in cui sta gurdando
      */
     public void doStopAndIdle(){
         switch(this.direction){
@@ -243,7 +248,8 @@ public abstract class Character {
     }
 
     /**
-     * Set the current animation to attack in the direction which the character is facing
+     * Imposta l'animazione del personaggio all'attacco
+     * nella direzione in cui sta guardando
      */
     public void doAttack(){
         switch(this.direction){
@@ -264,7 +270,8 @@ public abstract class Character {
     }
 
     /**
-     * Set the current animation to walk in the direction which the character is facing
+     * Imposta l'animazione del personaggio a walk nella direzione
+     * in cui sta guardando
      */
     public void doWalk(){
         switch(this.direction){
@@ -315,7 +322,8 @@ public abstract class Character {
     }
 
     /**
-     * Set the current animation to running in the direction which the character is facing and updates the character positions
+     * Imposta l'animazione del personaggio a corsa nella direzione
+     * in cui sta guradando
      */
     public void doRun(){
         switch(this.direction){
@@ -366,8 +374,8 @@ public abstract class Character {
     }
 
     /**
-     * Check if there was a collision between two characters and resolve it
-     * @param v the character we want to check if there was a collision with
+     * Controlla se c'è stata una collisione tra 2 personaggi e la risolve
+     * @param v il personaggio con cui vogliamo controllare la collisione
      */
     public void collisionCheck(Character v) {
         if(this.getMovementBox().overlaps(v.getMovementBox())){
@@ -396,7 +404,8 @@ public abstract class Character {
     public boolean isAlive(){ return this.alive; }
 
     /**
-     * Heals the character back to full health
+     * Cura il personaggio di 10 punti vita se questo non è a vita massima
+     * @param stateTime valore usato per effettuare la cura solo 1 volta al secondo
      */
     public void doHeal(float stateTime){
         if(!healing){
@@ -411,6 +420,11 @@ public abstract class Character {
         }
     }
 
+    /**
+     * Controlla se il personaggio attaccato è sato colpito oppure no
+     * @param attacked il personaggio che è stato attaccato
+     * @return Ritorna true se il colpo è andato a segno e false altrimenti
+     */
     public boolean checkAttack(Character attacked){
         switch(direction){
             case EAST:{

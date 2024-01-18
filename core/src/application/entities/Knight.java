@@ -11,10 +11,11 @@ import application.ai.Node;
 public class Knight extends Character{
     private final Node loneNode = new Node(1000, 1000);
     /**
-     * Initialize a knight with its value of maxHealthPoints, attackPower, standardSpeed
-     * and the textures for the character's animations
-     * @param x indicates position on the x axis
-     * @param y indicates position on the y axis
+     * Inizializza un cavaliere con i suoi valori di maxHealtPoints,
+     * attack power, standard speed, la sua posizione e le animazioni di
+     * camminata, corsa ed attacco
+     * @param x posizione del cavaliere sull'asse delle x
+     * @param y posizione del cavaliere sull'asse delle y
      */
     public Knight(float x, float y) {
         super(500, 10, 0.6f, x, y);
@@ -83,6 +84,10 @@ public class Knight extends Character{
         this.setNearNode(loneNode);
     }
 
+    /**
+     * Ritorna un nodo che non appartiene a nessun grafo della mappa
+     * @return il nodo unico del cavaliere
+     */
     public Node getLoneNode(){
         return this.loneNode;
     }
