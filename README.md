@@ -50,23 +50,23 @@ WASD per Muoversi: Usa i tasti W, A, S, D per muoverti.
 - Usa S per dirigersi a Sud.
 - Clicca D per spostarti verso Est.
 #### Corsa
-Il giocatore potrà anche attivare o disattivare la corsa premendo il tasto LSHIFT, mentre per attaccare il nemico bisognerà premere il tasto K.
+- Il giocatore potrà anche attivare o disattivare la corsa premendo il tasto LSHIFT, mentre per attaccare il nemico bisognerà premere il tasto K.
 
 ### Recupero Salute
-Basi di Guarigione: Trova le basi sparse per il livello.
-Staziona sulla Base: Posizionati su una base per recuperare salute.
-Guarigione: Mentre sei su una base, recupererai 10HP al secondo.
+- Basi di Guarigione: Trova le basi sparse per il livello.
+- Staziona sulla Base: Posizionati su una base per recuperare salute.
+- Guarigione: Mentre sei su una base, recupererai 10HP al secondo.
 
 ### Raccogliere Gemme 
-Gemme nel Livello: Nel livello sono disseminate gemme.
-Raccogli le Gemme: Cammina sopra le gemme per raccoglierle.
+- Gemme nel Livello: Nel livello sono disseminate gemme.
+- Raccogli le Gemme: Cammina sopra le gemme per raccoglierle.
 
 ### Nemici e Combattimento
-Vita dei Nemici: I nemici hanno 80HP di vita totale.
-Attacco: Sia tu che i nemici avete un attacco pari a 10.
-Strategia: Usa la tua abilità e astuzia per sconfiggere i nemici.
+- Vita dei Nemici: I nemici hanno 80HP di vita totale.
+- Attacco: Sia tu che i nemici avete un attacco pari a 10.
+- Strategia: Usa la tua abilità e astuzia per sconfiggere i nemici.
 
-## Avvio da Android Studio
+# Avvio da Android Studio
 
 Per avviare il progetto da Android Studio per prima cosa sarà necessario clonare la repository
 ```bash
