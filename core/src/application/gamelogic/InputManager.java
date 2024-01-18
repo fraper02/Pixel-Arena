@@ -27,20 +27,20 @@ public class InputManager extends InputAdapter {
     private AudioManager audioManager = AudioManager.getInstance();
 
     /**
-     * Initialize the InputManager class
-     * @param character indicates the MainCharacter used by the User
-     * @param graphVillainHashMap indicates a Map of each Graph with the assigned Enemy
+     * Inizializza un input manager
+     * @param character il personaggio del giocatore
+     * @param graphVillainHashMap una mappa dei grafi con i nemici associati
      */
-
     public InputManager(Character character, HashMap<TilesGraph,Villain> graphVillainHashMap){
         this.character = character;
         this.graphVillainHashMap = graphVillainHashMap;
     }
 
     /**
-     * Initialize the variables for the Input Directions Check(Pressed Case)
+     * Cattura la pressiopne continua di un tasto e esegue le azioni corrispondenti
+     * @param keycode one of the constants in {@link Input.Keys}
+     * @return Ritorna sempre true
      */
-
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
@@ -65,16 +65,17 @@ public class InputManager extends InputAdapter {
     }
 
     /**
-     * A toggle for running variable
+     * Un interruttore per la corsa del personaggio
      */
     private void toggleRun(){
             character.setRunning(!character.isRunning());
     }
 
     /**
-     * A method that return the Animation Character Frame
-     * @param stateTime  is the input to pick a key frame from your Animation
-     * @return the frame of current Animation
+     * Il metodo sceglie il prossimo frame del personaggio in base all'input
+     * da tastiera dell'utente
+     * @param stateTime è l'indice per selezionare un frame dall'animazione
+     * @return il frame dell'animazione corrente
      */
     public TextureRegion nextFrame(float stateTime){
         keyframe = stateTime;
@@ -140,9 +141,10 @@ public class InputManager extends InputAdapter {
     }
 
     /**
-     * Initialize the variables for the Input Directions Check(Released Case)
+     * Cattura il rilascio di un tasto ed esegue le azioni corrispondenti
+     * @param keycode one of the constants in {@link Input.Keys}
+     * @return Ritorna sempre true
      */
-
     @Override
     public boolean keyUp(int keycode){
         switch (keycode) {
