@@ -30,7 +30,7 @@ public class Level {
     /**
      * Inizializza la mappa da passare al LevelScreen
      * @param numLivello il numero del livello da preparare
-     *                   @Pre: il numero passato deve avere una mappa corrispondente negli assets
+     * @Pre: il numero passato deve avere una mappa corrispondente negli assets
      */
     public Level(int numLivello){
         this.numLivello = numLivello;
