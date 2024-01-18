@@ -9,9 +9,15 @@ import application.entities.Character;
 import application.entities.Knight;
 import application.gamelogic.InputManager;
 
+
 public class SaveManager {
     private static final String PREFERENCES_NAME = "gamePreferences";
 
+    /**
+     * Metodo che permette il salvataggio del livello e delle statistiche del giocatore in un file .xml
+     * @param mainCharacter Il personaggio principale
+     * @param numLivello Il numero del livello successivo da cui ricominciera` a giocare
+     */
     public static void saveStats(Character mainCharacter, int numLivello) {
         Preferences prefs = Gdx.app.getPreferences(PREFERENCES_NAME);
         prefs.putInteger("vitaMassima", mainCharacter.getMaxHealthPoints());
@@ -22,6 +28,11 @@ public class SaveManager {
         prefs.flush();
     }
 
+    /**
+     * Metodo che permette di riprendere tutte le statistiche del giocatore ed il livello da cui ripartira` a giocare
+     * @return Ritorna un SaveWrapper che contiene il personaggio principale e il numero del livello
+     * @post Il SaveWrapper non deve essere nullo
+     */
     public static SaveWrapper loadStats() {
         Preferences prefs = Gdx.app.getPreferences(PREFERENCES_NAME);
         Character mainCharacter = null;

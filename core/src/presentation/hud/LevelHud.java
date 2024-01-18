@@ -25,6 +25,10 @@ public class LevelHud extends Stage {
     private TextButton numLevel;
 
     private TextButton enemiesNum;
+
+    /**
+     * Inizializza tutti i vari assets presenti e li posiziona sullo schermo
+     */
     public LevelHud(){
         skin = new Skin();
         font = new BitmapFont(); // Create a default font. You can also load your own font here.
@@ -93,24 +97,47 @@ public class LevelHud extends Stage {
 
     }
 
+    /**
+     * Aggiorna il numero di HP del personaggio
+     * @param healthPoints Numero di hp del personaggio
+     * @pre Il personaggio deve essere diverso da null
+     */
     public void setHealthPoints(int healthPoints) {
         Integer wrapperHealth = healthPoints;
         this.healthPoints.setText(wrapperHealth.toString());
     }
+
+    /**
+     * Aggiorna il numero di gemme del personaggio
+     * @param gemsCounter Numero di gemme del personaggio
+     * @pre Il personaggio deve essere diverso da null
+     */
     public void setGemsCounter(int gemsCounter) {
         Integer wrapperGems = gemsCounter;
         this.gemsCounter.setText(wrapperGems.toString());
     }
 
+    /**
+     * Aggiorna il numero del livello giocato
+     * @param numLevel Numero del livello attuale
+     * @pre Il personaggio deve essere diverso da null
+     */
     public void setNumLevel(String numLevel) {
         this.numLevel.setText(numLevel);
     }
 
+    /**
+     * Aggiorna il numero dei nemici rimanenti
+     * @param enemiesNum Numero dei nemici rimanenti
+     */
     public void setEnemiesNum(int enemiesNum) {
         Integer wrapperEnemies = enemiesNum;
         this.enemiesNum.setText(wrapperEnemies.toString());
     }
 
+    /**
+     * Renderizza l`hud rendendolo visibile
+     */
     public void render(){
         this.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         this.draw();

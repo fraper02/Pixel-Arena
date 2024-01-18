@@ -9,6 +9,9 @@ public class MusicManager {
     private Music musicIntro;
     private Music musicBattle;
 
+    /**
+     * Cerca i vari file audio e li inizializza
+     */
     private MusicManager() {
         musicIntro = Gdx.audio.newMusic(Gdx.files.internal("Audio/MenuMusic.mp3"));
         musicIntro.setLooping(true);
@@ -21,14 +24,24 @@ public class MusicManager {
         gameOverMusic.setVolume(0.05f);
     }
 
+    /**
+     * La classe presenta un`istanza da prendere se si vogliono attivare i suoni
+     * @return Ritorna un`istanza della classe
+     */
     public static MusicManager getInstance() {
         return instance;
     }
 
+    /**
+     * Avvia la riproduzione della canzone per il Menu
+     */
     public void playIntro() {
         musicIntro.play();
     }
 
+    /**
+     * Ferma la riproduzione della canzone per il Menu
+     */
     public void stopIntro() {
         musicIntro.stop();
     }
@@ -37,10 +50,16 @@ public class MusicManager {
         musicIntro.dispose();
     }
 
+    /**
+     * Avvia la riproduzione della canzone per il GameOver
+     */
     public void playGameOver() {
         gameOverMusic.play();
     }
 
+    /**
+     * Ferma la riproduzione della canzone per il GameOver
+     */
     public void stopGameOver() {
         gameOverMusic.stop();
     }
@@ -49,8 +68,14 @@ public class MusicManager {
         gameOverMusic.dispose();
     }
 
+    /**
+     * Avvia la riproduzione della canzone durante il gioco
+     */
     public void playBattle(){ musicBattle.play();}
 
+    /**
+     * Ferma la riproduzione della canzone durante il gioco
+     */
     public void stopBattle(){musicBattle.stop();}
 
     public void disposeBattle(){musicBattle.dispose();}

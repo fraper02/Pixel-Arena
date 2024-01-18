@@ -45,6 +45,9 @@ public class ChooseCharacterScreen implements Screen {
         this.game = game;
     }
 
+    /**
+     * Inizializza tutti i vari assets presenti e li posiziona sullo schermo, collegandogli i rispettivi ActionListeners
+     */
     @Override
     public void show() {
         stage = new Stage(new StretchViewport(900, 480));
@@ -156,6 +159,10 @@ public class ChooseCharacterScreen implements Screen {
         stage.addActor(ChooseButton);
     }
 
+    /**
+     * Renderizza il menu di scelta del personaggio rendendolo visibile
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear the screen

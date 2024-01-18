@@ -22,6 +22,11 @@ public class PauseMenu extends Stage {
     private Skin skin;
     private BitmapFont font;
     private PixelArenaGame pixelArenaGame;
+
+    /**
+     * Inizializza tutti i vari assets presenti e li posiziona sullo schermo, collegandogli i rispettivi ActionListeners
+     * @param game Il gioco in se`
+     */
     public PauseMenu(PixelArenaGame game){
         this.pixelArenaGame = game;
         skin = new Skin();
@@ -68,6 +73,10 @@ public class PauseMenu extends Stage {
         this.addActor(resumeButton);
         this.addActor(mainMenuButton);
     }
+
+    /**
+     * Renderizza il menu di pausa rendendolo visibile
+     */
     public void render(){
         this.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         this.draw();

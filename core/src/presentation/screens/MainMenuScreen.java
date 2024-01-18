@@ -42,6 +42,9 @@ public class MainMenuScreen implements Screen {
         this.game = game;
     }
 
+    /**
+     * Inizializza tutti i vari assets presenti e li posiziona sullo schermo, collegandogli i rispettivi ActionListeners
+     */
     @Override
     public void show() {
         stage = new Stage(new StretchViewport(900, 480));
@@ -127,6 +130,10 @@ public class MainMenuScreen implements Screen {
         musicManager.playIntro();
     }
 
+    /**
+     * Renderizza il menu principale rendendolo visibile
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         // Clear the screen
@@ -136,6 +143,11 @@ public class MainMenuScreen implements Screen {
 
     }
 
+    /**
+     * Viene richiamato ogni volta che cambia la finestra, e aggiorna il Viewport della camera con le nuove dimensioni della finestra
+     * @param width Larghezza della finestra
+     * @param height Altezza della finestra
+     */
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);

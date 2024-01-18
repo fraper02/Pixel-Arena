@@ -47,6 +47,9 @@ public class UpgradeScreen implements Screen {
         this.numLevel = numLevel;
     }
 
+    /**
+     * Inizializza tutti i vari assets presenti e li posiziona sullo schermo, collegandogli i rispettivi ActionListeners
+     */
     @Override
     public void show() {
         stage = new Stage(new StretchViewport(900, 480));
@@ -202,6 +205,10 @@ public class UpgradeScreen implements Screen {
         stage.addActor(gem);
     }
 
+    /**
+     * Renderizza il menu di scelta del personaggio rendendolo visibile
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear the screen
@@ -237,6 +244,9 @@ public class UpgradeScreen implements Screen {
         backgroundImageTexture.dispose();
     }
 
+    /**
+     * Aggiorna i vari parametri presenti a schermo
+     */
     public void update(){
         atkButton.setText("Attack: " + mainCharacter.getAttackPower());
         healthButton.setText("Health Points: " + mainCharacter.getMaxHealthPoints());

@@ -56,6 +56,9 @@ public class GameOverScreen implements Screen{
         this.numLevel = numLevel;
     }
 
+    /**
+     * Inizializza tutti i vari assets presenti e li posiziona sullo schermo, collegandogli i rispettivi ActionListeners
+     */
     @Override
     public void show() {
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
@@ -120,6 +123,10 @@ public class GameOverScreen implements Screen{
         Gdx.input.setInputProcessor(stage);
     }
 
+    /**
+     * Renderizza la schermata di Game Over rendendola visibile
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));

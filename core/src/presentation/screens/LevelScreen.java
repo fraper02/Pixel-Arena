@@ -71,7 +71,7 @@ public class LevelScreen implements Screen {
     }
 
     /**
-     * Initialize the variables necessary to execute the application
+     * Inizializza le variabli necessarie per eseguire l`applicazione
      */
     @Override
     public void show() {
@@ -132,6 +132,10 @@ public class LevelScreen implements Screen {
 
     }
 
+    /**
+     * Aggiorna costantemente il frame corrente che permette l`aggiornamento visivo del gioco
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
 
@@ -214,6 +218,11 @@ public class LevelScreen implements Screen {
     }
 
 
+    /**
+     * Viene richiamato ogni volta che cambia la finestra, e aggiorna il Viewport della camera con le nuove dimensioni della finestra
+     * @param width Larghezza della finestra
+     * @param height Altezza della finestra
+     */
     @Override
     public void resize(int width, int height) {
         camera.viewportHeight = height;
@@ -221,7 +230,7 @@ public class LevelScreen implements Screen {
     }
 
     /**
-     * Method that updates the status of the game calling different check methods
+     * Metodo che aggiorna lo stato del gioco chiamando differenti metodi di check
      */
     public void update(){
         hud.setHealthPoints(mainCharacter.getHealthPoints());
@@ -255,8 +264,7 @@ public class LevelScreen implements Screen {
     }
 
     /**
-     * Check if there was a collision between the main character and the map borders
-     * and the enemies and the map border
+     * Controlla se c`e` stata una collisione tra il main character e i bordi della mappa, e tra i nemici e i bordi della mappa
      */
     private void mapCollision(){
         for(Rectangle rec: level.getCollisionObjects()){
@@ -276,7 +284,7 @@ public class LevelScreen implements Screen {
     }
 
     /**
-     * check if there was a collision between characters
+     * Controlla se c`e` stata una collisione tra personaggi
      */
     private void charactersCollision(){
         for(Character v : enemies){
@@ -286,8 +294,7 @@ public class LevelScreen implements Screen {
     }
 
     /**
-     * Check if the main character is stepping on a healing base
-     * if so then it calls the healing method
+     * Controlla se il main character e` sopra la base di ricarica della vita, se si` chiama il metodo di cura
      */
     private void checkHealingBases(){
         for(Rectangle rec: level.getHealingBases()){
@@ -299,8 +306,8 @@ public class LevelScreen implements Screen {
     }
 
     /**
-     * This method updates all the variable regarding the Ai graphs and the nodes associated to
-     * the character and the enemies and updates the path for every enemy
+     * Questo metodo aggiorna tutte le variabili che riguardano la parte dei grafi dell`AI e i nodi associati al main character e ai nemici:
+     * Inoltre aggiorna i cammini per ogni nemico
      */
     private void updateAI(){
         for(TilesGraph g: graphs) {
@@ -339,7 +346,7 @@ public class LevelScreen implements Screen {
     }
 
     /**
-     * Check if the player picked up a gem
+     * Controlla se il giocatore ha raccolto una gemma
      */
     private void checkGems(){
         for(int gem = 0; gem < level.getGems().size(); gem++){
